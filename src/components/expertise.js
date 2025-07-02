@@ -1,3 +1,8 @@
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
+
 const component = document.querySelector("[data-component='expertise']");
 
 if (!!component) {

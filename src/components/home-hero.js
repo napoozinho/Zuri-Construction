@@ -1,6 +1,6 @@
-const component = document.querySelector("[data-component='home-hero']");
+import gsap from "gsap";
 
-window.scrollTo(0, 0);
+const component = document.querySelector("[data-component='home-hero']");
 
 if (!!component) {
   const curtain = component.querySelector("[data-home-hero='curtain']");

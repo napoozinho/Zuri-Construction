@@ -1,3 +1,8 @@
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const images = document.querySelectorAll("[data-image-reveal]");
 
 images.forEach((image) => {
