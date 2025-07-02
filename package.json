@@ -1,0 +1,16 @@
+{
+  "name": "zuri-construction",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "prettier": "prettier --write . && vite build"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "prettier": "^3.6.2"
+  }
+}

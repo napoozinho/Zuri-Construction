@@ -1,0 +1,154 @@
+const component = document.querySelector("[data-component='expertise']");
+
+if (!!component) {
+  const names = component.querySelectorAll("[data-expertise='name']");
+  const summaries = component.querySelectorAll("[data-expertise='summary']");
+  const images = component.querySelectorAll("[data-expertise='image']");
+
+  let isImageAnimating = false;
+  let isSummaryAnimating = false;
+
+  /* names initial states */
+  names[0].classList.add("is-active");
+  /* images initial states */
+  images.forEach((image) => {
+    gsap.set(image, { clipPath: "inset(100% 0% 0% 0%)" });
+  });
+  gsap.set(images[0], { clipPath: "inset(0% 0% 0% 0%)" });
+  /* summaries initial states */
+  summaries.forEach((summary, index) => {
+    if (summary.firstElementChild) {
+      SplitText.create(summary.firstElementChild, {
+        type: "lines",
+        mask: "lines",
+        aria: "none",
+        linesClass: "summary-line",
+      });
+    }
+    let lines = summary.querySelectorAll(".summary-line");
+    let tl = gsap.timeline({ paused: true });
+    tl.from(lines, {
+      yPercent: 100,
+      duration: 1,
+      ease: "power4.inOut",
+      stagger: {
+        amount: 0.3,
+      },
+    });
+    summary.classList.add("hide");
+    if (index == 0) {
+      summary.classList.remove("hide");
+      tl.play();
+    }
+  });
+
+  /* hover animations */
+  names.forEach((name) => {
+    name.addEventListener("mousemove", (e) => {
+      if (name.classList.contains("is-active")) return;
+      if (isImageAnimating || isSummaryAnimating) return;
+      const target = e.currentTarget;
+      const id = target.dataset.id;
+      animateName(id);
+      animateImage(id);
+      animateSummary(id);
+    });
+  });
+
+  function animateName(id) {
+    names.forEach((name) => {
+      if (name.dataset.id == id) {
+        name.classList.add("is-active");
+      } else {
+        name.classList.remove("is-active");
+      }
+    });
+  }
+
+  function animateImage(id) {
+    isImageAnimating = true;
+    images.forEach((image) => {
+      if (image.dataset.id == id) {
+        gsap.to(image, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1,
+          ease: "power2.inOut",
+          onStart: () => {
+            images.forEach((image) => {
+              if (image.dataset.id == id) {
+                gsap.set(image, { zIndex: 1 });
+              } else {
+                gsap.set(image, { zIndex: 0 });
+              }
+            });
+          },
+          onComplete: () => {
+            images.forEach((image) => {
+              if (image.dataset.id != id) {
+                gsap.set(image, { clipPath: "inset(100% 0% 0% 0%)" });
+              }
+            });
+            isImageAnimating = false;
+            animationsEnded();
+          },
+        });
+      }
+    });
+  }
+
+  function animateSummary(id) {
+    isSummaryAnimating = true;
+    summaries.forEach((summary) => {
+      let lines = summary.querySelectorAll(".summary-line");
+      let tl = gsap.timeline();
+      if (summary.dataset.id == id) {
+        summary.classList.remove("hide");
+        tl.to(lines, {
+          yPercent: 0,
+          duration: 1,
+          delay: 0.2,
+          ease: "power4.inOut",
+          stagger: {
+            amount: 0.3,
+          },
+          onComplete: () => {
+            isSummaryAnimating = false;
+            animationsEnded();
+          },
+        });
+      } else {
+        tl.to(lines, {
+          yPercent: 100,
+          duration: 1,
+          ease: "power4.inOut",
+          stagger: {
+            amount: 0.3,
+          },
+          onComplete: () => {
+            summary.classList.add("hide");
+          },
+        });
+      }
+    });
+  }
+
+  let mouseX = 0;
+  let mouseY = 0;
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animationsEnded() {
+    if (isImageAnimating || isSummaryAnimating) return;
+    const mouseOnElement = document.elementFromPoint(mouseX, mouseY);
+    if (mouseOnElement && mouseOnElement.closest("[data-expertise='name']")) {
+      const mouseOnName = mouseOnElement.closest("[data-expertise='name']");
+      if (mouseOnName.classList.contains("is-active")) return;
+      const id = mouseOnName.dataset.id;
+      animateName(id);
+      animateImage(id);
+      animateSummary(id);
+    }
+  }
+}
