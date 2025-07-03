@@ -9,3 +9,4 @@ import "./components/image-reveal.js";
 import "./components/expertise.js";
 import "./components/testimonials.js";
 import "./components/featured-projects.js";
+import "./components/banner.js";

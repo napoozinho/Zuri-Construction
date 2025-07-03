@@ -18,7 +18,8 @@ images.forEach((image) => {
       clipPath: "inset(0% 0% 0% 0%)",
       scale: 1,
       duration: 2,
-      ease: "expo.inOut",
+      ease: "expo.out",
+      delay: 0.3,
     },
   );
 

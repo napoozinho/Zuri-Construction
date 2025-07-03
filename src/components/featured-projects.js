@@ -15,7 +15,7 @@ if (!!component) {
   );
 
   images.forEach((image) => {
-    gsap.set(image, { clipPath: "inset(100% 0% 0% 0%)", scale: 1.1 });
+    gsap.set(image, { scale: 1.1 });
   });
 
   metadatas.forEach((metadata) => {
@@ -31,7 +31,9 @@ if (!!component) {
     watchSlidesProgress: true,
     on: {
       init: function (e) {
+        const allSlides = e.slides;
         const visibleSlides = e.visibleSlides;
+        gsap.set(allSlides, { clipPath: "inset(100% 0% 0% 0%)" });
         let images = [];
         visibleSlides.forEach((slide) => {
           slide.dataset.rendered = "true";
@@ -41,16 +43,29 @@ if (!!component) {
         });
 
         const tl = gsap.timeline({ paused: true });
-        tl.to(images, {
+        tl.to(visibleSlides, {
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
           duration: 2,
-          ease: "expo.inOut",
+          ease: "expo.out",
           stagger: 0.1,
+          delay: 0.3,
         });
+        tl.to(
+          images,
+          {
+            scale: 1,
+            duration: 2,
+            ease: "expo.out",
+            stagger: 0.1,
+            delay: 0.3,
+          },
+          0,
+        );
+
         ScrollTrigger.create({
-          trigger: images[0],
-          start: "50% bottom",
+          trigger: visibleSlides[0],
+          start: "90% bottom",
           onEnter: () => tl.play(),
         });
       },
@@ -59,14 +74,12 @@ if (!!component) {
         visibleSlides.forEach((slide) => {
           if (slide.dataset.rendered) return;
           slide.dataset.rendered = "true";
-          const image = slide.querySelector("[data-featured-projects='image']");
-          if (!image) return;
           const tl = gsap.timeline();
-          tl.to(image, {
+          tl.to(slide, {
             clipPath: "inset(0% 0% 0% 0%)",
             scale: 1,
             duration: 1,
-            ease: "expo.inOut",
+            ease: "expo.out",
           });
         });
       },

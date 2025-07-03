@@ -5,11 +5,9 @@ import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 
-const splitLinesElements = document.querySelectorAll(
-  "[data-split-lines='true']",
-);
+const splitLinesElements = document.querySelectorAll("[data-split-lines=' ']");
 
-let split = SplitText.create("[data-split-lines='true']", {
+let split = SplitText.create(splitLinesElements, {
   type: "lines",
   mask: "lines",
   linesClass: "line",
@@ -21,11 +19,12 @@ splitLinesElements.forEach((textElement) => {
   let tl = gsap.timeline({ paused: true });
   tl.from(lines, {
     yPercent: 100,
-    duration: 2,
-    ease: "power4.inOut",
+    duration: 1.5,
+    ease: "expo.out",
     stagger: {
       amount: 0.3,
     },
+    delay: 0.3,
   });
 
   ScrollTrigger.create({
