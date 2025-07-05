@@ -1,10 +1,9 @@
 import gsap from "gsap";
+import { supportsHover } from "../utils";
 
 const component = document.querySelector("[data-component='home-hero']");
 
 if (!!component) {
-  const supportsHover = window.matchMedia("(hover: hover)").matches;
-
   const curtain = component.querySelector("[data-home-hero='curtain']");
   const curtainItem = component.querySelectorAll(
     "[data-home-hero='curtain-item']",
@@ -47,6 +46,10 @@ if (!!component) {
     { height: "100%" },
     { height: "0%", duration: 2, ease: "power4.inOut", delay: 1.5 },
   );
+  // gsap.set(
+  //     curtain,
+  //     { height: "0%"},
+  //   );
 
   // hero initial states
   coverItems.forEach((cover, i) => {
@@ -72,33 +75,51 @@ if (!!component) {
   thumbnailItems[0]?.classList.add("is-active");
 
   // hero hover animations
-  component.addEventListener(
-    "mouseenter",
-    (e) => {
+  if (supportsHover) {
+    component.addEventListener(
+      "mouseenter",
+      (e) => {
+        const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
+        if (!thumbnail || !component.contains(thumbnail)) return;
+
+        const targetId = thumbnail.dataset.id;
+
+        // Only update if not already active
+        if (thumbnail.classList.contains("is-active")) return;
+
+        // Hide all covers and show the one with matching id
+        coverItems.forEach((cover) => {
+          cover.classList.toggle("hide", cover.dataset.id !== targetId);
+        });
+
+        // Hide all metadata and show the one with matching id
+        metadataItems.forEach((metadata) => {
+          metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
+        });
+
+        // Remove is-active from all thumbnails, add to current
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnail.classList.add("is-active");
+      },
+      true,
+    );
+  } else {
+    component.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
       if (!thumbnail || !component.contains(thumbnail)) return;
-
       const targetId = thumbnail.dataset.id;
-
-      // Only update if not already active
-      if (thumbnail.classList.contains("is-active")) return;
-
-      // Hide all covers and show the one with matching id
-      coverItems.forEach((cover) => {
-        cover.classList.toggle("hide", cover.dataset.id !== targetId);
-      });
-
-      // Hide all metadata and show the one with matching id
-      metadataItems.forEach((metadata) => {
-        metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
-      });
-
-      // Remove is-active from all thumbnails, add to current
-      thumbnailItems.forEach((item) => item.classList.remove("is-active"));
-      thumbnail.classList.add("is-active");
-    },
-    true,
-  );
-
-  alert(supportsHover);
+      if (!thumbnail.classList.contains("is-active")) {
+        e.preventDefault();
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        coverItems.forEach((cover) => {
+          cover.classList.toggle("hide", cover.dataset.id !== targetId);
+        });
+        metadataItems.forEach((metadata) => {
+          metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
+        });
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnail.classList.add("is-active");
+      }
+    });
+  }
 }

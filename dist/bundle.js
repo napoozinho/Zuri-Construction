@@ -4018,9 +4018,9 @@ _forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,p
 gsap$3.registerPlugin(CSSPlugin);
 var gsapWithCSS = gsap$3.registerPlugin(CSSPlugin) || gsap$3;
 gsapWithCSS.core.Tween;
+const supportsHover = window.matchMedia("(hover: hover)").matches;
 const component$4 = document.querySelector("[data-component='home-hero']");
 if (!!component$4) {
-  const supportsHover = window.matchMedia("(hover: hover)").matches;
   const curtain = component$4.querySelector("[data-home-hero='curtain']");
   const curtainItem = component$4.querySelectorAll(
     "[data-home-hero='curtain-item']"
@@ -4082,25 +4082,44 @@ if (!!component$4) {
     }
   });
   thumbnailItems[0]?.classList.add("is-active");
-  component$4.addEventListener(
-    "mouseenter",
-    (e) => {
+  if (supportsHover) {
+    component$4.addEventListener(
+      "mouseenter",
+      (e) => {
+        const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
+        if (!thumbnail || !component$4.contains(thumbnail)) return;
+        const targetId = thumbnail.dataset.id;
+        if (thumbnail.classList.contains("is-active")) return;
+        coverItems.forEach((cover) => {
+          cover.classList.toggle("hide", cover.dataset.id !== targetId);
+        });
+        metadataItems.forEach((metadata) => {
+          metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
+        });
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnail.classList.add("is-active");
+      },
+      true
+    );
+  } else {
+    component$4.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
       if (!thumbnail || !component$4.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
-      if (thumbnail.classList.contains("is-active")) return;
-      coverItems.forEach((cover) => {
-        cover.classList.toggle("hide", cover.dataset.id !== targetId);
-      });
-      metadataItems.forEach((metadata) => {
-        metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
-      });
-      thumbnailItems.forEach((item) => item.classList.remove("is-active"));
-      thumbnail.classList.add("is-active");
-    },
-    true
-  );
-  alert(supportsHover);
+      if (!thumbnail.classList.contains("is-active")) {
+        e.preventDefault();
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        coverItems.forEach((cover) => {
+          cover.classList.toggle("hide", cover.dataset.id !== targetId);
+        });
+        metadataItems.forEach((metadata) => {
+          metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
+        });
+        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnail.classList.add("is-active");
+      }
+    });
+  }
 }
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
