@@ -4020,6 +4020,7 @@ var gsapWithCSS = gsap$3.registerPlugin(CSSPlugin) || gsap$3;
 gsapWithCSS.core.Tween;
 const component$4 = document.querySelector("[data-component='home-hero']");
 if (!!component$4) {
+  const supportsHover = window.matchMedia("(hover: hover)").matches;
   const curtain = component$4.querySelector("[data-home-hero='curtain']");
   const curtainItem = component$4.querySelectorAll(
     "[data-home-hero='curtain-item']"
@@ -4099,6 +4100,7 @@ if (!!component$4) {
     },
     true
   );
+  alert(supportsHover);
 }
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {

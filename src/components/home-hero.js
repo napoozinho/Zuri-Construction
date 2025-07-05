@@ -3,6 +3,8 @@ import gsap from "gsap";
 const component = document.querySelector("[data-component='home-hero']");
 
 if (!!component) {
+  const supportsHover = window.matchMedia("(hover: hover)").matches;
+
   const curtain = component.querySelector("[data-home-hero='curtain']");
   const curtainItem = component.querySelectorAll(
     "[data-home-hero='curtain-item']",
@@ -97,4 +99,6 @@ if (!!component) {
     },
     true,
   );
+
+  alert(supportsHover);
 }
