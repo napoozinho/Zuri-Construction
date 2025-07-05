@@ -1,5 +1,8 @@
 import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
 import { supportsHover } from "../utils";
+
+gsap.registerPlugin(SplitText);
 
 const component = document.querySelector("[data-component='home-hero']");
 
@@ -8,13 +11,18 @@ if (!!component) {
   const curtainItem = component.querySelectorAll(
     "[data-home-hero='curtain-item']",
   );
-  const coverItems = component.querySelectorAll("[data-home-hero='cover']");
-  const thumbnailItems = component.querySelectorAll(
-    "[data-home-hero='thumbnail']",
-  );
-  const metadataItems = component.querySelectorAll(
-    "[data-home-hero='metadata']",
-  );
+  const heading = component.querySelector("h1");
+  const covers = component.querySelectorAll("[data-home-hero='cover']");
+  const thumbnails = component.querySelectorAll("[data-home-hero='thumbnail']");
+  const metadatas = component.querySelectorAll("[data-home-hero='metadata']");
+
+  SplitText.create(heading, {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    aria: "none",
+  });
+  const headingLines = heading.querySelectorAll(".line");
 
   // loader animation
   curtainItem.forEach((item, i) => {
@@ -41,25 +49,62 @@ if (!!component) {
       });
     }
   });
-  gsap.fromTo(
-    curtain,
-    { height: "100%" },
-    { height: "0%", duration: 2, ease: "power4.inOut", delay: 1.5 },
-  );
-  // gsap.set(
-  //     curtain,
-  //     { height: "0%"},
-  //   );
+  const curtainTimeline = gsap.timeline({});
+  curtainTimeline
+    .fromTo(
+      curtain,
+      { height: "100%" },
+      {
+        height: "0%",
+        duration: 2,
+        ease: "power4.inOut",
+        delay: 1.5,
+      },
+    )
+    .from(
+      headingLines,
+      {
+        yPercent: 100,
+        duration: 1.5,
+        ease: "expo.out",
+        stagger: {
+          amount: 0.3,
+        },
+      },
+      "-=1",
+    )
+    .from(
+      thumbnails,
+      {
+        yPercent: 300,
+        opacity: 0,
+        duration: 2,
+        ease: "expo.out",
+        stagger: {
+          amount: 0.3,
+        },
+      },
+      "-=1.5",
+    )
+    .from(
+      metadatas[0],
+      {
+        yPercent: 300,
+        duration: 2,
+        ease: "expo.out",
+      },
+      "-=1.75",
+    );
 
   // hero initial states
-  coverItems.forEach((cover, i) => {
+  covers.forEach((cover, i) => {
     if (i === 0) {
       cover.classList.remove("hide");
     } else {
       cover.classList.add("hide");
     }
   });
-  metadataItems.forEach((metadata, i) => {
+  metadatas.forEach((metadata, i) => {
     if (i === 0) {
       metadata.classList.remove("hide");
     } else {
@@ -72,7 +117,7 @@ if (!!component) {
       date.remove();
     }
   });
-  thumbnailItems[0]?.classList.add("is-active");
+  thumbnails[0]?.classList.add("is-active");
 
   // hero hover animations
   if (supportsHover) {
@@ -88,17 +133,19 @@ if (!!component) {
         if (thumbnail.classList.contains("is-active")) return;
 
         // Hide all covers and show the one with matching id
-        coverItems.forEach((cover) => {
+        covers.forEach((cover) => {
           cover.classList.toggle("hide", cover.dataset.id !== targetId);
         });
 
         // Hide all metadata and show the one with matching id
-        metadataItems.forEach((metadata) => {
+        metadatas.forEach((metadata) => {
           metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
         });
 
         // Remove is-active from all thumbnails, add to current
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnails.forEach((thumbnail) =>
+          thumbnail.classList.remove("is-active"),
+        );
         thumbnail.classList.add("is-active");
       },
       true,
@@ -110,14 +157,18 @@ if (!!component) {
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
-        coverItems.forEach((cover) => {
+        thumbnails.forEach((thumbnail) =>
+          thumbnail.classList.remove("is-active"),
+        );
+        covers.forEach((cover) => {
           cover.classList.toggle("hide", cover.dataset.id !== targetId);
         });
-        metadataItems.forEach((metadata) => {
+        metadatas.forEach((metadata) => {
           metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
         });
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnails.forEach((thumbnail) =>
+          thumbnail.classList.remove("is-active"),
+        );
         thumbnail.classList.add("is-active");
       }
     });

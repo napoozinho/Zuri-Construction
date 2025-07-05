@@ -4018,20 +4018,332 @@ _forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,p
 gsap$3.registerPlugin(CSSPlugin);
 var gsapWithCSS = gsap$3.registerPlugin(CSSPlugin) || gsap$3;
 gsapWithCSS.core.Tween;
+/*!
+ * SplitText 3.13.0
+ * https://gsap.com
+ *
+ * @license Copyright 2025, GreenSock. All rights reserved. Subject to the terms at https://gsap.com/standard-license.
+ * @author: Jack Doyle
+ */
+let gsap$2, _fonts, _coreInitted$2, _initIfNecessary = () => _coreInitted$2 || SplitText.register(window.gsap), _charSegmenter = typeof Intl !== "undefined" ? new Intl.Segmenter() : 0, _toArray$1 = (r) => typeof r === "string" ? _toArray$1(document.querySelectorAll(r)) : "length" in r ? Array.from(r) : [r], _elements = (targets) => _toArray$1(targets).filter((e) => e instanceof HTMLElement), _emptyArray$1 = [], _context$2 = function() {
+}, _spacesRegEx = /\s+/g, _emojiSafeRegEx = new RegExp("\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u{200D}\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*|.", "gu"), _emptyBounds = { left: 0, top: 0, width: 0, height: 0 }, _stretchToFitSpecialChars = (collection, specialCharsRegEx) => {
+  if (specialCharsRegEx) {
+    let charsFound = new Set(collection.join("").match(specialCharsRegEx) || _emptyArray$1), i = collection.length, slots, word, char, combined;
+    if (charsFound.size) {
+      while (--i > -1) {
+        word = collection[i];
+        for (char of charsFound) {
+          if (char.startsWith(word) && char.length > word.length) {
+            slots = 0;
+            combined = word;
+            while (char.startsWith(combined += collection[i + ++slots]) && combined.length < char.length) {
+            }
+            if (slots && combined.length === char.length) {
+              collection[i] = char;
+              collection.splice(i + 1, slots);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  return collection;
+}, _disallowInline = (element) => window.getComputedStyle(element).display === "inline" && (element.style.display = "inline-block"), _insertNodeBefore = (newChild, parent, existingChild) => parent.insertBefore(typeof newChild === "string" ? document.createTextNode(newChild) : newChild, existingChild), _getWrapper = (type, config3, collection) => {
+  let className = config3[type + "sClass"] || "", { tag = "div", aria = "auto", propIndex = false } = config3, display = type === "line" ? "block" : "inline-block", incrementClass = className.indexOf("++") > -1, wrapper = (text) => {
+    let el = document.createElement(tag), i = collection.length + 1;
+    className && (el.className = className + (incrementClass ? " " + className + i : ""));
+    propIndex && el.style.setProperty("--" + type, i + "");
+    aria !== "none" && el.setAttribute("aria-hidden", "true");
+    if (tag !== "span") {
+      el.style.position = "relative";
+      el.style.display = display;
+    }
+    el.textContent = text;
+    collection.push(el);
+    return el;
+  };
+  incrementClass && (className = className.replace("++", ""));
+  wrapper.collection = collection;
+  return wrapper;
+}, _getLineWrapper = (element, nodes, config3, collection) => {
+  let lineWrapper = _getWrapper("line", config3, collection), textAlign = window.getComputedStyle(element).textAlign || "left";
+  return (startIndex, endIndex) => {
+    let newLine = lineWrapper("");
+    newLine.style.textAlign = textAlign;
+    element.insertBefore(newLine, nodes[startIndex]);
+    for (; startIndex < endIndex; startIndex++) {
+      newLine.appendChild(nodes[startIndex]);
+    }
+    newLine.normalize();
+  };
+}, _splitWordsAndCharsRecursively = (element, config3, wordWrapper, charWrapper, prepForCharsOnly, deepSlice, ignore, charSplitRegEx, specialCharsRegEx, isNested) => {
+  var _a;
+  let nodes = Array.from(element.childNodes), i = 0, { wordDelimiter, reduceWhiteSpace = true, prepareText } = config3, elementBounds = element.getBoundingClientRect(), lastBounds = elementBounds, isPreformatted = !reduceWhiteSpace && window.getComputedStyle(element).whiteSpace.substring(0, 3) === "pre", ignoredPreviousSibling = 0, wordsCollection = wordWrapper.collection, wordDelimIsNotSpace, wordDelimString, wordDelimSplitter, curNode, words, curWordEl, startsWithSpace, endsWithSpace, j, bounds, curWordChars, clonedNode, curSubNode, tempSubNode, curTextContent, wordText, lastWordText, k;
+  if (typeof wordDelimiter === "object") {
+    wordDelimSplitter = wordDelimiter.delimiter || wordDelimiter;
+    wordDelimString = wordDelimiter.replaceWith || "";
+  } else {
+    wordDelimString = wordDelimiter === "" ? "" : wordDelimiter || " ";
+  }
+  wordDelimIsNotSpace = wordDelimString !== " ";
+  for (; i < nodes.length; i++) {
+    curNode = nodes[i];
+    if (curNode.nodeType === 3) {
+      curTextContent = curNode.textContent || "";
+      if (reduceWhiteSpace) {
+        curTextContent = curTextContent.replace(_spacesRegEx, " ");
+      } else if (isPreformatted) {
+        curTextContent = curTextContent.replace(/\n/g, wordDelimString + "\n");
+      }
+      prepareText && (curTextContent = prepareText(curTextContent, element));
+      curNode.textContent = curTextContent;
+      words = wordDelimString || wordDelimSplitter ? curTextContent.split(wordDelimSplitter || wordDelimString) : curTextContent.match(charSplitRegEx) || _emptyArray$1;
+      lastWordText = words[words.length - 1];
+      endsWithSpace = wordDelimIsNotSpace ? lastWordText.slice(-1) === " " : !lastWordText;
+      lastWordText || words.pop();
+      lastBounds = elementBounds;
+      startsWithSpace = wordDelimIsNotSpace ? words[0].charAt(0) === " " : !words[0];
+      startsWithSpace && _insertNodeBefore(" ", element, curNode);
+      words[0] || words.shift();
+      _stretchToFitSpecialChars(words, specialCharsRegEx);
+      deepSlice && isNested || (curNode.textContent = "");
+      for (j = 1; j <= words.length; j++) {
+        wordText = words[j - 1];
+        if (!reduceWhiteSpace && isPreformatted && wordText.charAt(0) === "\n") {
+          (_a = curNode.previousSibling) == null ? void 0 : _a.remove();
+          _insertNodeBefore(document.createElement("br"), element, curNode);
+          wordText = wordText.slice(1);
+        }
+        if (!reduceWhiteSpace && wordText === "") {
+          _insertNodeBefore(wordDelimString, element, curNode);
+        } else if (wordText === " ") {
+          element.insertBefore(document.createTextNode(" "), curNode);
+        } else {
+          wordDelimIsNotSpace && wordText.charAt(0) === " " && _insertNodeBefore(" ", element, curNode);
+          if (ignoredPreviousSibling && j === 1 && !startsWithSpace && wordsCollection.indexOf(ignoredPreviousSibling.parentNode) > -1) {
+            curWordEl = wordsCollection[wordsCollection.length - 1];
+            curWordEl.appendChild(document.createTextNode(charWrapper ? "" : wordText));
+          } else {
+            curWordEl = wordWrapper(charWrapper ? "" : wordText);
+            _insertNodeBefore(curWordEl, element, curNode);
+            ignoredPreviousSibling && j === 1 && !startsWithSpace && curWordEl.insertBefore(ignoredPreviousSibling, curWordEl.firstChild);
+          }
+          if (charWrapper) {
+            curWordChars = _charSegmenter ? _stretchToFitSpecialChars([..._charSegmenter.segment(wordText)].map((s) => s.segment), specialCharsRegEx) : wordText.match(charSplitRegEx) || _emptyArray$1;
+            for (k = 0; k < curWordChars.length; k++) {
+              curWordEl.appendChild(curWordChars[k] === " " ? document.createTextNode(" ") : charWrapper(curWordChars[k]));
+            }
+          }
+          if (deepSlice && isNested) {
+            curTextContent = curNode.textContent = curTextContent.substring(wordText.length + 1, curTextContent.length);
+            bounds = curWordEl.getBoundingClientRect();
+            if (bounds.top > lastBounds.top && bounds.left <= lastBounds.left) {
+              clonedNode = element.cloneNode();
+              curSubNode = element.childNodes[0];
+              while (curSubNode && curSubNode !== curWordEl) {
+                tempSubNode = curSubNode;
+                curSubNode = curSubNode.nextSibling;
+                clonedNode.appendChild(tempSubNode);
+              }
+              element.parentNode.insertBefore(clonedNode, element);
+              prepForCharsOnly && _disallowInline(clonedNode);
+            }
+            lastBounds = bounds;
+          }
+          if (j < words.length || endsWithSpace) {
+            _insertNodeBefore(j >= words.length ? " " : wordDelimIsNotSpace && wordText.slice(-1) === " " ? " " + wordDelimString : wordDelimString, element, curNode);
+          }
+        }
+      }
+      element.removeChild(curNode);
+      ignoredPreviousSibling = 0;
+    } else if (curNode.nodeType === 1) {
+      if (ignore && ignore.indexOf(curNode) > -1) {
+        wordsCollection.indexOf(curNode.previousSibling) > -1 && wordsCollection[wordsCollection.length - 1].appendChild(curNode);
+        ignoredPreviousSibling = curNode;
+      } else {
+        _splitWordsAndCharsRecursively(curNode, config3, wordWrapper, charWrapper, prepForCharsOnly, deepSlice, ignore, charSplitRegEx, specialCharsRegEx, true);
+        ignoredPreviousSibling = 0;
+      }
+      prepForCharsOnly && _disallowInline(curNode);
+    }
+  }
+};
+const _SplitText = class _SplitText2 {
+  constructor(elements, config3) {
+    this.isSplit = false;
+    _initIfNecessary();
+    this.elements = _elements(elements);
+    this.chars = [];
+    this.words = [];
+    this.lines = [];
+    this.masks = [];
+    this.vars = config3;
+    this._split = () => this.isSplit && this.split(this.vars);
+    let orig = [], timerId, checkWidths = () => {
+      let i = orig.length, o;
+      while (i--) {
+        o = orig[i];
+        let w = o.element.offsetWidth;
+        if (w !== o.width) {
+          o.width = w;
+          this._split();
+          return;
+        }
+      }
+    };
+    this._data = { orig, obs: typeof ResizeObserver !== "undefined" && new ResizeObserver(() => {
+      clearTimeout(timerId);
+      timerId = setTimeout(checkWidths, 200);
+    }) };
+    _context$2(this);
+    this.split(config3);
+  }
+  split(config3) {
+    this.isSplit && this.revert();
+    this.vars = config3 = config3 || this.vars || {};
+    let { type = "chars,words,lines", aria = "auto", deepSlice = true, smartWrap, onSplit, autoSplit = false, specialChars, mask } = this.vars, splitLines = type.indexOf("lines") > -1, splitCharacters = type.indexOf("chars") > -1, splitWords = type.indexOf("words") > -1, onlySplitCharacters = splitCharacters && !splitWords && !splitLines, specialCharsRegEx = specialChars && ("push" in specialChars ? new RegExp("(?:" + specialChars.join("|") + ")", "gu") : specialChars), finalCharSplitRegEx = specialCharsRegEx ? new RegExp(specialCharsRegEx.source + "|" + _emojiSafeRegEx.source, "gu") : _emojiSafeRegEx, ignore = !!config3.ignore && _elements(config3.ignore), { orig, animTime, obs } = this._data, onSplitResult;
+    if (splitCharacters || splitWords || splitLines) {
+      this.elements.forEach((element, index) => {
+        orig[index] = {
+          element,
+          html: element.innerHTML,
+          ariaL: element.getAttribute("aria-label"),
+          ariaH: element.getAttribute("aria-hidden")
+        };
+        aria === "auto" ? element.setAttribute("aria-label", (element.textContent || "").trim()) : aria === "hidden" && element.setAttribute("aria-hidden", "true");
+        let chars = [], words = [], lines = [], charWrapper = splitCharacters ? _getWrapper("char", config3, chars) : null, wordWrapper = _getWrapper("word", config3, words), i, curWord, smartWrapSpan, nextSibling;
+        _splitWordsAndCharsRecursively(element, config3, wordWrapper, charWrapper, onlySplitCharacters, deepSlice && (splitLines || onlySplitCharacters), ignore, finalCharSplitRegEx, specialCharsRegEx, false);
+        if (splitLines) {
+          let nodes = _toArray$1(element.childNodes), wrapLine = _getLineWrapper(element, nodes, config3, lines), curNode, toRemove = [], lineStartIndex = 0, allBounds = nodes.map((n) => n.nodeType === 1 ? n.getBoundingClientRect() : _emptyBounds), lastBounds = _emptyBounds;
+          for (i = 0; i < nodes.length; i++) {
+            curNode = nodes[i];
+            if (curNode.nodeType === 1) {
+              if (curNode.nodeName === "BR") {
+                toRemove.push(curNode);
+                wrapLine(lineStartIndex, i + 1);
+                lineStartIndex = i + 1;
+                lastBounds = allBounds[lineStartIndex];
+              } else {
+                if (i && allBounds[i].top > lastBounds.top && allBounds[i].left <= lastBounds.left) {
+                  wrapLine(lineStartIndex, i);
+                  lineStartIndex = i;
+                }
+                lastBounds = allBounds[i];
+              }
+            }
+          }
+          lineStartIndex < i && wrapLine(lineStartIndex, i);
+          toRemove.forEach((el) => {
+            var _a;
+            return (_a = el.parentNode) == null ? void 0 : _a.removeChild(el);
+          });
+        }
+        if (!splitWords) {
+          for (i = 0; i < words.length; i++) {
+            curWord = words[i];
+            if (splitCharacters || !curWord.nextSibling || curWord.nextSibling.nodeType !== 3) {
+              if (smartWrap && !splitLines) {
+                smartWrapSpan = document.createElement("span");
+                smartWrapSpan.style.whiteSpace = "nowrap";
+                while (curWord.firstChild) {
+                  smartWrapSpan.appendChild(curWord.firstChild);
+                }
+                curWord.replaceWith(smartWrapSpan);
+              } else {
+                curWord.replaceWith(...curWord.childNodes);
+              }
+            } else {
+              nextSibling = curWord.nextSibling;
+              if (nextSibling && nextSibling.nodeType === 3) {
+                nextSibling.textContent = (curWord.textContent || "") + (nextSibling.textContent || "");
+                curWord.remove();
+              }
+            }
+          }
+          words.length = 0;
+          element.normalize();
+        }
+        this.lines.push(...lines);
+        this.words.push(...words);
+        this.chars.push(...chars);
+      });
+      mask && this[mask] && this.masks.push(...this[mask].map((el) => {
+        let maskEl = el.cloneNode();
+        el.replaceWith(maskEl);
+        maskEl.appendChild(el);
+        el.className && (maskEl.className = el.className.replace(/(\b\w+\b)/g, "$1-mask"));
+        maskEl.style.overflow = "clip";
+        return maskEl;
+      }));
+    }
+    this.isSplit = true;
+    _fonts && (autoSplit ? _fonts.addEventListener("loadingdone", this._split) : _fonts.status === "loading" && console.warn("SplitText called before fonts loaded"));
+    if ((onSplitResult = onSplit && onSplit(this)) && onSplitResult.totalTime) {
+      this._data.anim = animTime ? onSplitResult.totalTime(animTime) : onSplitResult;
+    }
+    splitLines && autoSplit && this.elements.forEach((element, index) => {
+      orig[index].width = element.offsetWidth;
+      obs && obs.observe(element);
+    });
+    return this;
+  }
+  revert() {
+    var _a, _b;
+    let { orig, anim, obs } = this._data;
+    obs && obs.disconnect();
+    orig.forEach(({ element, html, ariaL, ariaH }) => {
+      element.innerHTML = html;
+      ariaL ? element.setAttribute("aria-label", ariaL) : element.removeAttribute("aria-label");
+      ariaH ? element.setAttribute("aria-hidden", ariaH) : element.removeAttribute("aria-hidden");
+    });
+    this.chars.length = this.words.length = this.lines.length = orig.length = this.masks.length = 0;
+    this.isSplit = false;
+    _fonts == null ? void 0 : _fonts.removeEventListener("loadingdone", this._split);
+    if (anim) {
+      this._data.animTime = anim.totalTime();
+      anim.revert();
+    }
+    (_b = (_a = this.vars).onRevert) == null ? void 0 : _b.call(_a, this);
+    return this;
+  }
+  static create(elements, config3) {
+    return new _SplitText2(elements, config3);
+  }
+  static register(core) {
+    gsap$2 = gsap$2 || core || window.gsap;
+    if (gsap$2) {
+      _toArray$1 = gsap$2.utils.toArray;
+      _context$2 = gsap$2.core.context || _context$2;
+    }
+    if (!_coreInitted$2 && window.innerWidth > 0) {
+      _fonts = document.fonts;
+      _coreInitted$2 = true;
+    }
+  }
+};
+_SplitText.version = "3.13.0";
+let SplitText = _SplitText;
 const supportsHover = window.matchMedia("(hover: hover)").matches;
+gsapWithCSS.registerPlugin(SplitText);
 const component$4 = document.querySelector("[data-component='home-hero']");
 if (!!component$4) {
   const curtain = component$4.querySelector("[data-home-hero='curtain']");
   const curtainItem = component$4.querySelectorAll(
     "[data-home-hero='curtain-item']"
   );
-  const coverItems = component$4.querySelectorAll("[data-home-hero='cover']");
-  const thumbnailItems = component$4.querySelectorAll(
-    "[data-home-hero='thumbnail']"
-  );
-  const metadataItems = component$4.querySelectorAll(
-    "[data-home-hero='metadata']"
-  );
+  const heading = component$4.querySelector("h1");
+  const covers = component$4.querySelectorAll("[data-home-hero='cover']");
+  const thumbnails = component$4.querySelectorAll("[data-home-hero='thumbnail']");
+  const metadatas = component$4.querySelectorAll("[data-home-hero='metadata']");
+  SplitText.create(heading, {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    aria: "none"
+  });
+  const headingLines = heading.querySelectorAll(".line");
   curtainItem.forEach((item, i) => {
     const parent = item.parentElement.parentElement;
     const parentHeight = parent.offsetHeight / 2;
@@ -4056,19 +4368,56 @@ if (!!component$4) {
       });
     }
   });
-  gsapWithCSS.fromTo(
+  const curtainTimeline = gsapWithCSS.timeline({});
+  curtainTimeline.fromTo(
     curtain,
     { height: "100%" },
-    { height: "0%", duration: 2, ease: "power4.inOut", delay: 1.5 }
+    {
+      height: "0%",
+      duration: 2,
+      ease: "power4.inOut",
+      delay: 1.5
+    }
+  ).from(
+    headingLines,
+    {
+      yPercent: 100,
+      duration: 1.5,
+      ease: "expo.out",
+      stagger: {
+        amount: 0.3
+      }
+    },
+    "-=1"
+  ).from(
+    thumbnails,
+    {
+      yPercent: 300,
+      opacity: 0,
+      duration: 2,
+      ease: "expo.out",
+      stagger: {
+        amount: 0.3
+      }
+    },
+    "-=1.5"
+  ).from(
+    metadatas[0],
+    {
+      yPercent: 300,
+      duration: 2,
+      ease: "expo.out"
+    },
+    "-=1.75"
   );
-  coverItems.forEach((cover, i) => {
+  covers.forEach((cover, i) => {
     if (i === 0) {
       cover.classList.remove("hide");
     } else {
       cover.classList.add("hide");
     }
   });
-  metadataItems.forEach((metadata, i) => {
+  metadatas.forEach((metadata, i) => {
     if (i === 0) {
       metadata.classList.remove("hide");
     } else {
@@ -4081,7 +4430,7 @@ if (!!component$4) {
       date.remove();
     }
   });
-  thumbnailItems[0]?.classList.add("is-active");
+  thumbnails[0]?.classList.add("is-active");
   if (supportsHover) {
     component$4.addEventListener(
       "mouseenter",
@@ -4090,13 +4439,15 @@ if (!!component$4) {
         if (!thumbnail || !component$4.contains(thumbnail)) return;
         const targetId = thumbnail.dataset.id;
         if (thumbnail.classList.contains("is-active")) return;
-        coverItems.forEach((cover) => {
+        covers.forEach((cover) => {
           cover.classList.toggle("hide", cover.dataset.id !== targetId);
         });
-        metadataItems.forEach((metadata) => {
+        metadatas.forEach((metadata) => {
           metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
         });
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
         thumbnail.classList.add("is-active");
       },
       true
@@ -4108,14 +4459,18 @@ if (!!component$4) {
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
-        coverItems.forEach((cover) => {
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
+        covers.forEach((cover) => {
           cover.classList.toggle("hide", cover.dataset.id !== targetId);
         });
-        metadataItems.forEach((metadata) => {
+        metadatas.forEach((metadata) => {
           metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
         });
-        thumbnailItems.forEach((item) => item.classList.remove("is-active"));
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
         thumbnail.classList.add("is-active");
       }
     });
@@ -4142,8 +4497,8 @@ function _createClass(Constructor, protoProps, staticProps) {
  * Subject to the terms at https://gsap.com/standard-license
  * @author: Jack Doyle, jack@greensock.com
 */
-var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointerType, ScrollTrigger$1, _root$1, _normalizer$1, _eventTypes, _context$2, _getGSAP$1 = function _getGSAP() {
-  return gsap$2 || typeof window !== "undefined" && (gsap$2 = window.gsap) && gsap$2.registerPlugin && gsap$2;
+var gsap$1, _coreInitted$1, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointerType, ScrollTrigger$1, _root$1, _normalizer$1, _eventTypes, _context$1, _getGSAP$1 = function _getGSAP() {
+  return gsap$1 || typeof window !== "undefined" && (gsap$1 = window.gsap) && gsap$1.registerPlugin && gsap$1;
 }, _startup$1 = 1, _observers = [], _scrollers = [], _proxies = [], _getTime$1 = Date.now, _bridge = function _bridge2(name, value) {
   return value;
 }, _integrate = function _integrate2() {
@@ -4211,7 +4566,7 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
     return arguments.length ? _win$1.scrollTo(_horizontal.sc(), value) : _win$1.pageYOffset || _doc$1[_scrollTop] || _docEl$1[_scrollTop] || _body$1[_scrollTop] || 0;
   })
 }, _getTarget = function _getTarget2(t, self) {
-  return (self && self._ctx && self._ctx.selector || gsap$2.utils.toArray)(t)[0] || (typeof t === "string" && gsap$2.config().nullTargetWarn !== false ? console.warn("Element not found:", t) : null);
+  return (self && self._ctx && self._ctx.selector || gsap$1.utils.toArray)(t)[0] || (typeof t === "string" && gsap$1.config().nullTargetWarn !== false ? console.warn("Element not found:", t) : null);
 }, _isWithin = function _isWithin2(element, list) {
   var i = list.length;
   while (i--) {
@@ -4230,7 +4585,7 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
     return arguments.length ? element[s] = value : element[s];
   })));
   func.target = element;
-  prev || (func.smooth = gsap$2.getProperty(element, "scrollBehavior") === "smooth");
+  prev || (func.smooth = gsap$1.getProperty(element, "scrollBehavior") === "smooth");
   return func;
 }, _getVelocityProp = function _getVelocityProp2(value, minTimeRefresh, useDelta) {
   var v1 = value, v2 = value, t1 = _getTime$1(), t2 = t1, min = minTimeRefresh || 50, dropToZeroTime = Math.max(500, min * 3), update2 = function update3(value2, force) {
@@ -4265,18 +4620,18 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
   var max = Math.max.apply(Math, a), min = Math.min.apply(Math, a);
   return Math.abs(max) >= Math.abs(min) ? max : min;
 }, _setScrollTrigger = function _setScrollTrigger2() {
-  ScrollTrigger$1 = gsap$2.core.globals().ScrollTrigger;
+  ScrollTrigger$1 = gsap$1.core.globals().ScrollTrigger;
   ScrollTrigger$1 && ScrollTrigger$1.core && _integrate();
 }, _initCore2 = function _initCore3(core) {
-  gsap$2 = core || _getGSAP$1();
-  if (!_coreInitted$2 && gsap$2 && typeof document !== "undefined" && document.body) {
+  gsap$1 = core || _getGSAP$1();
+  if (!_coreInitted$1 && gsap$1 && typeof document !== "undefined" && document.body) {
     _win$1 = window;
     _doc$1 = document;
     _docEl$1 = _doc$1.documentElement;
     _body$1 = _doc$1.body;
     _root$1 = [_win$1, _doc$1, _docEl$1, _body$1];
-    gsap$2.utils.clamp;
-    _context$2 = gsap$2.core.context || function() {
+    gsap$1.utils.clamp;
+    _context$1 = gsap$1.core.context || function() {
     };
     _pointerType = "onpointerenter" in _body$1 ? "pointer" : "mouse";
     _isTouch = Observer$1.isTouch = _win$1.matchMedia && _win$1.matchMedia("(hover: none), (pointer: coarse)").matches ? 1 : "ontouchstart" in _win$1 || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0 ? 2 : 0;
@@ -4285,9 +4640,9 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
       return _startup$1 = 0;
     }, 500);
     _setScrollTrigger();
-    _coreInitted$2 = 1;
+    _coreInitted$1 = 1;
   }
-  return _coreInitted$2;
+  return _coreInitted$1;
 };
 _horizontal.op = _vertical;
 _scrollers.cache = 0;
@@ -4297,12 +4652,12 @@ var Observer$1 = /* @__PURE__ */ function() {
   }
   var _proto = Observer2.prototype;
   _proto.init = function init4(vars) {
-    _coreInitted$2 || _initCore2(gsap$2) || console.warn("Please gsap.registerPlugin(Observer)");
+    _coreInitted$1 || _initCore2(gsap$1) || console.warn("Please gsap.registerPlugin(Observer)");
     ScrollTrigger$1 || _setScrollTrigger();
     var tolerance = vars.tolerance, dragMinimum = vars.dragMinimum, type = vars.type, target = vars.target, lineHeight = vars.lineHeight, debounce = vars.debounce, preventDefault = vars.preventDefault, onStop = vars.onStop, onStopDelay = vars.onStopDelay, ignore = vars.ignore, wheelSpeed = vars.wheelSpeed, event = vars.event, onDragStart = vars.onDragStart, onDragEnd = vars.onDragEnd, onDrag = vars.onDrag, onPress = vars.onPress, onRelease = vars.onRelease, onRight = vars.onRight, onLeft = vars.onLeft, onUp = vars.onUp, onDown = vars.onDown, onChangeX = vars.onChangeX, onChangeY = vars.onChangeY, onChange = vars.onChange, onToggleX = vars.onToggleX, onToggleY = vars.onToggleY, onHover = vars.onHover, onHoverEnd = vars.onHoverEnd, onMove = vars.onMove, ignoreCheck = vars.ignoreCheck, isNormalizer = vars.isNormalizer, onGestureStart = vars.onGestureStart, onGestureEnd = vars.onGestureEnd, onWheel = vars.onWheel, onEnable = vars.onEnable, onDisable = vars.onDisable, onClick2 = vars.onClick, scrollSpeed = vars.scrollSpeed, capture = vars.capture, allowClicks = vars.allowClicks, lockAxis = vars.lockAxis, onLockAxis = vars.onLockAxis;
     this.target = target = _getTarget(target) || _docEl$1;
     this.vars = vars;
-    ignore && (ignore = gsap$2.utils.toArray(ignore));
+    ignore && (ignore = gsap$1.utils.toArray(ignore));
     tolerance = tolerance || 1e-9;
     dragMinimum = dragMinimum || 0;
     wheelSpeed = wheelSpeed || 1;
@@ -4412,7 +4767,7 @@ var Observer$1 = /* @__PURE__ */ function() {
         self._vx.reset();
         self._vy.reset();
         if (preventDefault && allowClicks) {
-          gsap$2.delayedCall(0.08, function() {
+          gsap$1.delayedCall(0.08, function() {
             if (_getTime$1() - onClickTime > 300 && !e.defaultPrevented) {
               if (e.target.click) {
                 e.target.click();
@@ -4471,14 +4826,14 @@ var Observer$1 = /* @__PURE__ */ function() {
     }, _onClick = function _onClick2(e) {
       return _ignoreCheck(e) || _getEvent(e, preventDefault) && onClick2(self);
     };
-    onStopDelayedCall = self._dc = gsap$2.delayedCall(onStopDelay || 0.25, onStopFunc).pause();
+    onStopDelayedCall = self._dc = gsap$1.delayedCall(onStopDelay || 0.25, onStopFunc).pause();
     self.deltaX = self.deltaY = 0;
     self._vx = _getVelocityProp(0, 50, true);
     self._vy = _getVelocityProp(0, 50, true);
     self.scrollX = scrollFuncX;
     self.scrollY = scrollFuncY;
     self.isDragging = self.isGesturing = self.isPressed = false;
-    _context$2(this);
+    _context$1(this);
     self.enable = function(e) {
       if (!self.isEnabled) {
         _addListener$1(isViewport ? ownerDoc : target, "scroll", _onScroll$1);
@@ -4569,7 +4924,7 @@ Observer$1.getById = function(id) {
     return o.vars.id === id;
   })[0];
 };
-_getGSAP$1() && gsap$2.registerPlugin(Observer$1);
+_getGSAP$1() && gsap$1.registerPlugin(Observer$1);
 /*!
  * ScrollTrigger 3.13.0
  * https://gsap.com
@@ -4578,7 +4933,7 @@ _getGSAP$1() && gsap$2.registerPlugin(Observer$1);
  * Subject to the terms at https://gsap.com/standard-license
  * @author: Jack Doyle, jack@greensock.com
 */
-var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toArray$1, _clamp2, _time2, _syncInterval, _refreshing, _pointerIsDown, _transformProp, _i, _prevWidth, _prevHeight, _autoRefresh, _sort, _suppressOverwrites, _ignoreResize, _normalizer, _ignoreMobileResize, _baseScreenHeight, _baseScreenWidth, _fixIOSBug, _context$1, _scrollRestoration, _div100vh, _100vh, _isReverted, _clampingMax, _limitCallbacks, _startup = 1, _getTime = Date.now, _time1 = _getTime(), _lastScrollTime = 0, _enabled = 0, _parseClamp = function _parseClamp2(value, type, self) {
+var gsap, _coreInitted, _win, _doc, _docEl, _body, _root, _resizeDelay, _toArray, _clamp2, _time2, _syncInterval, _refreshing, _pointerIsDown, _transformProp, _i, _prevWidth, _prevHeight, _autoRefresh, _sort, _suppressOverwrites, _ignoreResize, _normalizer, _ignoreMobileResize, _baseScreenHeight, _baseScreenWidth, _fixIOSBug, _context, _scrollRestoration, _div100vh, _100vh, _isReverted, _clampingMax, _limitCallbacks, _startup = 1, _getTime = Date.now, _time1 = _getTime(), _lastScrollTime = 0, _enabled = 0, _parseClamp = function _parseClamp2(value, type, self) {
   var clamp3 = _isString2(value) && (value.substr(0, 6) === "clamp(" || value.indexOf("max") > -1);
   self["_" + type + "Clamp"] = clamp3;
   return clamp3 ? value.substr(6, value.length - 7) : value;
@@ -4597,7 +4952,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _windowExists3 = function _windowExists4() {
   return typeof window !== "undefined";
 }, _getGSAP2 = function _getGSAP3() {
-  return gsap$1 || _windowExists3() && (gsap$1 = window.gsap) && gsap$1.registerPlugin && gsap$1;
+  return gsap || _windowExists3() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
 }, _isViewport2 = function _isViewport3(e) {
   return !!~_root.indexOf(e);
 }, _getViewportDimension = function _getViewportDimension2(dimensionProperty) {
@@ -4656,7 +5011,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   }
   return obj;
 }, _getBounds = function _getBounds2(element, withoutTransforms) {
-  var tween = withoutTransforms && _getComputedStyle(element)[_transformProp] !== "matrix(1, 0, 0, 1, 0, 0)" && gsap$1.to(element, {
+  var tween = withoutTransforms && _getComputedStyle(element)[_transformProp] !== "matrix(1, 0, 0, 1, 0, 0)" && gsap.to(element, {
     x: 0,
     y: 0,
     xPercent: 0,
@@ -4681,10 +5036,10 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   return a;
 }, _getClosestLabel = function _getClosestLabel2(animation) {
   return function(value) {
-    return gsap$1.utils.snap(_getLabelRatioArray(animation), value);
+    return gsap.utils.snap(_getLabelRatioArray(animation), value);
   };
 }, _snapDirectional = function _snapDirectional2(snapIncrementOrArray) {
-  var snap3 = gsap$1.utils.snap(snapIncrementOrArray), a = Array.isArray(snapIncrementOrArray) && snapIncrementOrArray.slice(0).sort(function(a2, b) {
+  var snap3 = gsap.utils.snap(snapIncrementOrArray), a = Array.isArray(snapIncrementOrArray) && snapIncrementOrArray.slice(0).sort(function(a2, b) {
     return a2 - b;
   });
   return a ? function(value, direction, threshold) {
@@ -4790,7 +5145,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   vars["border" + side + _Width] = 1;
   vars["border" + oppositeSide + _Width] = 0;
   vars[direction.p] = start + "px";
-  gsap$1.set(marker, vars);
+  gsap.set(marker, vars);
 }, _triggers = [], _ids = {}, _rafID, _sync = function _sync2() {
   return _getTime() - _lastScrollTime > 34 && (_rafID || (_rafID = requestAnimationFrame(_updateAll)));
 }, _onScroll2 = function _onScroll3() {
@@ -4810,12 +5165,12 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _onResize = function _onResize2(force) {
   _scrollers.cache++;
   (force === true || !_refreshing && !_ignoreResize && !_doc.fullscreenElement && !_doc.webkitFullscreenElement && (!_ignoreMobileResize || _baseScreenWidth !== _win.innerWidth || Math.abs(_win.innerHeight - _baseScreenHeight) > _win.innerHeight * 0.25)) && _resizeDelay.restart(true);
-}, _listeners = {}, _emptyArray$1 = [], _softRefresh = function _softRefresh2() {
+}, _listeners = {}, _emptyArray = [], _softRefresh = function _softRefresh2() {
   return _removeListener2(ScrollTrigger, "scrollEnd", _softRefresh2) || _refreshAll(true);
 }, _dispatch2 = function _dispatch3(type) {
   return _listeners[type] && _listeners[type].map(function(f) {
     return f();
-  }) || _emptyArray$1;
+  }) || _emptyArray;
 }, _savedStyles = [], _revertRecorded = function _revertRecorded2(media) {
   for (var i = 0; i < _savedStyles.length; i += 5) {
     if (!media || _savedStyles[i + 4] && _savedStyles[i + 4].query === media) {
@@ -4857,7 +5212,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   _100vh = !_normalizer && _div100vh.offsetHeight || _win.innerHeight;
   _body.removeChild(_div100vh);
 }, _hideAllMarkers = function _hideAllMarkers2(hide) {
-  return _toArray$1(".gsap-marker-start, .gsap-marker-end, .gsap-marker-scroller-start, .gsap-marker-scroller-end").forEach(function(el) {
+  return _toArray(".gsap-marker-start, .gsap-marker-end, .gsap-marker-scroller-start, .gsap-marker-scroller-end").forEach(function(el) {
     return el.style.display = hide ? "none" : "block";
   });
 }, _refreshAll = function _refreshAll2(force, skipRevert) {
@@ -4994,7 +5349,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _capsExp = /([A-Z])/g, _setState = function _setState2(state) {
   if (state) {
     var style2 = state.t.style, l = state.length, i = 0, p, value;
-    (state.t._gsap || gsap$1.core.getCache(state.t)).uncache = 1;
+    (state.t._gsap || gsap.core.getCache(state.t)).uncache = 1;
     for (; i < l; i += 2) {
       value = state[i + 1];
       p = state[i];
@@ -5048,7 +5403,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
     markerScroller && _positionMarker(markerScroller, globalOffset, direction, scrollerSize - globalOffset < 20 || markerScroller._isStart && globalOffset > 20);
     scrollerSize -= scrollerSize - globalOffset;
   } else {
-    containerAnimation && (value = gsap$1.utils.mapRange(containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, 0, scrollerMax, value));
+    containerAnimation && (value = gsap.utils.mapRange(containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, 0, scrollerMax, value));
     markerScroller && _positionMarker(markerScroller, scrollerSize, direction, true);
   }
   if (clampZeroProp) {
@@ -5089,7 +5444,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
     } else {
       style2.cssText = element._stOrig;
     }
-    gsap$1.core.getCache(element).uncache = 1;
+    gsap.core.getCache(element).uncache = 1;
     parent.appendChild(element);
   }
 }, _interruptionTracker = function _interruptionTracker2(getValueFunc, initialValue, onInterrupt) {
@@ -5107,7 +5462,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _shiftMarker = function _shiftMarker2(marker, direction, value) {
   var vars = {};
   vars[direction.p] = "+=" + value;
-  gsap$1.set(marker, vars);
+  gsap.set(marker, vars);
 }, _getTweenCreator = function _getTweenCreator2(scroller, direction) {
   var getScroll = _getScrollFunc(scroller, direction), prop = "_scroll" + direction.p2, getTween = function getTween2(scrollTo, vars, initialValue, change1, change2) {
     var tween = getTween2.tween, onComplete = vars.onComplete, modifiers = {};
@@ -5133,7 +5488,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
       getTween2.tween = 0;
       onComplete && onComplete.call(tween);
     };
-    tween = getTween2.tween = gsap$1.to(scroller, vars);
+    tween = getTween2.tween = gsap.to(scroller, vars);
     return tween;
   };
   scroller[prop] = getScroll;
@@ -5146,8 +5501,8 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 };
 var ScrollTrigger = /* @__PURE__ */ function() {
   function ScrollTrigger2(vars, animation) {
-    _coreInitted$1 || ScrollTrigger2.register(gsap$1) || console.warn("Please gsap.registerPlugin(ScrollTrigger)");
-    _context$1(this);
+    _coreInitted || ScrollTrigger2.register(gsap) || console.warn("Please gsap.registerPlugin(ScrollTrigger)");
+    _context(this);
     this.init(vars, animation);
   }
   var _proto = ScrollTrigger2.prototype;
@@ -5161,7 +5516,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     vars = _setDefaults2(_isString2(vars) || _isNumber2(vars) || vars.nodeType ? {
       trigger: vars
     } : vars, _defaults);
-    var _vars = vars, onUpdate = _vars.onUpdate, toggleClass = _vars.toggleClass, id = _vars.id, onToggle = _vars.onToggle, onRefresh = _vars.onRefresh, scrub = _vars.scrub, trigger = _vars.trigger, pin = _vars.pin, pinSpacing = _vars.pinSpacing, invalidateOnRefresh = _vars.invalidateOnRefresh, anticipatePin = _vars.anticipatePin, onScrubComplete = _vars.onScrubComplete, onSnapComplete = _vars.onSnapComplete, once = _vars.once, snap3 = _vars.snap, pinReparent = _vars.pinReparent, pinSpacer = _vars.pinSpacer, containerAnimation = _vars.containerAnimation, fastScrollEnd = _vars.fastScrollEnd, preventOverlaps = _vars.preventOverlaps, direction = vars.horizontal || vars.containerAnimation && vars.horizontal !== false ? _horizontal : _vertical, isToggle = !scrub && scrub !== 0, scroller = _getTarget(vars.scroller || _win), scrollerCache = gsap$1.core.getCache(scroller), isViewport = _isViewport2(scroller), useFixedPosition = ("pinType" in vars ? vars.pinType : _getProxyProp(scroller, "pinType") || isViewport && "fixed") === "fixed", callbacks = [vars.onEnter, vars.onLeave, vars.onEnterBack, vars.onLeaveBack], toggleActions = isToggle && vars.toggleActions.split(" "), markers = "markers" in vars ? vars.markers : _defaults.markers, borderWidth = isViewport ? 0 : parseFloat(_getComputedStyle(scroller)["border" + direction.p2 + _Width]) || 0, self = this, onRefreshInit = vars.onRefreshInit && function() {
+    var _vars = vars, onUpdate = _vars.onUpdate, toggleClass = _vars.toggleClass, id = _vars.id, onToggle = _vars.onToggle, onRefresh = _vars.onRefresh, scrub = _vars.scrub, trigger = _vars.trigger, pin = _vars.pin, pinSpacing = _vars.pinSpacing, invalidateOnRefresh = _vars.invalidateOnRefresh, anticipatePin = _vars.anticipatePin, onScrubComplete = _vars.onScrubComplete, onSnapComplete = _vars.onSnapComplete, once = _vars.once, snap3 = _vars.snap, pinReparent = _vars.pinReparent, pinSpacer = _vars.pinSpacer, containerAnimation = _vars.containerAnimation, fastScrollEnd = _vars.fastScrollEnd, preventOverlaps = _vars.preventOverlaps, direction = vars.horizontal || vars.containerAnimation && vars.horizontal !== false ? _horizontal : _vertical, isToggle = !scrub && scrub !== 0, scroller = _getTarget(vars.scroller || _win), scrollerCache = gsap.core.getCache(scroller), isViewport = _isViewport2(scroller), useFixedPosition = ("pinType" in vars ? vars.pinType : _getProxyProp(scroller, "pinType") || isViewport && "fixed") === "fixed", callbacks = [vars.onEnter, vars.onLeave, vars.onEnterBack, vars.onLeaveBack], toggleActions = isToggle && vars.toggleActions.split(" "), markers = "markers" in vars ? vars.markers : _defaults.markers, borderWidth = isViewport ? 0 : parseFloat(_getComputedStyle(scroller)["border" + direction.p2 + _Width]) || 0, self = this, onRefreshInit = vars.onRefreshInit && function() {
       return vars.onRefreshInit(self);
     }, getScrollerSize = _getSizeFunc(scroller, isViewport, direction), getScrollerOffsets = _getOffsetsFunc(scroller, isViewport), lastSnap = 0, lastRefresh = 0, prevProgress = 0, scrollFunc = _getScrollFunc(scroller, direction), tweenTo, pinCache, snapFunc, scroll1, scroll2, start, end, markerStart, markerEnd, markerStartTrigger, markerEndTrigger, markerVars, executingOnRefresh, change, pinOriginalState, pinActiveState, pinState, spacer, offset, pinGetter, pinSetter, pinStart, pinChange, spacingStart, spacerState, markerStartSetter, pinMoves, markerEndSetter, cs, snap1, snap22, scrubTween, scrubSmooth, snapDurClamp, snapDelayedCall, prevScroll, prevAnimProgress, caMarkerSetter, customRevertReturn;
     self._startClamp = self._endClamp = false;
@@ -5187,7 +5542,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         scrubTween && scrubTween.progress(1).kill();
         scrubTween = 0;
       } else {
-        scrubTween ? scrubTween.duration(value) : scrubTween = gsap$1.to(animation, {
+        scrubTween ? scrubTween.duration(value) : scrubTween = gsap.to(animation, {
           ease: "expo",
           totalProgress: "+=0",
           inherit: false,
@@ -5214,7 +5569,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           snapTo: snap3
         };
       }
-      "scrollBehavior" in _body.style && gsap$1.set(isViewport ? [_body, _docEl] : scroller, {
+      "scrollBehavior" in _body.style && gsap.set(isViewport ? [_body, _docEl] : scroller, {
         scrollBehavior: "auto"
       });
       _scrollers.forEach(function(o) {
@@ -5222,16 +5577,16 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       });
       snapFunc = _isFunction2(snap3.snapTo) ? snap3.snapTo : snap3.snapTo === "labels" ? _getClosestLabel(animation) : snap3.snapTo === "labelsDirectional" ? _getLabelAtDirection(animation) : snap3.directional !== false ? function(value, st) {
         return _snapDirectional(snap3.snapTo)(value, _getTime() - lastRefresh < 500 ? 0 : st.direction);
-      } : gsap$1.utils.snap(snap3.snapTo);
+      } : gsap.utils.snap(snap3.snapTo);
       snapDurClamp = snap3.duration || {
         min: 0.1,
         max: 2
       };
       snapDurClamp = _isObject2(snapDurClamp) ? _clamp2(snapDurClamp.min, snapDurClamp.max) : _clamp2(snapDurClamp, snapDurClamp);
-      snapDelayedCall = gsap$1.delayedCall(snap3.delay || scrubSmooth / 2 || 0.1, function() {
+      snapDelayedCall = gsap.delayedCall(snap3.delay || scrubSmooth / 2 || 0.1, function() {
         var scroll = scrollFunc(), refreshedRecently = _getTime() - lastRefresh < 500, tween = tweenTo.tween;
         if ((refreshedRecently || Math.abs(self.getVelocity()) < 10) && !tween && !_pointerIsDown && lastSnap !== scroll) {
-          var progress = (scroll - start) / change, totalProgress = animation && !isToggle ? animation.totalProgress() : progress, velocity = refreshedRecently ? 0 : (totalProgress - snap22) / (_getTime() - _time2) * 1e3 || 0, change1 = gsap$1.utils.clamp(-progress, 1 - progress, _abs(velocity / 2) * velocity / 0.185), naturalEnd = progress + (snap3.inertia === false ? 0 : change1), endValue, endScroll, _snap = snap3, onStart = _snap.onStart, _onInterrupt = _snap.onInterrupt, _onComplete = _snap.onComplete;
+          var progress = (scroll - start) / change, totalProgress = animation && !isToggle ? animation.totalProgress() : progress, velocity = refreshedRecently ? 0 : (totalProgress - snap22) / (_getTime() - _time2) * 1e3 || 0, change1 = gsap.utils.clamp(-progress, 1 - progress, _abs(velocity / 2) * velocity / 0.185), naturalEnd = progress + (snap3.inertia === false ? 0 : change1), endValue, endScroll, _snap = snap3, onStart = _snap.onStart, _onInterrupt = _snap.onInterrupt, _onComplete = _snap.onComplete;
           endValue = snapFunc(naturalEnd, self);
           _isNumber2(endValue) || (endValue = naturalEnd);
           endScroll = Math.max(0, Math.round(start + endValue * change));
@@ -5280,7 +5635,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     if (pin) {
       pinSpacing === false || pinSpacing === _margin || (pinSpacing = !pinSpacing && pin.parentNode && pin.parentNode.style && _getComputedStyle(pin.parentNode).display === "flex" ? false : _padding);
       self.pin = pin;
-      pinCache = gsap$1.core.getCache(pin);
+      pinCache = gsap.core.getCache(pin);
       if (!pinCache.spacer) {
         if (pinSpacer) {
           pinSpacer = _getTarget(pinSpacer);
@@ -5295,14 +5650,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       } else {
         pinOriginalState = pinCache.pinState;
       }
-      vars.force3D !== false && gsap$1.set(pin, {
+      vars.force3D !== false && gsap.set(pin, {
         force3D: true
       });
       self.spacer = spacer = pinCache.spacer;
       cs = _getComputedStyle(pin);
       spacingStart = cs[pinSpacing + direction.os2];
-      pinGetter = gsap$1.getProperty(pin);
-      pinSetter = gsap$1.quickSetter(pin, direction.a, _px);
+      pinGetter = gsap.getProperty(pin);
+      pinSetter = gsap.quickSetter(pin, direction.a, _px);
       _swapPinIn(pin, spacer, cs);
       pinState = _getState(pin);
     }
@@ -5314,14 +5669,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       var content = _getTarget(_getProxyProp(scroller, "content") || scroller);
       markerStart = this.markerStart = _createMarker("start", id, content, direction, markerVars, offset, 0, containerAnimation);
       markerEnd = this.markerEnd = _createMarker("end", id, content, direction, markerVars, offset, 0, containerAnimation);
-      containerAnimation && (caMarkerSetter = gsap$1.quickSetter([markerStart, markerEnd], direction.a, _px));
+      containerAnimation && (caMarkerSetter = gsap.quickSetter([markerStart, markerEnd], direction.a, _px));
       if (!useFixedPosition && !(_proxies.length && _getProxyProp(scroller, "fixedMarkers") === true)) {
         _makePositionable(isViewport ? _body : scroller);
-        gsap$1.set([markerStartTrigger, markerEndTrigger], {
+        gsap.set([markerStartTrigger, markerEndTrigger], {
           force3D: true
         });
-        markerStartSetter = gsap$1.quickSetter(markerStartTrigger, direction.a, _px);
-        markerEndSetter = gsap$1.quickSetter(markerEndTrigger, direction.a, _px);
+        markerStartSetter = gsap.quickSetter(markerStartTrigger, direction.a, _px);
+        markerEndSetter = gsap.quickSetter(markerEndTrigger, direction.a, _px);
       }
     }
     if (containerAnimation) {
@@ -5394,8 +5749,8 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       self._subPinOffset = false;
       var size = getScrollerSize(), scrollerBounds = getScrollerOffsets(), max = containerAnimation ? containerAnimation.duration() : _maxScroll(scroller, direction), isFirstRefresh = change <= 0.01 || !change, offset2 = 0, otherPinOffset = pinOffset || 0, parsedEnd = _isObject2(position) ? position.end : vars.end, parsedEndTrigger = vars.endTrigger || trigger, parsedStart = _isObject2(position) ? position.start : vars.start || (vars.start === 0 || !trigger ? 0 : pin ? "0 0" : "0 100%"), pinnedContainer = self.pinnedContainer = vars.pinnedContainer && _getTarget(vars.pinnedContainer, self), triggerIndex = trigger && Math.max(0, _triggers.indexOf(self)) || 0, i = triggerIndex, cs2, bounds, scroll, isVertical, override, curTrigger, curPin, oppositeScroll, initted, revertedPins, forcedOverflow, markerStartOffset, markerEndOffset;
       if (markers && _isObject2(position)) {
-        markerStartOffset = gsap$1.getProperty(markerStartTrigger, direction.p);
-        markerEndOffset = gsap$1.getProperty(markerEndTrigger, direction.p);
+        markerStartOffset = gsap.getProperty(markerStartTrigger, direction.p);
+        markerEndOffset = gsap.getProperty(markerEndTrigger, direction.p);
       }
       while (i-- > 0) {
         curTrigger = _triggers[i];
@@ -5420,7 +5775,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           parsedEnd = (_isString2(parsedStart) ? parsedStart.split(" ")[0] : "") + parsedEnd;
         } else {
           offset2 = _offsetToPx(parsedEnd.substr(2), size);
-          parsedEnd = _isString2(parsedStart) ? parsedStart : (containerAnimation ? gsap$1.utils.mapRange(0, containerAnimation.duration(), containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, start) : start) + offset2;
+          parsedEnd = _isString2(parsedStart) ? parsedStart : (containerAnimation ? gsap.utils.mapRange(0, containerAnimation.duration(), containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, start) : start) + offset2;
           parsedEndTrigger = trigger;
         }
       }
@@ -5448,14 +5803,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       }
       change = end - start || (start -= 0.01) && 1e-3;
       if (isFirstRefresh) {
-        prevProgress = gsap$1.utils.clamp(0, 1, gsap$1.utils.normalize(start, end, prevScroll));
+        prevProgress = gsap.utils.clamp(0, 1, gsap.utils.normalize(start, end, prevScroll));
       }
       self._pinPush = otherPinOffset;
       if (markerStart && offset2) {
         cs2 = {};
         cs2[direction.a] = "+=" + offset2;
         pinnedContainer && (cs2[direction.p] = "-=" + scrollFunc());
-        gsap$1.set([markerStart, markerEnd], cs2);
+        gsap.set([markerStart, markerEnd], cs2);
       }
       if (pin && !(_clampingMax && self.end >= _maxScroll(scroller, direction))) {
         cs2 = _getComputedStyle(pin);
@@ -5559,14 +5914,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       _refreshing = 0;
       animation && isToggle && (animation._initted || prevAnimProgress) && animation.progress() !== prevAnimProgress && animation.progress(prevAnimProgress || 0, true).render(animation.time(), true, true);
       if (isFirstRefresh || prevProgress !== self.progress || containerAnimation || invalidateOnRefresh || animation && !animation._initted) {
-        animation && !isToggle && (animation._initted || prevProgress || animation.vars.immediateRender !== false) && animation.totalProgress(containerAnimation && start < -1e-3 && !prevProgress ? gsap$1.utils.normalize(start, end, 0) : prevProgress, true);
+        animation && !isToggle && (animation._initted || prevProgress || animation.vars.immediateRender !== false) && animation.totalProgress(containerAnimation && start < -1e-3 && !prevProgress ? gsap.utils.normalize(start, end, 0) : prevProgress, true);
         self.progress = isFirstRefresh || (scroll1 - start) / change === prevProgress ? 0 : prevProgress;
       }
       pin && pinSpacing && (spacer._pinOffset = Math.round(self.progress * pinChange));
       scrubTween && scrubTween.invalidate();
       if (!isNaN(markerStartOffset)) {
-        markerStartOffset -= gsap$1.getProperty(markerStartTrigger, direction.p);
-        markerEndOffset -= gsap$1.getProperty(markerEndTrigger, direction.p);
+        markerStartOffset -= gsap.getProperty(markerStartTrigger, direction.p);
+        markerEndOffset -= gsap.getProperty(markerEndTrigger, direction.p);
         _shiftMarker(markerStartTrigger, direction, markerStartOffset);
         _shiftMarker(markerStart, direction, markerStartOffset - (pinOffset || 0));
         _shiftMarker(markerEndTrigger, direction, markerEndOffset);
@@ -5668,7 +6023,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           }
         }
         snap3 && !tweenTo.tween && !_refreshing && !_startup && snapDelayedCall.restart(true);
-        toggleClass && (toggled || once && clipped && (clipped < 1 || !_limitCallbacks)) && _toArray$1(toggleClass.targets).forEach(function(el) {
+        toggleClass && (toggled || once && clipped && (clipped < 1 || !_limitCallbacks)) && _toArray(toggleClass.targets).forEach(function(el) {
           return el.classList[isActive || once ? "add" : "remove"](toggleClass.className);
         });
         onUpdate && !isToggle && !reset && onUpdate(self);
@@ -5814,7 +6169,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         _scrollers.cache++;
         start || end || self.refresh();
       };
-      gsap$1.delayedCall(0.01, self.update);
+      gsap.delayedCall(0.01, self.update);
       change = 0.01;
       start = end = 0;
     } else {
@@ -5823,12 +6178,12 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     pin && _queueRefreshAll();
   };
   ScrollTrigger2.register = function register(core) {
-    if (!_coreInitted$1) {
-      gsap$1 = core || _getGSAP2();
+    if (!_coreInitted) {
+      gsap = core || _getGSAP2();
       _windowExists3() && window.document && ScrollTrigger2.enable();
-      _coreInitted$1 = _enabled;
+      _coreInitted = _enabled;
     }
-    return _coreInitted$1;
+    return _coreInitted;
   };
   ScrollTrigger2.defaults = function defaults3(config3) {
     if (config3) {
@@ -5862,14 +6217,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     _doc = document;
     _docEl = _doc.documentElement;
     _body = _doc.body;
-    if (gsap$1) {
-      _toArray$1 = gsap$1.utils.toArray;
-      _clamp2 = gsap$1.utils.clamp;
-      _context$1 = gsap$1.core.context || _passThrough2;
-      _suppressOverwrites = gsap$1.core.suppressOverwrites || _passThrough2;
+    if (gsap) {
+      _toArray = gsap.utils.toArray;
+      _clamp2 = gsap.utils.clamp;
+      _context = gsap.core.context || _passThrough2;
+      _suppressOverwrites = gsap.core.suppressOverwrites || _passThrough2;
       _scrollRestoration = _win.history.scrollRestoration || "auto";
       _lastScroll = _win.pageYOffset || 0;
-      gsap$1.core.globals("ScrollTrigger", ScrollTrigger2);
+      gsap.core.globals("ScrollTrigger", ScrollTrigger2);
       if (_body) {
         _enabled = 1;
         _div100vh = document.createElement("div");
@@ -5877,31 +6232,31 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         _div100vh.style.position = "absolute";
         _refresh100vh();
         _rafBugFix();
-        Observer$1.register(gsap$1);
+        Observer$1.register(gsap);
         ScrollTrigger2.isTouch = Observer$1.isTouch;
         _fixIOSBug = Observer$1.isTouch && /(iPad|iPhone|iPod|Mac)/g.test(navigator.userAgent);
         _ignoreMobileResize = Observer$1.isTouch === 1;
         _addListener2(_win, "wheel", _onScroll2);
         _root = [_win, _doc, _docEl, _body];
-        if (gsap$1.matchMedia) {
+        if (gsap.matchMedia) {
           ScrollTrigger2.matchMedia = function(vars) {
-            var mm = gsap$1.matchMedia(), p;
+            var mm = gsap.matchMedia(), p;
             for (p in vars) {
               mm.add(p, vars[p]);
             }
             return mm;
           };
-          gsap$1.addEventListener("matchMediaInit", function() {
+          gsap.addEventListener("matchMediaInit", function() {
             return _revertAll();
           });
-          gsap$1.addEventListener("matchMediaRevert", function() {
+          gsap.addEventListener("matchMediaRevert", function() {
             return _revertRecorded();
           });
-          gsap$1.addEventListener("matchMedia", function() {
+          gsap.addEventListener("matchMedia", function() {
             _refreshAll(0, 1);
             _dispatch2("matchMedia");
           });
-          gsap$1.matchMedia().add("(orientation: portrait)", function() {
+          gsap.matchMedia().add("(orientation: portrait)", function() {
             _setBaseDimensions();
             return _setBaseDimensions;
           });
@@ -5910,7 +6265,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         }
         _setBaseDimensions();
         _addListener2(_doc, "scroll", _onScroll2);
-        var bodyHasStyle = _body.hasAttribute("style"), bodyStyle = _body.style, border = bodyStyle.borderTopStyle, AnimationProto = gsap$1.core.Animation.prototype, bounds, i;
+        var bodyHasStyle = _body.hasAttribute("style"), bodyStyle = _body.style, border = bodyStyle.borderTopStyle, AnimationProto = gsap.core.Animation.prototype, bounds, i;
         AnimationProto.revert || Object.defineProperty(AnimationProto, "revert", {
           value: function value() {
             return this.time(-0.01, true);
@@ -5926,17 +6281,17 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           _body.removeAttribute("style");
         }
         _syncInterval = setInterval(_sync, 250);
-        gsap$1.delayedCall(0.5, function() {
+        gsap.delayedCall(0.5, function() {
           return _startup = 0;
         });
         _addListener2(_doc, "touchcancel", _passThrough2);
         _addListener2(_body, "touchstart", _passThrough2);
         _multiListener(_addListener2, _doc, "pointerdown,touchstart,mousedown", _pointerDownHandler);
         _multiListener(_addListener2, _doc, "pointerup,touchend,mouseup", _pointerUpHandler);
-        _transformProp = gsap$1.utils.checkPrefix("transform");
+        _transformProp = gsap.utils.checkPrefix("transform");
         _stateProps.push(_transformProp);
-        _coreInitted$1 = _getTime();
-        _resizeDelay = gsap$1.delayedCall(0.2, _refreshAll).pause();
+        _coreInitted = _getTime();
+        _resizeDelay = gsap.delayedCall(0.2, _refreshAll).pause();
         _autoRefresh = [_doc, "visibilitychange", function() {
           var w = _win.innerWidth, h = _win.innerHeight;
           if (_doc.hidden) {
@@ -6006,11 +6361,11 @@ var ScrollTrigger = /* @__PURE__ */ function() {
 }();
 ScrollTrigger.version = "3.13.0";
 ScrollTrigger.saveStyles = function(targets) {
-  return targets ? _toArray$1(targets).forEach(function(target) {
+  return targets ? _toArray(targets).forEach(function(target) {
     if (target && target.style) {
       var i = _savedStyles.indexOf(target);
       i >= 0 && _savedStyles.splice(i, 5);
-      _savedStyles.push(target, target.style.cssText, target.getBBox && target.getAttribute("transform"), gsap$1.core.getCache(target), _context$1());
+      _savedStyles.push(target, target.style.cssText, target.getBBox && target.getAttribute("transform"), gsap.core.getCache(target), _context());
     }
   }) : _savedStyles;
 };
@@ -6021,7 +6376,7 @@ ScrollTrigger.create = function(vars, animation) {
   return new ScrollTrigger(vars, animation);
 };
 ScrollTrigger.refresh = function(safe) {
-  return safe ? _onResize(true) : (_coreInitted$1 || ScrollTrigger.register()) && _refreshAll(true);
+  return safe ? _onResize(true) : (_coreInitted || ScrollTrigger.register()) && _refreshAll(true);
 };
 ScrollTrigger.update = function(force) {
   return ++_scrollers.cache && _updateAll(force === true ? 2 : 0);
@@ -6055,7 +6410,7 @@ ScrollTrigger.removeEventListener = function(type, callback) {
 };
 ScrollTrigger.batch = function(targets, vars) {
   var result = [], varsCopy = {}, interval = vars.interval || 0.016, batchMax = vars.batchMax || 1e9, proxyCallback = function proxyCallback2(type, callback) {
-    var elements = [], triggers = [], delay = gsap$1.delayedCall(interval, function() {
+    var elements = [], triggers = [], delay = gsap.delayedCall(interval, function() {
       callback(elements, triggers);
       elements = [];
       triggers = [];
@@ -6076,7 +6431,7 @@ ScrollTrigger.batch = function(targets, vars) {
       return batchMax = vars.batchMax();
     });
   }
-  _toArray$1(targets).forEach(function(target) {
+  _toArray(targets).forEach(function(target) {
     var config3 = {};
     for (p in varsCopy) {
       config3[p] = varsCopy[p];
@@ -6101,7 +6456,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   scroll: 1
 }, _nestedScroll = function _nestedScroll2(_ref5) {
   var event = _ref5.event, target = _ref5.target, axis = _ref5.axis;
-  var node = (event.changedTouches ? event.changedTouches[0] : event).target, cache = node._gsap || gsap$1.core.getCache(node), time = _getTime(), cs;
+  var node = (event.changedTouches ? event.changedTouches[0] : event).target, cache = node._gsap || gsap.core.getCache(node), time = _getTime(), cs;
   if (!cache._isScrollT || time - cache._isScrollT > 2e3) {
     while (node && node !== _body && (node.scrollHeight <= node.clientHeight && node.scrollWidth <= node.clientWidth || !(_overflow[(cs = _getComputedStyle(node)).overflowY] || _overflow[cs.overflowX]))) {
       node = node.parentNode;
@@ -6143,7 +6498,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   vars.type || (vars.type = "wheel,touch");
   vars.debounce = !!vars.debounce;
   vars.id = vars.id || "normalizer";
-  var _vars2 = vars, normalizeScrollX = _vars2.normalizeScrollX, momentum = _vars2.momentum, allowNestedScroll = _vars2.allowNestedScroll, onRelease = _vars2.onRelease, self, maxY, target = _getTarget(vars.target) || _docEl, smoother = gsap$1.core.globals().ScrollSmoother, smootherInstance = smoother && smoother.get(), content = _fixIOSBug && (vars.content && _getTarget(vars.content) || smootherInstance && vars.content !== false && !smootherInstance.smooth() && smootherInstance.content()), scrollFuncY = _getScrollFunc(target, _vertical), scrollFuncX = _getScrollFunc(target, _horizontal), scale = 1, initialScale = (Observer$1.isTouch && _win.visualViewport ? _win.visualViewport.scale * _win.visualViewport.width : _win.outerWidth) / _win.innerWidth, wheelRefresh = 0, resolveMomentumDuration = _isFunction2(momentum) ? function() {
+  var _vars2 = vars, normalizeScrollX = _vars2.normalizeScrollX, momentum = _vars2.momentum, allowNestedScroll = _vars2.allowNestedScroll, onRelease = _vars2.onRelease, self, maxY, target = _getTarget(vars.target) || _docEl, smoother = gsap.core.globals().ScrollSmoother, smootherInstance = smoother && smoother.get(), content = _fixIOSBug && (vars.content && _getTarget(vars.content) || smootherInstance && vars.content !== false && !smootherInstance.smooth() && smootherInstance.content()), scrollFuncY = _getScrollFunc(target, _vertical), scrollFuncX = _getScrollFunc(target, _horizontal), scale = 1, initialScale = (Observer$1.isTouch && _win.visualViewport ? _win.visualViewport.scale * _win.visualViewport.width : _win.outerWidth) / _win.innerWidth, wheelRefresh = 0, resolveMomentumDuration = _isFunction2(momentum) ? function() {
     return momentum(self);
   } : function() {
     return momentum || 2.8;
@@ -6180,7 +6535,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
       scrollFuncY() > maxY ? tween.progress(1) && scrollFuncY(maxY) : tween.resetTo("scrollY", maxY);
     }
   };
-  content && gsap$1.set(content, {
+  content && gsap.set(content, {
     y: "+=0"
   });
   vars.ignoreCheck = function(e) {
@@ -6216,7 +6571,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
       tween.vars.scrollY = scrollClampY(endScroll);
       tween.invalidate().duration(dur).play(0.01);
       if (_fixIOSBug && tween.vars.scrollY >= maxY || currentScroll >= maxY - 1) {
-        gsap$1.to({}, {
+        gsap.to({}, {
           onUpdate: onResize2,
           duration: dur
         });
@@ -6262,9 +6617,9 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   self = new Observer$1(vars);
   self.iOS = _fixIOSBug;
   _fixIOSBug && !scrollFuncY() && scrollFuncY(1);
-  _fixIOSBug && gsap$1.ticker.add(_passThrough2);
+  _fixIOSBug && gsap.ticker.add(_passThrough2);
   onStopDelayedCall = self._dc;
-  tween = gsap$1.to(self, {
+  tween = gsap.to(self, {
     ease: "power4",
     paused: true,
     inherit: false,
@@ -6330,314 +6685,7 @@ ScrollTrigger.core = {
     }
   }
 };
-_getGSAP2() && gsap$1.registerPlugin(ScrollTrigger);
-/*!
- * SplitText 3.13.0
- * https://gsap.com
- *
- * @license Copyright 2025, GreenSock. All rights reserved. Subject to the terms at https://gsap.com/standard-license.
- * @author: Jack Doyle
- */
-let gsap, _fonts, _coreInitted, _initIfNecessary = () => _coreInitted || SplitText.register(window.gsap), _charSegmenter = typeof Intl !== "undefined" ? new Intl.Segmenter() : 0, _toArray = (r) => typeof r === "string" ? _toArray(document.querySelectorAll(r)) : "length" in r ? Array.from(r) : [r], _elements = (targets) => _toArray(targets).filter((e) => e instanceof HTMLElement), _emptyArray = [], _context = function() {
-}, _spacesRegEx = /\s+/g, _emojiSafeRegEx = new RegExp("\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u{200D}\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*|.", "gu"), _emptyBounds = { left: 0, top: 0, width: 0, height: 0 }, _stretchToFitSpecialChars = (collection, specialCharsRegEx) => {
-  if (specialCharsRegEx) {
-    let charsFound = new Set(collection.join("").match(specialCharsRegEx) || _emptyArray), i = collection.length, slots, word, char, combined;
-    if (charsFound.size) {
-      while (--i > -1) {
-        word = collection[i];
-        for (char of charsFound) {
-          if (char.startsWith(word) && char.length > word.length) {
-            slots = 0;
-            combined = word;
-            while (char.startsWith(combined += collection[i + ++slots]) && combined.length < char.length) {
-            }
-            if (slots && combined.length === char.length) {
-              collection[i] = char;
-              collection.splice(i + 1, slots);
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
-  return collection;
-}, _disallowInline = (element) => window.getComputedStyle(element).display === "inline" && (element.style.display = "inline-block"), _insertNodeBefore = (newChild, parent, existingChild) => parent.insertBefore(typeof newChild === "string" ? document.createTextNode(newChild) : newChild, existingChild), _getWrapper = (type, config3, collection) => {
-  let className = config3[type + "sClass"] || "", { tag = "div", aria = "auto", propIndex = false } = config3, display = type === "line" ? "block" : "inline-block", incrementClass = className.indexOf("++") > -1, wrapper = (text) => {
-    let el = document.createElement(tag), i = collection.length + 1;
-    className && (el.className = className + (incrementClass ? " " + className + i : ""));
-    propIndex && el.style.setProperty("--" + type, i + "");
-    aria !== "none" && el.setAttribute("aria-hidden", "true");
-    if (tag !== "span") {
-      el.style.position = "relative";
-      el.style.display = display;
-    }
-    el.textContent = text;
-    collection.push(el);
-    return el;
-  };
-  incrementClass && (className = className.replace("++", ""));
-  wrapper.collection = collection;
-  return wrapper;
-}, _getLineWrapper = (element, nodes, config3, collection) => {
-  let lineWrapper = _getWrapper("line", config3, collection), textAlign = window.getComputedStyle(element).textAlign || "left";
-  return (startIndex, endIndex) => {
-    let newLine = lineWrapper("");
-    newLine.style.textAlign = textAlign;
-    element.insertBefore(newLine, nodes[startIndex]);
-    for (; startIndex < endIndex; startIndex++) {
-      newLine.appendChild(nodes[startIndex]);
-    }
-    newLine.normalize();
-  };
-}, _splitWordsAndCharsRecursively = (element, config3, wordWrapper, charWrapper, prepForCharsOnly, deepSlice, ignore, charSplitRegEx, specialCharsRegEx, isNested) => {
-  var _a;
-  let nodes = Array.from(element.childNodes), i = 0, { wordDelimiter, reduceWhiteSpace = true, prepareText } = config3, elementBounds = element.getBoundingClientRect(), lastBounds = elementBounds, isPreformatted = !reduceWhiteSpace && window.getComputedStyle(element).whiteSpace.substring(0, 3) === "pre", ignoredPreviousSibling = 0, wordsCollection = wordWrapper.collection, wordDelimIsNotSpace, wordDelimString, wordDelimSplitter, curNode, words, curWordEl, startsWithSpace, endsWithSpace, j, bounds, curWordChars, clonedNode, curSubNode, tempSubNode, curTextContent, wordText, lastWordText, k;
-  if (typeof wordDelimiter === "object") {
-    wordDelimSplitter = wordDelimiter.delimiter || wordDelimiter;
-    wordDelimString = wordDelimiter.replaceWith || "";
-  } else {
-    wordDelimString = wordDelimiter === "" ? "" : wordDelimiter || " ";
-  }
-  wordDelimIsNotSpace = wordDelimString !== " ";
-  for (; i < nodes.length; i++) {
-    curNode = nodes[i];
-    if (curNode.nodeType === 3) {
-      curTextContent = curNode.textContent || "";
-      if (reduceWhiteSpace) {
-        curTextContent = curTextContent.replace(_spacesRegEx, " ");
-      } else if (isPreformatted) {
-        curTextContent = curTextContent.replace(/\n/g, wordDelimString + "\n");
-      }
-      prepareText && (curTextContent = prepareText(curTextContent, element));
-      curNode.textContent = curTextContent;
-      words = wordDelimString || wordDelimSplitter ? curTextContent.split(wordDelimSplitter || wordDelimString) : curTextContent.match(charSplitRegEx) || _emptyArray;
-      lastWordText = words[words.length - 1];
-      endsWithSpace = wordDelimIsNotSpace ? lastWordText.slice(-1) === " " : !lastWordText;
-      lastWordText || words.pop();
-      lastBounds = elementBounds;
-      startsWithSpace = wordDelimIsNotSpace ? words[0].charAt(0) === " " : !words[0];
-      startsWithSpace && _insertNodeBefore(" ", element, curNode);
-      words[0] || words.shift();
-      _stretchToFitSpecialChars(words, specialCharsRegEx);
-      deepSlice && isNested || (curNode.textContent = "");
-      for (j = 1; j <= words.length; j++) {
-        wordText = words[j - 1];
-        if (!reduceWhiteSpace && isPreformatted && wordText.charAt(0) === "\n") {
-          (_a = curNode.previousSibling) == null ? void 0 : _a.remove();
-          _insertNodeBefore(document.createElement("br"), element, curNode);
-          wordText = wordText.slice(1);
-        }
-        if (!reduceWhiteSpace && wordText === "") {
-          _insertNodeBefore(wordDelimString, element, curNode);
-        } else if (wordText === " ") {
-          element.insertBefore(document.createTextNode(" "), curNode);
-        } else {
-          wordDelimIsNotSpace && wordText.charAt(0) === " " && _insertNodeBefore(" ", element, curNode);
-          if (ignoredPreviousSibling && j === 1 && !startsWithSpace && wordsCollection.indexOf(ignoredPreviousSibling.parentNode) > -1) {
-            curWordEl = wordsCollection[wordsCollection.length - 1];
-            curWordEl.appendChild(document.createTextNode(charWrapper ? "" : wordText));
-          } else {
-            curWordEl = wordWrapper(charWrapper ? "" : wordText);
-            _insertNodeBefore(curWordEl, element, curNode);
-            ignoredPreviousSibling && j === 1 && !startsWithSpace && curWordEl.insertBefore(ignoredPreviousSibling, curWordEl.firstChild);
-          }
-          if (charWrapper) {
-            curWordChars = _charSegmenter ? _stretchToFitSpecialChars([..._charSegmenter.segment(wordText)].map((s) => s.segment), specialCharsRegEx) : wordText.match(charSplitRegEx) || _emptyArray;
-            for (k = 0; k < curWordChars.length; k++) {
-              curWordEl.appendChild(curWordChars[k] === " " ? document.createTextNode(" ") : charWrapper(curWordChars[k]));
-            }
-          }
-          if (deepSlice && isNested) {
-            curTextContent = curNode.textContent = curTextContent.substring(wordText.length + 1, curTextContent.length);
-            bounds = curWordEl.getBoundingClientRect();
-            if (bounds.top > lastBounds.top && bounds.left <= lastBounds.left) {
-              clonedNode = element.cloneNode();
-              curSubNode = element.childNodes[0];
-              while (curSubNode && curSubNode !== curWordEl) {
-                tempSubNode = curSubNode;
-                curSubNode = curSubNode.nextSibling;
-                clonedNode.appendChild(tempSubNode);
-              }
-              element.parentNode.insertBefore(clonedNode, element);
-              prepForCharsOnly && _disallowInline(clonedNode);
-            }
-            lastBounds = bounds;
-          }
-          if (j < words.length || endsWithSpace) {
-            _insertNodeBefore(j >= words.length ? " " : wordDelimIsNotSpace && wordText.slice(-1) === " " ? " " + wordDelimString : wordDelimString, element, curNode);
-          }
-        }
-      }
-      element.removeChild(curNode);
-      ignoredPreviousSibling = 0;
-    } else if (curNode.nodeType === 1) {
-      if (ignore && ignore.indexOf(curNode) > -1) {
-        wordsCollection.indexOf(curNode.previousSibling) > -1 && wordsCollection[wordsCollection.length - 1].appendChild(curNode);
-        ignoredPreviousSibling = curNode;
-      } else {
-        _splitWordsAndCharsRecursively(curNode, config3, wordWrapper, charWrapper, prepForCharsOnly, deepSlice, ignore, charSplitRegEx, specialCharsRegEx, true);
-        ignoredPreviousSibling = 0;
-      }
-      prepForCharsOnly && _disallowInline(curNode);
-    }
-  }
-};
-const _SplitText = class _SplitText2 {
-  constructor(elements, config3) {
-    this.isSplit = false;
-    _initIfNecessary();
-    this.elements = _elements(elements);
-    this.chars = [];
-    this.words = [];
-    this.lines = [];
-    this.masks = [];
-    this.vars = config3;
-    this._split = () => this.isSplit && this.split(this.vars);
-    let orig = [], timerId, checkWidths = () => {
-      let i = orig.length, o;
-      while (i--) {
-        o = orig[i];
-        let w = o.element.offsetWidth;
-        if (w !== o.width) {
-          o.width = w;
-          this._split();
-          return;
-        }
-      }
-    };
-    this._data = { orig, obs: typeof ResizeObserver !== "undefined" && new ResizeObserver(() => {
-      clearTimeout(timerId);
-      timerId = setTimeout(checkWidths, 200);
-    }) };
-    _context(this);
-    this.split(config3);
-  }
-  split(config3) {
-    this.isSplit && this.revert();
-    this.vars = config3 = config3 || this.vars || {};
-    let { type = "chars,words,lines", aria = "auto", deepSlice = true, smartWrap, onSplit, autoSplit = false, specialChars, mask } = this.vars, splitLines = type.indexOf("lines") > -1, splitCharacters = type.indexOf("chars") > -1, splitWords = type.indexOf("words") > -1, onlySplitCharacters = splitCharacters && !splitWords && !splitLines, specialCharsRegEx = specialChars && ("push" in specialChars ? new RegExp("(?:" + specialChars.join("|") + ")", "gu") : specialChars), finalCharSplitRegEx = specialCharsRegEx ? new RegExp(specialCharsRegEx.source + "|" + _emojiSafeRegEx.source, "gu") : _emojiSafeRegEx, ignore = !!config3.ignore && _elements(config3.ignore), { orig, animTime, obs } = this._data, onSplitResult;
-    if (splitCharacters || splitWords || splitLines) {
-      this.elements.forEach((element, index) => {
-        orig[index] = {
-          element,
-          html: element.innerHTML,
-          ariaL: element.getAttribute("aria-label"),
-          ariaH: element.getAttribute("aria-hidden")
-        };
-        aria === "auto" ? element.setAttribute("aria-label", (element.textContent || "").trim()) : aria === "hidden" && element.setAttribute("aria-hidden", "true");
-        let chars = [], words = [], lines = [], charWrapper = splitCharacters ? _getWrapper("char", config3, chars) : null, wordWrapper = _getWrapper("word", config3, words), i, curWord, smartWrapSpan, nextSibling;
-        _splitWordsAndCharsRecursively(element, config3, wordWrapper, charWrapper, onlySplitCharacters, deepSlice && (splitLines || onlySplitCharacters), ignore, finalCharSplitRegEx, specialCharsRegEx, false);
-        if (splitLines) {
-          let nodes = _toArray(element.childNodes), wrapLine = _getLineWrapper(element, nodes, config3, lines), curNode, toRemove = [], lineStartIndex = 0, allBounds = nodes.map((n) => n.nodeType === 1 ? n.getBoundingClientRect() : _emptyBounds), lastBounds = _emptyBounds;
-          for (i = 0; i < nodes.length; i++) {
-            curNode = nodes[i];
-            if (curNode.nodeType === 1) {
-              if (curNode.nodeName === "BR") {
-                toRemove.push(curNode);
-                wrapLine(lineStartIndex, i + 1);
-                lineStartIndex = i + 1;
-                lastBounds = allBounds[lineStartIndex];
-              } else {
-                if (i && allBounds[i].top > lastBounds.top && allBounds[i].left <= lastBounds.left) {
-                  wrapLine(lineStartIndex, i);
-                  lineStartIndex = i;
-                }
-                lastBounds = allBounds[i];
-              }
-            }
-          }
-          lineStartIndex < i && wrapLine(lineStartIndex, i);
-          toRemove.forEach((el) => {
-            var _a;
-            return (_a = el.parentNode) == null ? void 0 : _a.removeChild(el);
-          });
-        }
-        if (!splitWords) {
-          for (i = 0; i < words.length; i++) {
-            curWord = words[i];
-            if (splitCharacters || !curWord.nextSibling || curWord.nextSibling.nodeType !== 3) {
-              if (smartWrap && !splitLines) {
-                smartWrapSpan = document.createElement("span");
-                smartWrapSpan.style.whiteSpace = "nowrap";
-                while (curWord.firstChild) {
-                  smartWrapSpan.appendChild(curWord.firstChild);
-                }
-                curWord.replaceWith(smartWrapSpan);
-              } else {
-                curWord.replaceWith(...curWord.childNodes);
-              }
-            } else {
-              nextSibling = curWord.nextSibling;
-              if (nextSibling && nextSibling.nodeType === 3) {
-                nextSibling.textContent = (curWord.textContent || "") + (nextSibling.textContent || "");
-                curWord.remove();
-              }
-            }
-          }
-          words.length = 0;
-          element.normalize();
-        }
-        this.lines.push(...lines);
-        this.words.push(...words);
-        this.chars.push(...chars);
-      });
-      mask && this[mask] && this.masks.push(...this[mask].map((el) => {
-        let maskEl = el.cloneNode();
-        el.replaceWith(maskEl);
-        maskEl.appendChild(el);
-        el.className && (maskEl.className = el.className.replace(/(\b\w+\b)/g, "$1-mask"));
-        maskEl.style.overflow = "clip";
-        return maskEl;
-      }));
-    }
-    this.isSplit = true;
-    _fonts && (autoSplit ? _fonts.addEventListener("loadingdone", this._split) : _fonts.status === "loading" && console.warn("SplitText called before fonts loaded"));
-    if ((onSplitResult = onSplit && onSplit(this)) && onSplitResult.totalTime) {
-      this._data.anim = animTime ? onSplitResult.totalTime(animTime) : onSplitResult;
-    }
-    splitLines && autoSplit && this.elements.forEach((element, index) => {
-      orig[index].width = element.offsetWidth;
-      obs && obs.observe(element);
-    });
-    return this;
-  }
-  revert() {
-    var _a, _b;
-    let { orig, anim, obs } = this._data;
-    obs && obs.disconnect();
-    orig.forEach(({ element, html, ariaL, ariaH }) => {
-      element.innerHTML = html;
-      ariaL ? element.setAttribute("aria-label", ariaL) : element.removeAttribute("aria-label");
-      ariaH ? element.setAttribute("aria-hidden", ariaH) : element.removeAttribute("aria-hidden");
-    });
-    this.chars.length = this.words.length = this.lines.length = orig.length = this.masks.length = 0;
-    this.isSplit = false;
-    _fonts == null ? void 0 : _fonts.removeEventListener("loadingdone", this._split);
-    if (anim) {
-      this._data.animTime = anim.totalTime();
-      anim.revert();
-    }
-    (_b = (_a = this.vars).onRevert) == null ? void 0 : _b.call(_a, this);
-    return this;
-  }
-  static create(elements, config3) {
-    return new _SplitText2(elements, config3);
-  }
-  static register(core) {
-    gsap = gsap || core || window.gsap;
-    if (gsap) {
-      _toArray = gsap.utils.toArray;
-      _context = gsap.core.context || _context;
-    }
-    if (!_coreInitted && window.innerWidth > 0) {
-      _fonts = document.fonts;
-      _coreInitted = true;
-    }
-  }
-};
-_SplitText.version = "3.13.0";
-let SplitText = _SplitText;
+_getGSAP2() && gsap.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
 const splitLinesElements = document.querySelectorAll("[data-split-lines=' ']");
@@ -6689,6 +6737,7 @@ images.forEach((image) => {
     onEnter: () => tl.play()
   });
 });
+gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
 const component$3 = document.querySelector("[data-component='expertise']");
 if (!!component$3) {
@@ -6779,13 +6828,30 @@ if (!!component$3) {
   const names = component$3.querySelectorAll("[data-expertise='name']");
   const summaries = component$3.querySelectorAll("[data-expertise='summary']");
   const images2 = component$3.querySelectorAll("[data-expertise='image']");
+  const summariesWrapper = component$3.querySelector(
+    "[data-expertise='summaries-wrapper']"
+  );
+  const summariesTarget = component$3.querySelector(
+    "[data-expertise='summaries-target']"
+  );
+  if (window.innerWidth < 992) {
+    summariesTarget.append(summariesWrapper);
+  }
   let isImageAnimating = false;
   let isSummaryAnimating = false;
   names[0].classList.add("is-active");
   images2.forEach((image) => {
     gsapWithCSS.set(image, { clipPath: "inset(100% 0% 0% 0%)" });
   });
-  gsapWithCSS.set(images2[0], { clipPath: "inset(0% 0% 0% 0%)" });
+  gsapWithCSS.to(images2[0], {
+    scrollTrigger: {
+      trigger: images2[0].closest(".expertise_visuals_wrapper"),
+      start: "50% bottom"
+    },
+    clipPath: "inset(0% 0% 0% 0%)",
+    duration: 1,
+    ease: "power2.inOut"
+  });
   summaries.forEach((summary, index) => {
     if (summary.firstElementChild) {
       SplitText.create(summary.firstElementChild, {

@@ -1,6 +1,8 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
+gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 
 const component = document.querySelector("[data-component='expertise']");
@@ -9,6 +11,16 @@ if (!!component) {
   const names = component.querySelectorAll("[data-expertise='name']");
   const summaries = component.querySelectorAll("[data-expertise='summary']");
   const images = component.querySelectorAll("[data-expertise='image']");
+  const summariesWrapper = component.querySelector(
+    "[data-expertise='summaries-wrapper']",
+  );
+  const summariesTarget = component.querySelector(
+    "[data-expertise='summaries-target']",
+  );
+
+  if (window.innerWidth < 992) {
+    summariesTarget.append(summariesWrapper);
+  }
 
   let isImageAnimating = false;
   let isSummaryAnimating = false;
@@ -19,7 +31,16 @@ if (!!component) {
   images.forEach((image) => {
     gsap.set(image, { clipPath: "inset(100% 0% 0% 0%)" });
   });
-  gsap.set(images[0], { clipPath: "inset(0% 0% 0% 0%)" });
+  gsap.to(images[0], {
+    scrollTrigger: {
+      trigger: images[0].closest(".expertise_visuals_wrapper"),
+      start: "50% bottom",
+    },
+    clipPath: "inset(0% 0% 0% 0%)",
+    duration: 1,
+    ease: "power2.inOut",
+  });
+
   /* summaries initial states */
   summaries.forEach((summary, index) => {
     if (summary.firstElementChild) {
