@@ -6836,6 +6836,10 @@ if (!!component$3) {
   );
   if (window.innerWidth < 992) {
     summariesTarget.append(summariesWrapper);
+    const tallestSummary = Math.max(
+      ...Array.from(summaries, (el) => el.offsetHeight)
+    );
+    summaries[0].parentElement.style.paddingBottom = `${tallestSummary}px`;
   }
   let isImageAnimating = false;
   let isSummaryAnimating = false;
