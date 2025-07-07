@@ -5,16 +5,16 @@ import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 
-const splitLinesElements = document.querySelectorAll("[data-split-lines=' ']");
+const revealText = document.querySelectorAll("[data-reveal-text=' ']");
 
-let split = SplitText.create(splitLinesElements, {
+SplitText.create(revealText, {
   type: "lines",
   mask: "lines",
   linesClass: "line",
   aria: "none",
 });
 
-splitLinesElements.forEach((textElement) => {
+revealText.forEach((textElement) => {
   let lines = textElement.querySelectorAll(".line");
   let tl = gsap.timeline({ paused: true });
   tl.from(lines, {

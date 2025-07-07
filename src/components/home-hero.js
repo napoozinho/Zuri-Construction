@@ -82,6 +82,7 @@ if (!!component) {
         ease: "expo.out",
         stagger: {
           amount: 0.3,
+          from: "end",
         },
       },
       "-=1.5",

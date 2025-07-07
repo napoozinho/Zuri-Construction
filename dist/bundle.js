@@ -4397,7 +4397,8 @@ if (!!component$4) {
       duration: 2,
       ease: "expo.out",
       stagger: {
-        amount: 0.3
+        amount: 0.3,
+        from: "end"
       }
     },
     "-=1.5"
@@ -6688,14 +6689,14 @@ ScrollTrigger.core = {
 _getGSAP2() && gsap.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const splitLinesElements = document.querySelectorAll("[data-split-lines=' ']");
-SplitText.create(splitLinesElements, {
+const revealText = document.querySelectorAll("[data-reveal-text=' ']");
+SplitText.create(revealText, {
   type: "lines",
   mask: "lines",
   linesClass: "line",
   aria: "none"
 });
-splitLinesElements.forEach((textElement) => {
+revealText.forEach((textElement) => {
   let lines = textElement.querySelectorAll(".line");
   let tl = gsapWithCSS.timeline({ paused: true });
   tl.from(lines, {
@@ -6709,6 +6710,44 @@ splitLinesElements.forEach((textElement) => {
   });
   ScrollTrigger.create({
     trigger: textElement,
+    start: "50% bottom",
+    onEnter: () => tl.play()
+  });
+});
+gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(SplitText);
+const revealLink = document.querySelectorAll("[data-reveal-link=' ']");
+revealLink.forEach((LinkElement) => {
+  SplitText.create(LinkElement.querySelector("p"), {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    aria: "none"
+  });
+  const lines = LinkElement.querySelectorAll(".line");
+  const underline = LinkElement.querySelectorAll(
+    "[class*=underline-link_line]"
+  );
+  const tl = gsapWithCSS.timeline({ paused: true });
+  tl.from(lines, {
+    yPercent: 100,
+    duration: 1.5,
+    ease: "expo.out",
+    stagger: {
+      amount: 0.3
+    },
+    delay: 1
+  }).from(
+    underline,
+    {
+      scaleX: 0,
+      duration: 1,
+      ease: "expo.out"
+    },
+    "-=1"
+  );
+  ScrollTrigger.create({
+    trigger: LinkElement,
     start: "50% bottom",
     onEnter: () => tl.play()
   });
@@ -6899,6 +6938,8 @@ if (!!component$3) {
     mouseY = e.clientY;
   });
 }
+gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(SplitText);
 const component$2 = document.querySelector("[data-component='testimonials']");
 if (!!component$2) {
   let filterAndRemove = function(array) {
@@ -6932,32 +6973,109 @@ if (!!component$2) {
   });
   if (thumbnails[0]) thumbnails[0].classList.add("is-active");
   testimonials.forEach((testimonial, index) => {
-    if (index === 0) return;
+    const textElement = testimonial.firstChild;
+    textElement.textContent = `“${textElement.textContent}”`;
+    if (index === 0) {
+      SplitText.create(textElement, {
+        type: "lines",
+        mask: "lines",
+        linesClass: "line",
+        aria: "none"
+      });
+      return;
+    }
     testimonial.classList.add("hide");
   });
   metadatas.forEach((metadata, index) => {
     if (index === 0) return;
     metadata.classList.add("hide");
   });
-  thumbnails.forEach((thumbnail) => {
-    thumbnail.addEventListener("mouseenter", (e) => {
-      const target = e.currentTarget;
-      if (target.classList.contains("is-active")) return;
-      thumbnails.forEach(
-        (thumbnail2) => thumbnail2.classList.remove("is-active")
-      );
-      target.classList.add("is-active");
-      const id = target.dataset.id;
-      showOnlyWithId(covers);
-      showOnlyWithId(testimonials);
-      showOnlyWithId(metadatas);
-      function showOnlyWithId(nodeList) {
-        nodeList.forEach((el) => {
-          el.classList.toggle("hide", el.dataset.id !== id);
+  const tl = gsapWithCSS.timeline({ paused: true });
+  tl.from(thumbnails, {
+    yPercent: 300,
+    opacity: 0,
+    duration: 2,
+    ease: "expo.out",
+    stagger: {
+      amount: 0.3,
+      from: "end"
+    }
+  }).from(
+    testimonials[0].querySelectorAll(".line"),
+    {
+      yPercent: 100,
+      duration: 1.5,
+      ease: "expo.out",
+      stagger: {
+        amount: 0.3
+      }
+    },
+    "-=2"
+  ).from(
+    metadatas[0].childNodes[0],
+    {
+      yPercent: 100,
+      duration: 1.5,
+      ease: "expo.out"
+    },
+    "-=1.5"
+  );
+  ScrollTrigger.create({
+    trigger: component$2,
+    start: "bottom bottom",
+    onEnter: () => {
+      tl.play();
+    }
+  });
+  if (supportsHover) {
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener("mouseenter", (e) => {
+        const target = e.currentTarget;
+        if (target.classList.contains("is-active")) return;
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
+        target.classList.add("is-active");
+        const id = target.dataset.id;
+        showOnlyWithId(covers);
+        showOnlyWithId(testimonials);
+        showOnlyWithId(metadatas);
+        function showOnlyWithId(nodeList) {
+          nodeList.forEach((el) => {
+            el.classList.toggle("hide", el.dataset.id !== id);
+          });
+        }
+      });
+    });
+  } else {
+    component$2.addEventListener("click", (e) => {
+      const thumbnail = e.target.closest("[data-testimonials='thumbnail']");
+      if (!thumbnail || !component$2.contains(thumbnail)) return;
+      const targetId = thumbnail.dataset.id;
+      if (!thumbnail.classList.contains("is-active")) {
+        e.preventDefault();
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
+        covers.forEach((cover) => {
+          cover.classList.toggle("hide", cover.dataset.id !== targetId);
         });
+        testimonials.forEach((testimonial) => {
+          testimonial.classList.toggle(
+            "hide",
+            testimonial.dataset.id !== targetId
+          );
+        });
+        metadatas.forEach((metadata) => {
+          metadata.classList.toggle("hide", metadata.dataset.id !== targetId);
+        });
+        thumbnails.forEach(
+          (thumbnail2) => thumbnail2.classList.remove("is-active")
+        );
+        thumbnail.classList.add("is-active");
       }
     });
-  });
+  }
 }
 function isObject$1(obj) {
   return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;

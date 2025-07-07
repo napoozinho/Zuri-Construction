@@ -4,7 +4,8 @@ style.textContent = swiperCss;
 document.head.appendChild(style);
 
 import "./components/home-hero.js";
-import "./components/split-lines.js";
+import "./components/revealText.js";
+import "./components/revealLink.js";
 import "./components/image-reveal.js";
 import "./components/expertise.js";
 import "./components/testimonials.js";
