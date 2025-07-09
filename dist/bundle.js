@@ -6248,7 +6248,16 @@ if (!!navbar) {
   };
   var handleMenu2 = handleMenu;
   const button = navbar.querySelector(".navbar_menu-button");
-  const overlay = navbar.querySelector(".w-nav-overlay");
+  let overlay;
+  const interval = setInterval(() => {
+    overlay = navbar.querySelector(".w-nav-overlay");
+    if (overlay) {
+      overlay.addEventListener("click", () => {
+        button.click();
+      });
+      clearInterval(interval);
+    }
+  }, 333);
   const homeHero = document.querySelector("[data-component='home-hero']");
   let isInHomeHero = false;
   if (homeHero) {
@@ -6271,9 +6280,6 @@ if (!!navbar) {
   }
   button.addEventListener("click", handleMenu);
   button.addEventListener("keydown", handleMenu);
-  overlay.addEventListener("click", () => {
-    button.click();
-  });
 }
 /*!
  * SplitText 3.13.0

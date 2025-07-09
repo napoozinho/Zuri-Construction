@@ -7,7 +7,18 @@ const navbar = document.querySelector("[data-component='navbar']");
 
 if (!!navbar) {
   const button = navbar.querySelector(".navbar_menu-button");
-  const overlay = navbar.querySelector(".w-nav-overlay");
+  let overlay;
+
+  const interval = setInterval(() => {
+    overlay = navbar.querySelector(".w-nav-overlay");
+    if (overlay) {
+      overlay.addEventListener("click", () => {
+        button.click();
+      });
+      clearInterval(interval);
+    }
+  }, 333);
+
   const homeHero = document.querySelector("[data-component='home-hero']");
   let isInHomeHero = false;
 
@@ -32,10 +43,6 @@ if (!!navbar) {
 
   button.addEventListener("click", handleMenu);
   button.addEventListener("keydown", handleMenu);
-  overlay.addEventListener("click", () => {
-    // document.body.classList.toggle("overflow-hidden")
-    button.click();
-  });
 
   function handleMenu(e) {
     if (e.key === "Enter" || e.key === " " || e.type === "click") {
