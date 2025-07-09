@@ -1,1 +1,3 @@
-export const supportsHover = window.matchMedia("(hover: hover)").matches;
+export const supportsHover = window.matchMedia(
+  "(hover: hover) and (pointer: fine)",
+).matches;

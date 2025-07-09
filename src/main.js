@@ -3,6 +3,7 @@ const style = document.createElement("style");
 style.textContent = swiperCss;
 document.head.appendChild(style);
 
+import "./components/navbar.js";
 import "./components/home-hero.js";
 import "./components/revealText.js";
 import "./components/revealLink.js";
@@ -11,3 +12,4 @@ import "./components/expertise.js";
 import "./components/testimonials.js";
 import "./components/featured-projects.js";
 import "./components/banner.js";
+import "./components/projects-superscript.js";
