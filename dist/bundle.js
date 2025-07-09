@@ -11412,6 +11412,40 @@ if (superscriptWrapper.length > 0 && numberOfProjects > 0) {
     });
   });
 }
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const coverImageWrapper = document.querySelectorAll("[data-cover-image]");
+if (coverImageWrapper.length > 0) {
+  coverImageWrapper.forEach((wrapper) => {
+    const image = wrapper.querySelector("img");
+    if (image && wrapper.dataset.coverImage == " ") {
+      if (window.innerWidth > 991) {
+        gsapWithCSS.to(image, {
+          scale: 1.2,
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1
+          }
+        });
+      } else {
+        const proxy = { x: 25 };
+        gsapWithCSS.to(proxy, {
+          x: 75,
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+            onUpdate: () => {
+              image.style.objectPosition = `${proxy.x}% 50%`;
+            }
+          }
+        });
+      }
+    }
+  });
+}
 const style = document.createElement("style");
 style.textContent = swiperCss;
 document.head.appendChild(style);
