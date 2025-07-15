@@ -4,25 +4,13 @@ import Swiper from "swiper";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const component = document.querySelector(
-  "[data-component='featured-projects']",
-);
+const component = document.querySelector("[data-component='team']");
 
 if (!!component) {
-  const images = component.querySelectorAll("[data-featured-projects='image']");
-  const metadatas = component.querySelectorAll(
-    "[data-featured-projects='metadata']",
-  );
+  const images = component.querySelectorAll("[data-team='image']");
 
   images.forEach((image) => {
     gsap.set(image, { scale: 1.1 });
-  });
-
-  metadatas.forEach((metadata) => {
-    const location = metadata.childNodes[0];
-    const date = metadata.childNodes[1];
-    location.textContent += `, ${date.textContent}`;
-    date.remove();
   });
 
   const slider = component.querySelector(".swiper");
@@ -37,10 +25,14 @@ if (!!component) {
         let images = [];
         visibleSlides.forEach((slide) => {
           slide.dataset.rendered = "true";
-          const image = slide.querySelector("[data-featured-projects='image']");
+          const image = slide.querySelector("[data-team='image']");
           if (!image) return;
           images.push(image);
         });
+
+        if (window.innerWidth > 991) {
+          visibleSlides.push(allSlides[2]);
+        }
 
         const tl = gsap.timeline({ paused: true });
         tl.to(visibleSlides, {
@@ -78,6 +70,7 @@ if (!!component) {
           tl.to(slide, {
             clipPath: "inset(0% 0% 0% 0%)",
             scale: 1,
+            duration: 1,
             ease: "expo.out",
           });
         });

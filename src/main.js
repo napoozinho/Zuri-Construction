@@ -14,3 +14,5 @@ import "./components/featured-projects.js";
 import "./components/banner.js";
 import "./components/projects-superscript.js";
 import "./components/cover-image.js";
+import "./components/team.js";
+import "./components/projects.js";

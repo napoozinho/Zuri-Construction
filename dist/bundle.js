@@ -6592,16 +6592,16 @@ const supportsHover = window.matchMedia(
   "(hover: hover) and (pointer: fine)"
 ).matches;
 gsapWithCSS.registerPlugin(SplitText);
-const component$4 = document.querySelector("[data-component='home-hero']");
-if (!!component$4) {
-  const curtain = component$4.querySelector("[data-home-hero='curtain']");
-  const curtainItem = component$4.querySelectorAll(
+const component$6 = document.querySelector("[data-component='home-hero']");
+if (!!component$6) {
+  const curtain = component$6.querySelector("[data-home-hero='curtain']");
+  const curtainItem = component$6.querySelectorAll(
     "[data-home-hero='curtain-item']"
   );
-  const heading = component$4.querySelector("h1");
-  const covers = component$4.querySelectorAll("[data-home-hero='cover']");
-  const thumbnails = component$4.querySelectorAll("[data-home-hero='thumbnail']");
-  const metadatas = component$4.querySelectorAll("[data-home-hero='metadata']");
+  const heading = component$6.querySelector("h1");
+  const covers = component$6.querySelectorAll("[data-home-hero='cover']");
+  const thumbnails = component$6.querySelectorAll("[data-home-hero='thumbnail']");
+  const metadatas = component$6.querySelectorAll("[data-home-hero='metadata']");
   SplitText.create(heading, {
     type: "lines",
     mask: "lines",
@@ -6698,11 +6698,11 @@ if (!!component$4) {
   });
   thumbnails[0]?.classList.add("is-active");
   if (supportsHover) {
-    component$4.addEventListener(
+    component$6.addEventListener(
       "mouseenter",
       (e) => {
         const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-        if (!thumbnail || !component$4.contains(thumbnail)) return;
+        if (!thumbnail || !component$6.contains(thumbnail)) return;
         const targetId = thumbnail.dataset.id;
         if (thumbnail.classList.contains("is-active")) return;
         covers.forEach((cover) => {
@@ -6719,9 +6719,9 @@ if (!!component$4) {
       true
     );
   } else {
-    component$4.addEventListener("click", (e) => {
+    component$6.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-      if (!thumbnail || !component$4.contains(thumbnail)) return;
+      if (!thumbnail || !component$6.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -6833,8 +6833,8 @@ images.forEach((image) => {
 });
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$3 = document.querySelector("[data-component='expertise']");
-if (!!component$3) {
+const component$5 = document.querySelector("[data-component='expertise']");
+if (!!component$5) {
   let animateName = function(id) {
     names.forEach((name) => {
       if (name.dataset.id == id) {
@@ -6919,13 +6919,13 @@ if (!!component$3) {
     }
   };
   var animateName2 = animateName, animateImage2 = animateImage, animateSummary2 = animateSummary, animationsEnded2 = animationsEnded;
-  const names = component$3.querySelectorAll("[data-expertise='name']");
-  const summaries = component$3.querySelectorAll("[data-expertise='summary']");
-  const images2 = component$3.querySelectorAll("[data-expertise='image']");
-  const summariesWrapper = component$3.querySelector(
+  const names = component$5.querySelectorAll("[data-expertise='name']");
+  const summaries = component$5.querySelectorAll("[data-expertise='summary']");
+  const images2 = component$5.querySelectorAll("[data-expertise='image']");
+  const summariesWrapper = component$5.querySelector(
     "[data-expertise='summaries-wrapper']"
   );
-  const summariesTarget = component$3.querySelector(
+  const summariesTarget = component$5.querySelector(
     "[data-expertise='summaries-target']"
   );
   if (window.innerWidth < 992) {
@@ -6995,8 +6995,8 @@ if (!!component$3) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$2 = document.querySelector("[data-component='testimonials']");
-if (!!component$2) {
+const component$4 = document.querySelector("[data-component='testimonials']");
+if (!!component$4) {
   let filterAndRemove = function(array) {
     return array.filter((el) => {
       const shouldRemove = idsToRemove.includes(el.dataset.id);
@@ -7006,16 +7006,16 @@ if (!!component$2) {
   };
   var filterAndRemove2 = filterAndRemove;
   let covers = Array.from(
-    component$2.querySelectorAll("[data-testimonials='cover']")
+    component$4.querySelectorAll("[data-testimonials='cover']")
   );
   let thumbnails = Array.from(
-    component$2.querySelectorAll("[data-testimonials='thumbnail']")
+    component$4.querySelectorAll("[data-testimonials='thumbnail']")
   );
   let testimonials = Array.from(
-    component$2.querySelectorAll("[data-testimonials='testimonial']")
+    component$4.querySelectorAll("[data-testimonials='testimonial']")
   );
   let metadatas = Array.from(
-    component$2.querySelectorAll("[data-testimonials='metadata']")
+    component$4.querySelectorAll("[data-testimonials='metadata']")
   );
   const idsToRemove = testimonials.filter((testimonial) => testimonial.firstChild.textContent.trim() === "").map((testimonial) => testimonial.dataset.id);
   covers = filterAndRemove(covers);
@@ -7076,7 +7076,7 @@ if (!!component$2) {
     "-=1.5"
   );
   ScrollTrigger.create({
-    trigger: component$2,
+    trigger: component$4,
     start: "bottom bottom",
     onEnter: () => {
       tl.play();
@@ -7103,9 +7103,9 @@ if (!!component$2) {
       });
     });
   } else {
-    component$2.addEventListener("click", (e) => {
+    component$4.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-testimonials='thumbnail']");
-      if (!thumbnail || !component$2.contains(thumbnail)) return;
+      if (!thumbnail || !component$4.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -11264,12 +11264,12 @@ Object.keys(prototypes).forEach((prototypeGroup) => {
 });
 Swiper.use([Resize, Observer]);
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component$1 = document.querySelector(
+const component$3 = document.querySelector(
   "[data-component='featured-projects']"
 );
-if (!!component$1) {
-  const images2 = component$1.querySelectorAll("[data-featured-projects='image']");
-  const metadatas = component$1.querySelectorAll(
+if (!!component$3) {
+  const images2 = component$3.querySelectorAll("[data-featured-projects='image']");
+  const metadatas = component$3.querySelectorAll(
     "[data-featured-projects='metadata']"
   );
   images2.forEach((image) => {
@@ -11281,7 +11281,7 @@ if (!!component$1) {
     location.textContent += `, ${date.textContent}`;
     date.remove();
   });
-  const slider = component$1.querySelector(".swiper");
+  const slider = component$3.querySelector(".swiper");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
@@ -11332,7 +11332,6 @@ if (!!component$1) {
           tl.to(slide2, {
             clipPath: "inset(0% 0% 0% 0%)",
             scale: 1,
-            duration: 1,
             ease: "expo.out"
           });
         });
@@ -11342,15 +11341,15 @@ if (!!component$1) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component = document.querySelector("[data-component='banner']");
-if (!!component) {
-  const headingWrapper = component.querySelector(
+const component$2 = document.querySelector("[data-component='banner']");
+if (!!component$2) {
+  const headingWrapper = component$2.querySelector(
     "[data-banner='heading-wrapper']"
   );
   const heading = headingWrapper ? headingWrapper.firstChild : null;
-  const textWrapper = component.querySelector("[data-banner='text-wrapper']");
+  const textWrapper = component$2.querySelector("[data-banner='text-wrapper']");
   const text = textWrapper ? textWrapper.firstChild : null;
-  const buttonWrapper = component.querySelector(
+  const buttonWrapper = component$2.querySelector(
     "[data-banner='button-wrapper']"
   );
   heading ? SplitText.create(heading, {
@@ -11403,7 +11402,7 @@ if (!!component) {
     );
   }
   ScrollTrigger.create({
-    trigger: component,
+    trigger: component$2,
     start: "top bottom",
     onEnter: () => tl.play()
   });
@@ -11450,6 +11449,118 @@ if (coverImageWrapper.length > 0) {
         });
       }
     }
+  });
+}
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const component$1 = document.querySelector("[data-component='team']");
+if (!!component$1) {
+  const images2 = component$1.querySelectorAll("[data-team='image']");
+  images2.forEach((image) => {
+    gsapWithCSS.set(image, { scale: 1.1 });
+  });
+  const slider = component$1.querySelector(".swiper");
+  new Swiper(slider, {
+    slidesPerView: "auto",
+    watchSlidesProgress: true,
+    on: {
+      init: function(e) {
+        const allSlides = e.slides;
+        const visibleSlides = e.visibleSlides;
+        gsapWithCSS.set(allSlides, { clipPath: "inset(100% 0% 0% 0%)" });
+        let images3 = [];
+        visibleSlides.forEach((slide2) => {
+          slide2.dataset.rendered = "true";
+          const image = slide2.querySelector("[data-team='image']");
+          if (!image) return;
+          images3.push(image);
+        });
+        if (window.innerWidth > 991) {
+          visibleSlides.push(allSlides[2]);
+        }
+        const tl = gsapWithCSS.timeline({ paused: true });
+        tl.to(visibleSlides, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          scale: 1,
+          duration: 2,
+          ease: "expo.out",
+          stagger: 0.1,
+          delay: 0.3
+        });
+        tl.to(
+          images3,
+          {
+            scale: 1,
+            duration: 2,
+            ease: "expo.out",
+            stagger: 0.1,
+            delay: 0.3
+          },
+          0
+        );
+        ScrollTrigger.create({
+          trigger: visibleSlides[0],
+          start: "90% bottom",
+          onEnter: () => tl.play()
+        });
+      },
+      slideChange: function(e) {
+        const visibleSlides = e.visibleSlides;
+        visibleSlides.forEach((slide2) => {
+          if (slide2.dataset.rendered) return;
+          slide2.dataset.rendered = "true";
+          const tl = gsapWithCSS.timeline();
+          tl.to(slide2, {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            duration: 1,
+            ease: "expo.out"
+          });
+        });
+      }
+    }
+  });
+}
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const component = document.querySelector("[data-component='projects']");
+if (!!component) {
+  const items = component.querySelectorAll("[data-projects='item']");
+  const images2 = component.querySelectorAll("[data-projects='image']");
+  const metadatas = component.querySelectorAll("[data-projects='metadata']");
+  images2.forEach((image) => {
+    gsapWithCSS.set(image, { scale: 1.1 });
+  });
+  metadatas.forEach((metadata) => {
+    const location = metadata.childNodes[0];
+    const date = metadata.childNodes[1];
+    location.textContent += `, ${date.textContent}`;
+    date.remove();
+  });
+  gsapWithCSS.set(items, { clipPath: "inset(100% 0% 0% 0%)" });
+  items.forEach((item, index) => {
+    let stagger = 0 + index * 0.05;
+    gsapWithCSS.to(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: "60% bottom",
+        end: "bottom top"
+      },
+      clipPath: "inset(0% 0% 0% 0%)",
+      duration: 2,
+      delay: stagger,
+      ease: "expo.out"
+    });
+    gsapWithCSS.to(item.querySelector("[data-projects='image']"), {
+      scrollTrigger: {
+        trigger: item,
+        start: "80% bottom",
+        end: "bottom top"
+      },
+      clipPath: "inset(0% 0% 0% 0%)",
+      scale: 1,
+      duration: 2,
+      ease: "expo.out",
+      delay: stagger
+    });
   });
 }
 const style = document.createElement("style");
