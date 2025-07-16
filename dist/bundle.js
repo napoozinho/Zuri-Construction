@@ -6592,16 +6592,16 @@ const supportsHover = window.matchMedia(
   "(hover: hover) and (pointer: fine)"
 ).matches;
 gsapWithCSS.registerPlugin(SplitText);
-const component$6 = document.querySelector("[data-component='home-hero']");
-if (!!component$6) {
-  const curtain = component$6.querySelector("[data-home-hero='curtain']");
-  const curtainItem = component$6.querySelectorAll(
+const component$9 = document.querySelector("[data-component='home-hero']");
+if (!!component$9) {
+  const curtain = component$9.querySelector("[data-home-hero='curtain']");
+  const curtainItem = component$9.querySelectorAll(
     "[data-home-hero='curtain-item']"
   );
-  const heading = component$6.querySelector("h1");
-  const covers = component$6.querySelectorAll("[data-home-hero='cover']");
-  const thumbnails = component$6.querySelectorAll("[data-home-hero='thumbnail']");
-  const metadatas = component$6.querySelectorAll("[data-home-hero='metadata']");
+  const heading = component$9.querySelector("h1");
+  const covers = component$9.querySelectorAll("[data-home-hero='cover']");
+  const thumbnails = component$9.querySelectorAll("[data-home-hero='thumbnail']");
+  const metadatas = component$9.querySelectorAll("[data-home-hero='metadata']");
   SplitText.create(heading, {
     type: "lines",
     mask: "lines",
@@ -6698,11 +6698,11 @@ if (!!component$6) {
   });
   thumbnails[0]?.classList.add("is-active");
   if (supportsHover) {
-    component$6.addEventListener(
+    component$9.addEventListener(
       "mouseenter",
       (e) => {
         const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-        if (!thumbnail || !component$6.contains(thumbnail)) return;
+        if (!thumbnail || !component$9.contains(thumbnail)) return;
         const targetId = thumbnail.dataset.id;
         if (thumbnail.classList.contains("is-active")) return;
         covers.forEach((cover) => {
@@ -6719,9 +6719,9 @@ if (!!component$6) {
       true
     );
   } else {
-    component$6.addEventListener("click", (e) => {
+    component$9.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-      if (!thumbnail || !component$6.contains(thumbnail)) return;
+      if (!thumbnail || !component$9.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -6744,97 +6744,8 @@ if (!!component$6) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const revealText = document.querySelectorAll("[data-reveal-text=' ']");
-SplitText.create(revealText, {
-  type: "lines",
-  mask: "lines",
-  linesClass: "line",
-  aria: "none"
-});
-revealText.forEach((textElement) => {
-  let lines = textElement.querySelectorAll(".line");
-  let tl = gsapWithCSS.timeline({ paused: true });
-  tl.from(lines, {
-    yPercent: 100,
-    duration: 1.5,
-    ease: "expo.out",
-    stagger: {
-      amount: 0.3
-    },
-    delay: 0.3
-  });
-  ScrollTrigger.create({
-    trigger: textElement,
-    start: "50% bottom",
-    onEnter: () => tl.play()
-  });
-});
-gsapWithCSS.registerPlugin(ScrollTrigger);
-gsapWithCSS.registerPlugin(SplitText);
-const revealLink = document.querySelectorAll("[data-reveal-link=' ']");
-revealLink.forEach((LinkElement) => {
-  SplitText.create(LinkElement.querySelector("p"), {
-    type: "lines",
-    mask: "lines",
-    linesClass: "line",
-    aria: "none"
-  });
-  const lines = LinkElement.querySelectorAll(".line");
-  const underline = LinkElement.querySelectorAll(
-    "[class*=underline-link_line]"
-  );
-  const tl = gsapWithCSS.timeline({ paused: true });
-  tl.from(lines, {
-    yPercent: 100,
-    duration: 1.5,
-    ease: "expo.out",
-    stagger: {
-      amount: 0.3
-    },
-    delay: 1
-  }).from(
-    underline,
-    {
-      scaleX: 0,
-      duration: 1,
-      ease: "expo.out"
-    },
-    "-=1"
-  );
-  ScrollTrigger.create({
-    trigger: LinkElement,
-    start: "50% bottom",
-    onEnter: () => tl.play()
-  });
-});
-gsapWithCSS.registerPlugin(ScrollTrigger);
-const images = document.querySelectorAll("[data-image-reveal]");
-images.forEach((image) => {
-  const tl = gsapWithCSS.timeline({ paused: true });
-  tl.fromTo(
-    image,
-    {
-      clipPath: "inset(100% 0% 0% 0%)",
-      scale: 1.1
-    },
-    {
-      clipPath: "inset(0% 0% 0% 0%)",
-      scale: 1,
-      duration: 2,
-      ease: "expo.out",
-      delay: 0.3
-    }
-  );
-  ScrollTrigger.create({
-    trigger: image,
-    start: "50% bottom",
-    onEnter: () => tl.play()
-  });
-});
-gsapWithCSS.registerPlugin(ScrollTrigger);
-gsapWithCSS.registerPlugin(SplitText);
-const component$5 = document.querySelector("[data-component='expertise']");
-if (!!component$5) {
+const component$8 = document.querySelector("[data-component='expertise']");
+if (!!component$8) {
   let animateName = function(id) {
     names.forEach((name) => {
       if (name.dataset.id == id) {
@@ -6919,13 +6830,13 @@ if (!!component$5) {
     }
   };
   var animateName2 = animateName, animateImage2 = animateImage, animateSummary2 = animateSummary, animationsEnded2 = animationsEnded;
-  const names = component$5.querySelectorAll("[data-expertise='name']");
-  const summaries = component$5.querySelectorAll("[data-expertise='summary']");
-  const images2 = component$5.querySelectorAll("[data-expertise='image']");
-  const summariesWrapper = component$5.querySelector(
+  const names = component$8.querySelectorAll("[data-expertise='name']");
+  const summaries = component$8.querySelectorAll("[data-expertise='summary']");
+  const images2 = component$8.querySelectorAll("[data-expertise='image']");
+  const summariesWrapper = component$8.querySelector(
     "[data-expertise='summaries-wrapper']"
   );
-  const summariesTarget = component$5.querySelector(
+  const summariesTarget = component$8.querySelector(
     "[data-expertise='summaries-target']"
   );
   if (window.innerWidth < 992) {
@@ -6995,8 +6906,8 @@ if (!!component$5) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$4 = document.querySelector("[data-component='testimonials']");
-if (!!component$4) {
+const component$7 = document.querySelector("[data-component='testimonials']");
+if (!!component$7) {
   let filterAndRemove = function(array) {
     return array.filter((el) => {
       const shouldRemove = idsToRemove.includes(el.dataset.id);
@@ -7006,16 +6917,16 @@ if (!!component$4) {
   };
   var filterAndRemove2 = filterAndRemove;
   let covers = Array.from(
-    component$4.querySelectorAll("[data-testimonials='cover']")
+    component$7.querySelectorAll("[data-testimonials='cover']")
   );
   let thumbnails = Array.from(
-    component$4.querySelectorAll("[data-testimonials='thumbnail']")
+    component$7.querySelectorAll("[data-testimonials='thumbnail']")
   );
   let testimonials = Array.from(
-    component$4.querySelectorAll("[data-testimonials='testimonial']")
+    component$7.querySelectorAll("[data-testimonials='testimonial']")
   );
   let metadatas = Array.from(
-    component$4.querySelectorAll("[data-testimonials='metadata']")
+    component$7.querySelectorAll("[data-testimonials='metadata']")
   );
   const idsToRemove = testimonials.filter((testimonial) => testimonial.firstChild.textContent.trim() === "").map((testimonial) => testimonial.dataset.id);
   covers = filterAndRemove(covers);
@@ -7076,7 +6987,7 @@ if (!!component$4) {
     "-=1.5"
   );
   ScrollTrigger.create({
-    trigger: component$4,
+    trigger: component$7,
     start: "bottom bottom",
     onEnter: () => {
       tl.play();
@@ -7103,9 +7014,9 @@ if (!!component$4) {
       });
     });
   } else {
-    component$4.addEventListener("click", (e) => {
+    component$7.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-testimonials='thumbnail']");
-      if (!thumbnail || !component$4.contains(thumbnail)) return;
+      if (!thumbnail || !component$7.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -11264,12 +11175,12 @@ Object.keys(prototypes).forEach((prototypeGroup) => {
 });
 Swiper.use([Resize, Observer]);
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component$3 = document.querySelector(
+const component$6 = document.querySelector(
   "[data-component='featured-projects']"
 );
-if (!!component$3) {
-  const images2 = component$3.querySelectorAll("[data-featured-projects='image']");
-  const metadatas = component$3.querySelectorAll(
+if (!!component$6) {
+  const images2 = component$6.querySelectorAll("[data-featured-projects='image']");
+  const metadatas = component$6.querySelectorAll(
     "[data-featured-projects='metadata']"
   );
   images2.forEach((image) => {
@@ -11281,7 +11192,7 @@ if (!!component$3) {
     location.textContent += `, ${date.textContent}`;
     date.remove();
   });
-  const slider = component$3.querySelector(".swiper");
+  const slider = component$6.querySelector(".swiper");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
@@ -11341,68 +11252,22 @@ if (!!component$3) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$2 = document.querySelector("[data-component='banner']");
-if (!!component$2) {
-  const headingWrapper = component$2.querySelector(
-    "[data-banner='heading-wrapper']"
-  );
-  const heading = headingWrapper ? headingWrapper.firstChild : null;
-  const textWrapper = component$2.querySelector("[data-banner='text-wrapper']");
-  const text = textWrapper ? textWrapper.firstChild : null;
-  const buttonWrapper = component$2.querySelector(
+const component$5 = document.querySelector("[data-component='banner']");
+if (!!component$5) {
+  const buttonWrapper = component$5.querySelector(
     "[data-banner='button-wrapper']"
   );
-  heading ? SplitText.create(heading, {
-    type: "lines",
-    mask: "lines",
-    linesClass: "line",
-    aria: "none"
-  }) : null;
-  text ? SplitText.create(text, {
-    type: "lines",
-    mask: "lines",
-    linesClass: "line",
-    aria: "none"
-  }) : null;
   const tl = gsapWithCSS.timeline({ paused: true });
-  if (heading) {
-    tl.from(heading.querySelectorAll(".line"), {
-      yPercent: 100,
+  if (buttonWrapper) {
+    tl.from(buttonWrapper, {
+      clipPath: "inset(100% 0% 0% 0%)",
       duration: 1.5,
       ease: "expo.out",
-      stagger: {
-        amount: 0.3
-      },
-      delay: 0.3
+      delay: 1
     });
   }
-  if (text) {
-    tl.from(
-      text.querySelectorAll(".line"),
-      {
-        yPercent: 100,
-        duration: 1.5,
-        ease: "expo.out",
-        stagger: {
-          amount: 0.3
-        }
-      },
-      "-=1.5"
-    );
-  }
-  if (buttonWrapper) {
-    tl.from(
-      buttonWrapper,
-      {
-        clipPath: "inset(100% 0% 0% 0%)",
-        duration: 1.5,
-        ease: "expo.out"
-      },
-      "-=1.5"
-    );
-  }
   ScrollTrigger.create({
-    trigger: component$2,
+    trigger: component$5,
     start: "top bottom",
     onEnter: () => tl.play()
   });
@@ -11452,13 +11317,13 @@ if (coverImageWrapper.length > 0) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component$1 = document.querySelector("[data-component='team']");
-if (!!component$1) {
-  const images2 = component$1.querySelectorAll("[data-team='image']");
+const component$4 = document.querySelector("[data-component='team']");
+if (!!component$4) {
+  const images2 = component$4.querySelectorAll("[data-team='image']");
   images2.forEach((image) => {
     gsapWithCSS.set(image, { scale: 1.1 });
   });
-  const slider = component$1.querySelector(".swiper");
+  const slider = component$4.querySelector(".swiper");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
@@ -11521,11 +11386,11 @@ if (!!component$1) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component = document.querySelector("[data-component='projects']");
-if (!!component) {
-  const items = component.querySelectorAll("[data-projects='item']");
-  const images2 = component.querySelectorAll("[data-projects='image']");
-  const metadatas = component.querySelectorAll("[data-projects='metadata']");
+const component$3 = document.querySelector("[data-component='projects']");
+if (!!component$3) {
+  const items = component$3.querySelectorAll("[data-projects='item']");
+  const images2 = component$3.querySelectorAll("[data-projects='image']");
+  const metadatas = component$3.querySelectorAll("[data-projects='metadata']");
   images2.forEach((image) => {
     gsapWithCSS.set(image, { scale: 1.1 });
   });
@@ -11537,7 +11402,6 @@ if (!!component) {
   });
   gsapWithCSS.set(items, { clipPath: "inset(100% 0% 0% 0%)" });
   items.forEach((item, index) => {
-    let stagger = 0 + index * 0.05;
     gsapWithCSS.to(item, {
       scrollTrigger: {
         trigger: item,
@@ -11546,7 +11410,7 @@ if (!!component) {
       },
       clipPath: "inset(0% 0% 0% 0%)",
       duration: 2,
-      delay: stagger,
+      delay: Math.random() * 0.25,
       ease: "expo.out"
     });
     gsapWithCSS.to(item.querySelector("[data-projects='image']"), {
@@ -11559,10 +11423,477 @@ if (!!component) {
       scale: 1,
       duration: 2,
       ease: "expo.out",
-      delay: stagger
+      delay: Math.random() * 0.25
     });
   });
 }
+function getDefaultExportFromCjs(x) {
+  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+}
+var macy$1 = { exports: {} };
+var macy = macy$1.exports;
+var hasRequiredMacy;
+function requireMacy() {
+  if (hasRequiredMacy) return macy$1.exports;
+  hasRequiredMacy = 1;
+  (function(module, exports) {
+    !function(t, n) {
+      module.exports = n();
+    }(macy, function() {
+      function t(t2, n2) {
+        var e2 = void 0;
+        return function() {
+          e2 && clearTimeout(e2), e2 = setTimeout(t2, n2);
+        };
+      }
+      function n(t2, n2) {
+        for (var e2 = t2.length, r2 = e2, o2 = []; e2--; ) o2.push(n2(t2[r2 - e2 - 1]));
+        return o2;
+      }
+      function e(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+        if (window.Promise) return A(t2, n2, e2);
+        t2.recalculate(true, true);
+      }
+      function r(t2) {
+        for (var n2 = t2.options, e2 = t2.responsiveOptions, r2 = t2.keys, o2 = t2.docWidth, i2 = void 0, s2 = 0; s2 < r2.length; s2++) {
+          var a2 = parseInt(r2[s2], 10);
+          o2 >= a2 && (i2 = n2.breakAt[a2], O(i2, e2));
+        }
+        return e2;
+      }
+      function o(t2) {
+        for (var n2 = t2.options, e2 = t2.responsiveOptions, r2 = t2.keys, o2 = t2.docWidth, i2 = void 0, s2 = r2.length - 1; s2 >= 0; s2--) {
+          var a2 = parseInt(r2[s2], 10);
+          o2 <= a2 && (i2 = n2.breakAt[a2], O(i2, e2));
+        }
+        return e2;
+      }
+      function i(t2) {
+        var n2 = t2.useContainerForBreakpoints ? t2.container.clientWidth : window.innerWidth, e2 = { columns: t2.columns };
+        b(t2.margin) ? e2.margin = { x: t2.margin.x, y: t2.margin.y } : e2.margin = { x: t2.margin, y: t2.margin };
+        var i2 = Object.keys(t2.breakAt);
+        return t2.mobileFirst ? r({ options: t2, responsiveOptions: e2, keys: i2, docWidth: n2 }) : o({ options: t2, responsiveOptions: e2, keys: i2, docWidth: n2 });
+      }
+      function s(t2) {
+        return i(t2).columns;
+      }
+      function a(t2) {
+        return i(t2).margin;
+      }
+      function c(t2) {
+        var n2 = !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1], e2 = s(t2), r2 = a(t2).x, o2 = 100 / e2;
+        if (!n2) return o2;
+        if (1 === e2) return "100%";
+        var i2 = "px";
+        if ("string" == typeof r2) {
+          var c2 = parseFloat(r2);
+          i2 = r2.replace(c2, ""), r2 = c2;
+        }
+        return r2 = (e2 - 1) * r2 / e2, "%" === i2 ? o2 - r2 + "%" : "calc(" + o2 + "% - " + r2 + i2 + ")";
+      }
+      function u(t2, n2) {
+        var e2 = s(t2.options), r2 = 0, o2 = void 0, i2 = void 0;
+        if (1 === ++n2) return 0;
+        i2 = a(t2.options).x;
+        var u2 = "px";
+        if ("string" == typeof i2) {
+          var l2 = parseFloat(i2, 10);
+          u2 = i2.replace(l2, ""), i2 = l2;
+        }
+        return o2 = (i2 - (e2 - 1) * i2 / e2) * (n2 - 1), r2 += c(t2.options, false) * (n2 - 1), "%" === u2 ? r2 + o2 + "%" : "calc(" + r2 + "% + " + o2 + u2 + ")";
+      }
+      function l(t2) {
+        var n2 = 0, e2 = t2.container, r2 = t2.rows;
+        v(r2, function(t3) {
+          n2 = t3 > n2 ? t3 : n2;
+        }), e2.style.height = n2 + "px";
+      }
+      function p(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], r2 = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3], o2 = s(t2.options), i2 = a(t2.options).y;
+        M(t2, o2, e2), v(n2, function(n3) {
+          var e3 = 0, o3 = parseInt(n3.offsetHeight, 10);
+          isNaN(o3) || (t2.rows.forEach(function(n4, r3) {
+            n4 < t2.rows[e3] && (e3 = r3);
+          }), n3.style.position = "absolute", n3.style.top = t2.rows[e3] + "px", n3.style.left = "" + t2.cols[e3], t2.rows[e3] += isNaN(o3) ? 0 : o3 + i2, r2 && (n3.dataset.macyComplete = 1));
+        }), r2 && (t2.tmpRows = null), l(t2);
+      }
+      function f(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], r2 = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3], o2 = s(t2.options), i2 = a(t2.options).y;
+        M(t2, o2, e2), v(n2, function(n3) {
+          t2.lastcol === o2 && (t2.lastcol = 0);
+          var e3 = C(n3, "height");
+          e3 = parseInt(n3.offsetHeight, 10), isNaN(e3) || (n3.style.position = "absolute", n3.style.top = t2.rows[t2.lastcol] + "px", n3.style.left = "" + t2.cols[t2.lastcol], t2.rows[t2.lastcol] += isNaN(e3) ? 0 : e3 + i2, t2.lastcol += 1, r2 && (n3.dataset.macyComplete = 1));
+        }), r2 && (t2.tmpRows = null), l(t2);
+      }
+      var h = function t2(n2, e2) {
+        if (!(this instanceof t2)) return new t2(n2, e2);
+        if (n2 && n2.nodeName) return n2;
+        if (n2 = n2.replace(/^\s*/, "").replace(/\s*$/, ""), e2) return this.byCss(n2, e2);
+        for (var r2 in this.selectors) if (e2 = r2.split("/"), new RegExp(e2[1], e2[2]).test(n2)) return this.selectors[r2](n2);
+        return this.byCss(n2);
+      };
+      h.prototype.byCss = function(t2, n2) {
+        return (n2 || document).querySelectorAll(t2);
+      }, h.prototype.selectors = {}, h.prototype.selectors[/^\.[\w\-]+$/] = function(t2) {
+        return document.getElementsByClassName(t2.substring(1));
+      }, h.prototype.selectors[/^\w+$/] = function(t2) {
+        return document.getElementsByTagName(t2);
+      }, h.prototype.selectors[/^\#[\w\-]+$/] = function(t2) {
+        return document.getElementById(t2.substring(1));
+      };
+      var v = function(t2, n2) {
+        for (var e2 = t2.length, r2 = e2; e2--; ) n2(t2[r2 - e2 - 1]);
+      }, m = function() {
+        var t2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+        this.running = false, this.events = [], this.add(t2);
+      };
+      m.prototype.run = function() {
+        if (!this.running && this.events.length > 0) {
+          var t2 = this.events.shift();
+          this.running = true, t2(), this.running = false, this.run();
+        }
+      }, m.prototype.add = function() {
+        var t2 = this, n2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+        return !!n2 && (Array.isArray(n2) ? v(n2, function(n3) {
+          return t2.add(n3);
+        }) : (this.events.push(n2), void this.run()));
+      }, m.prototype.clear = function() {
+        this.events = [];
+      };
+      var d = function(t2) {
+        var n2 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+        return this.instance = t2, this.data = n2, this;
+      }, y = function() {
+        var t2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+        this.events = {}, this.instance = t2;
+      };
+      y.prototype.on = function() {
+        var t2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0], n2 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
+        return !(!t2 || !n2) && (Array.isArray(this.events[t2]) || (this.events[t2] = []), this.events[t2].push(n2));
+      }, y.prototype.emit = function() {
+        var t2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0], n2 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+        if (!t2 || !Array.isArray(this.events[t2])) return false;
+        var e2 = new d(this.instance, n2);
+        v(this.events[t2], function(t3) {
+          return t3(e2);
+        });
+      };
+      var g = function(t2) {
+        return !("naturalHeight" in t2 && t2.naturalHeight + t2.naturalWidth === 0) || t2.width + t2.height !== 0;
+      }, E = function(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+        return new Promise(function(t3, e3) {
+          if (n2.complete) return g(n2) ? t3(n2) : e3(n2);
+          n2.addEventListener("load", function() {
+            return g(n2) ? t3(n2) : e3(n2);
+          }), n2.addEventListener("error", function() {
+            return e3(n2);
+          });
+        }).then(function(n3) {
+          e2 && t2.emit(t2.constants.EVENT_IMAGE_LOAD, { img: n3 });
+        }).catch(function(n3) {
+          return t2.emit(t2.constants.EVENT_IMAGE_ERROR, { img: n3 });
+        });
+      }, w = function(t2, e2) {
+        var r2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+        return n(e2, function(n2) {
+          return E(t2, n2, r2);
+        });
+      }, A = function(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+        return Promise.all(w(t2, n2, e2)).then(function() {
+          t2.emit(t2.constants.EVENT_IMAGE_COMPLETE);
+        });
+      }, I = function(n2) {
+        return t(function() {
+          n2.emit(n2.constants.EVENT_RESIZE), n2.queue.add(function() {
+            return n2.recalculate(true, true);
+          });
+        }, 100);
+      }, N = function(t2) {
+        if (t2.container = h(t2.options.container), t2.container instanceof h || !t2.container) return !!t2.options.debug && console.error("Error: Container not found");
+        t2.container.length && (t2.container = t2.container[0]), t2.options.container = t2.container, t2.container.style.position = "relative";
+      }, T = function(t2) {
+        t2.queue = new m(), t2.events = new y(t2), t2.rows = [], t2.resizer = I(t2);
+      }, L = function(t2) {
+        var n2 = h("img", t2.container);
+        window.addEventListener("resize", t2.resizer), t2.on(t2.constants.EVENT_IMAGE_LOAD, function() {
+          return t2.recalculate(false, false);
+        }), t2.on(t2.constants.EVENT_IMAGE_COMPLETE, function() {
+          return t2.recalculate(true, true);
+        }), t2.options.useOwnImageLoader || e(t2, n2, !t2.options.waitForImages), t2.emit(t2.constants.EVENT_INITIALIZED);
+      }, _ = function(t2) {
+        N(t2), T(t2), L(t2);
+      }, b = function(t2) {
+        return t2 === Object(t2) && "[object Array]" !== Object.prototype.toString.call(t2);
+      }, O = function(t2, n2) {
+        b(t2) || (n2.columns = t2), b(t2) && t2.columns && (n2.columns = t2.columns), b(t2) && t2.margin && !b(t2.margin) && (n2.margin = { x: t2.margin, y: t2.margin }), b(t2) && t2.margin && b(t2.margin) && t2.margin.x && (n2.margin.x = t2.margin.x), b(t2) && t2.margin && b(t2.margin) && t2.margin.y && (n2.margin.y = t2.margin.y);
+      }, C = function(t2, n2) {
+        return window.getComputedStyle(t2, null).getPropertyValue(n2);
+      }, M = function(t2, n2) {
+        var e2 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+        if (t2.lastcol || (t2.lastcol = 0), t2.rows.length < 1 && (e2 = true), e2) {
+          t2.rows = [], t2.cols = [], t2.lastcol = 0;
+          for (var r2 = n2 - 1; r2 >= 0; r2--) t2.rows[r2] = 0, t2.cols[r2] = u(t2, r2);
+        } else if (t2.tmpRows) {
+          t2.rows = [];
+          for (var r2 = n2 - 1; r2 >= 0; r2--) t2.rows[r2] = t2.tmpRows[r2];
+        } else {
+          t2.tmpRows = [];
+          for (var r2 = n2 - 1; r2 >= 0; r2--) t2.tmpRows[r2] = t2.rows[r2];
+        }
+      }, V = function(t2) {
+        var n2 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], e2 = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2], r2 = n2 ? t2.container.children : h(':scope > *:not([data-macy-complete="1"])', t2.container);
+        r2 = Array.from(r2).filter(function(t3) {
+          return null !== t3.offsetParent;
+        });
+        var o2 = c(t2.options);
+        return v(r2, function(t3) {
+          n2 && (t3.dataset.macyComplete = 0), t3.style.width = o2;
+        }), t2.options.trueOrder ? (f(t2, r2, n2, e2), t2.emit(t2.constants.EVENT_RECALCULATED)) : (p(t2, r2, n2, e2), t2.emit(t2.constants.EVENT_RECALCULATED));
+      }, R = function() {
+        return !!window.Promise;
+      }, x = Object.assign || function(t2) {
+        for (var n2 = 1; n2 < arguments.length; n2++) {
+          var e2 = arguments[n2];
+          for (var r2 in e2) Object.prototype.hasOwnProperty.call(e2, r2) && (t2[r2] = e2[r2]);
+        }
+        return t2;
+      };
+      Array.from || (Array.from = function(t2) {
+        for (var n2 = 0, e2 = []; n2 < t2.length; ) e2.push(t2[n2++]);
+        return e2;
+      });
+      var k = { columns: 4, margin: 2, trueOrder: false, waitForImages: false, useImageLoader: true, breakAt: {}, useOwnImageLoader: false, onInit: false, cancelLegacy: false, useContainerForBreakpoints: false };
+      !function() {
+        try {
+          document.createElement("a").querySelector(":scope *");
+        } catch (t2) {
+          !function() {
+            function t3(t4) {
+              return function(e3) {
+                if (e3 && n2.test(e3)) {
+                  var r3 = this.getAttribute("id");
+                  r3 || (this.id = "q" + Math.floor(9e6 * Math.random()) + 1e6), arguments[0] = e3.replace(n2, "#" + this.id);
+                  var o2 = t4.apply(this, arguments);
+                  return null === r3 ? this.removeAttribute("id") : r3 || (this.id = r3), o2;
+                }
+                return t4.apply(this, arguments);
+              };
+            }
+            var n2 = /:scope\b/gi, e2 = t3(Element.prototype.querySelector);
+            Element.prototype.querySelector = function(t4) {
+              return e2.apply(this, arguments);
+            };
+            var r2 = t3(Element.prototype.querySelectorAll);
+            Element.prototype.querySelectorAll = function(t4) {
+              return r2.apply(this, arguments);
+            };
+          }();
+        }
+      }();
+      var q = function t2() {
+        var n2 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : k;
+        if (!(this instanceof t2)) return new t2(n2);
+        this.options = {}, x(this.options, k, n2), this.options.cancelLegacy && !R() || _(this);
+      };
+      return q.init = function(t2) {
+        return console.warn("Depreciated: Macy.init will be removed in v3.0.0 opt to use Macy directly like so Macy({ /*options here*/ }) "), new q(t2);
+      }, q.prototype.recalculateOnImageLoad = function() {
+        var t2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+        return e(this, h("img", this.container), !t2);
+      }, q.prototype.runOnImageLoad = function(t2) {
+        var n2 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], r2 = h("img", this.container);
+        return this.on(this.constants.EVENT_IMAGE_COMPLETE, t2), n2 && this.on(this.constants.EVENT_IMAGE_LOAD, t2), e(this, r2, n2);
+      }, q.prototype.recalculate = function() {
+        var t2 = this, n2 = arguments.length > 0 && void 0 !== arguments[0] && arguments[0], e2 = !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1];
+        return e2 && this.queue.clear(), this.queue.add(function() {
+          return V(t2, n2, e2);
+        });
+      }, q.prototype.remove = function() {
+        window.removeEventListener("resize", this.resizer), v(this.container.children, function(t2) {
+          t2.removeAttribute("data-macy-complete"), t2.removeAttribute("style");
+        }), this.container.removeAttribute("style");
+      }, q.prototype.reInit = function() {
+        this.recalculate(true, true), this.emit(this.constants.EVENT_INITIALIZED), window.addEventListener("resize", this.resizer), this.container.style.position = "relative";
+      }, q.prototype.on = function(t2, n2) {
+        this.events.on(t2, n2);
+      }, q.prototype.emit = function(t2, n2) {
+        this.events.emit(t2, n2);
+      }, q.constants = { EVENT_INITIALIZED: "macy.initialized", EVENT_RECALCULATED: "macy.recalculated", EVENT_IMAGE_LOAD: "macy.image.load", EVENT_IMAGE_ERROR: "macy.image.error", EVENT_IMAGE_COMPLETE: "macy.images.complete", EVENT_RESIZE: "macy.resize" }, q.prototype.constants = q.constants, q;
+    });
+  })(macy$1);
+  return macy$1.exports;
+}
+var macyExports = requireMacy();
+const Macy = /* @__PURE__ */ getDefaultExportFromCjs(macyExports);
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const component$2 = document.querySelector("[data-component='project-gallery']");
+if (!!component$2) {
+  const container = component$2.querySelector(".w-dyn-items");
+  const macy2 = Macy({
+    container,
+    margin: 16,
+    columns: 3,
+    breakAt: {
+      991: {
+        columns: 2
+      },
+      767: {
+        margin: 8
+      }
+    }
+  });
+  let macyFirstInit = true;
+  macy2.runOnImageLoad(function(e) {
+    if (macyFirstInit) {
+      macyFirstInit = false;
+      const thumbnails = container.querySelectorAll("img");
+      thumbnails.forEach((thumbnail) => {
+        gsapWithCSS.set(thumbnail, {
+          clipPath: "inset(100% 0% 0% 0%)",
+          scale: 1.1
+        });
+        gsapWithCSS.to(thumbnail, {
+          scrollTrigger: {
+            trigger: thumbnail,
+            start: "bottom bottom",
+            end: "bottom top"
+          },
+          clipPath: "inset(0% 0% 0% 0%)",
+          scale: 1,
+          duration: 2,
+          ease: "expo.out",
+          delay: Math.random() * 0.25
+        });
+      });
+    }
+  });
+}
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const component$1 = document.querySelector(
+  "[data-component='project-template-hero']"
+);
+if (!!component$1) {
+  const metadata = component$1.querySelector(
+    "[data-project-template-hero='metadata']"
+  );
+  if (metadata) {
+    const location = metadata.querySelectorAll("p")[0];
+    const date = metadata.querySelectorAll("p")[1];
+    location.textContent += `, ${date.textContent}`;
+    date.remove();
+  }
+}
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const component = document.querySelector(
+  "[data-component='project-template-testimonial']"
+);
+if (!!component) {
+  const testimonial = component.querySelector(
+    "[data-project-template-testimonial='testimonial']"
+  );
+  if (testimonial) {
+    testimonial.querySelector("p").textContent = `“${testimonial.querySelector("p").textContent}”`;
+  }
+}
+gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(SplitText);
+const revealText = document.querySelectorAll("[data-reveal-text='true']");
+revealText.forEach((el) => {
+  el.innerHTML = el.innerHTML.replace(/\n/g, "<br>");
+});
+SplitText.create(revealText, {
+  autoSplit: true,
+  type: "lines",
+  mask: "lines",
+  linesClass: "line",
+  aria: "none"
+});
+revealText.forEach((textElement) => {
+  const lines = textElement.querySelectorAll(".line");
+  const tl = gsapWithCSS.timeline({ paused: true });
+  const delay = textElement.dataset.delay / 1e3 || 0;
+  gsapWithCSS.set(textElement, { autoAlpha: 1 });
+  tl.from(lines, {
+    yPercent: 100,
+    duration: 1.5,
+    ease: "expo.out",
+    stagger: {
+      amount: 0.3
+    },
+    delay
+  });
+  ScrollTrigger.create({
+    trigger: textElement,
+    start: "50% bottom",
+    onEnter: () => tl.play()
+  });
+});
+gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(SplitText);
+const revealLink = document.querySelectorAll("[data-reveal-link='true']");
+revealLink.forEach((linkElement) => {
+  SplitText.create(linkElement.querySelector("p"), {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    aria: "none"
+  });
+  const lines = linkElement.querySelectorAll(".line");
+  const underline = linkElement.querySelectorAll(
+    "[class*=underline-link_line]"
+  );
+  const delay = linkElement.dataset.delay / 1e3 || 0;
+  const tl = gsapWithCSS.timeline({ paused: true });
+  tl.from(lines, {
+    yPercent: 100,
+    duration: 1.5,
+    ease: "expo.out",
+    stagger: {
+      amount: 0.3
+    },
+    delay
+  }).from(
+    underline,
+    {
+      scaleX: 0,
+      duration: 1,
+      ease: "expo.out"
+    },
+    "-=1"
+  );
+  ScrollTrigger.create({
+    trigger: linkElement,
+    start: "50% bottom",
+    onEnter: () => tl.play()
+  });
+});
+gsapWithCSS.registerPlugin(ScrollTrigger);
+const images = document.querySelectorAll("[data-image-reveal]");
+images.forEach((image) => {
+  const tl = gsapWithCSS.timeline({ paused: true });
+  tl.fromTo(
+    image,
+    {
+      clipPath: "inset(100% 0% 0% 0%)",
+      scale: 1.1
+    },
+    {
+      clipPath: "inset(0% 0% 0% 0%)",
+      scale: 1,
+      duration: 2,
+      ease: "expo.out",
+      delay: 0.3
+    }
+  );
+  ScrollTrigger.create({
+    trigger: image,
+    start: "50% bottom",
+    onEnter: () => tl.play()
+  });
+});
 const style = document.createElement("style");
 style.textContent = swiperCss;
 document.head.appendChild(style);

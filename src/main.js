@@ -5,14 +5,18 @@ document.head.appendChild(style);
 
 import "./components/navbar.js";
 import "./components/home-hero.js";
-import "./components/reveal-text.js";
-import "./components/reveal-link.js";
-import "./components/image-reveal.js";
 import "./components/expertise.js";
-import "./components/testimonials.js";
+import "./components/home-testimonials.js";
 import "./components/featured-projects.js";
 import "./components/banner.js";
 import "./components/projects-superscript.js";
 import "./components/cover-image.js";
 import "./components/team.js";
-import "./components/projects.js";
+import "./components/projects-grid.js";
+import "./components/project-gallery.js";
+import "./components/project-template-hero.js";
+import "./components/project-template-testimonial.js";
+
+import "./components/reveal-text.js";
+import "./components/reveal-link.js";
+import "./components/image-reveal.js";

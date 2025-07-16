@@ -5,20 +5,21 @@ import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 
-const revealLink = document.querySelectorAll("[data-reveal-link=' ']");
+const revealLink = document.querySelectorAll("[data-reveal-link='true']");
 
-revealLink.forEach((LinkElement) => {
-  SplitText.create(LinkElement.querySelector("p"), {
+revealLink.forEach((linkElement) => {
+  SplitText.create(linkElement.querySelector("p"), {
     type: "lines",
     mask: "lines",
     linesClass: "line",
     aria: "none",
   });
 
-  const lines = LinkElement.querySelectorAll(".line");
-  const underline = LinkElement.querySelectorAll(
+  const lines = linkElement.querySelectorAll(".line");
+  const underline = linkElement.querySelectorAll(
     "[class*=underline-link_line]",
   );
+  const delay = linkElement.dataset.delay / 1000 || 0;
 
   const tl = gsap.timeline({ paused: true });
   tl.from(lines, {
@@ -28,7 +29,7 @@ revealLink.forEach((LinkElement) => {
     stagger: {
       amount: 0.3,
     },
-    delay: 1,
+    delay: delay,
   }).from(
     underline,
     {
@@ -40,7 +41,7 @@ revealLink.forEach((LinkElement) => {
   );
 
   ScrollTrigger.create({
-    trigger: LinkElement,
+    trigger: linkElement,
     start: "50% bottom",
     onEnter: () => tl.play(),
   });

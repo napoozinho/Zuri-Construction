@@ -24,7 +24,6 @@ if (!!component) {
   gsap.set(items, { clipPath: "inset(100% 0% 0% 0%)" });
 
   items.forEach((item, index) => {
-    let stagger = 0 + index * 0.05;
     gsap.to(item, {
       scrollTrigger: {
         trigger: item,
@@ -33,7 +32,7 @@ if (!!component) {
       },
       clipPath: "inset(0% 0% 0% 0%)",
       duration: 2,
-      delay: stagger,
+      delay: Math.random() * 0.25,
       ease: "expo.out",
     });
 
@@ -47,7 +46,7 @@ if (!!component) {
       scale: 1,
       duration: 2,
       ease: "expo.out",
-      delay: stagger,
+      delay: Math.random() * 0.25,
     });
   });
 }
