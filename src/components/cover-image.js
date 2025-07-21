@@ -3,7 +3,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const coverImageWrapper = document.querySelectorAll("[data-cover-image]");
+const coverImageWrapper = document.querySelectorAll("[data-cover-image='true']");
 
 if (coverImageWrapper.length > 0) {
   coverImageWrapper.forEach((wrapper) => {
