@@ -12,6 +12,7 @@ import "./components/banner.js";
 import "./components/projects-superscript.js";
 import "./components/cover-image.js";
 import "./components/team.js";
+import "./components/our-values.js";
 import "./components/projects-grid.js";
 import "./components/project-gallery.js";
 import "./components/project-template-hero.js";

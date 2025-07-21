@@ -11,7 +11,6 @@ if (!!component) {
   const testimonial = component.querySelector(
     "[data-project-template-testimonial='testimonial']",
   );
-  // textElement.textContent = `“${textElement.textContent}”`;
   if (testimonial) {
     testimonial.querySelector("p").textContent =
       `“${testimonial.querySelector("p").textContent}”`;

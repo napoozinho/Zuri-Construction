@@ -65,7 +65,7 @@ if (!!component) {
 
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "90% bottom",
+          start: "50% bottom",
           onEnter: () => tl.play(),
         });
       },

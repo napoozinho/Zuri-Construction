@@ -6592,16 +6592,16 @@ const supportsHover = window.matchMedia(
   "(hover: hover) and (pointer: fine)"
 ).matches;
 gsapWithCSS.registerPlugin(SplitText);
-const component$9 = document.querySelector("[data-component='home-hero']");
-if (!!component$9) {
-  const curtain = component$9.querySelector("[data-home-hero='curtain']");
-  const curtainItem = component$9.querySelectorAll(
+const component$a = document.querySelector("[data-component='home-hero']");
+if (!!component$a) {
+  const curtain = component$a.querySelector("[data-home-hero='curtain']");
+  const curtainItem = component$a.querySelectorAll(
     "[data-home-hero='curtain-item']"
   );
-  const heading = component$9.querySelector("h1");
-  const covers = component$9.querySelectorAll("[data-home-hero='cover']");
-  const thumbnails = component$9.querySelectorAll("[data-home-hero='thumbnail']");
-  const metadatas = component$9.querySelectorAll("[data-home-hero='metadata']");
+  const heading = component$a.querySelector("h1");
+  const covers = component$a.querySelectorAll("[data-home-hero='cover']");
+  const thumbnails = component$a.querySelectorAll("[data-home-hero='thumbnail']");
+  const metadatas = component$a.querySelectorAll("[data-home-hero='metadata']");
   SplitText.create(heading, {
     type: "lines",
     mask: "lines",
@@ -6698,11 +6698,11 @@ if (!!component$9) {
   });
   thumbnails[0]?.classList.add("is-active");
   if (supportsHover) {
-    component$9.addEventListener(
+    component$a.addEventListener(
       "mouseenter",
       (e) => {
         const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-        if (!thumbnail || !component$9.contains(thumbnail)) return;
+        if (!thumbnail || !component$a.contains(thumbnail)) return;
         const targetId = thumbnail.dataset.id;
         if (thumbnail.classList.contains("is-active")) return;
         covers.forEach((cover) => {
@@ -6719,9 +6719,9 @@ if (!!component$9) {
       true
     );
   } else {
-    component$9.addEventListener("click", (e) => {
+    component$a.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-home-hero='thumbnail']");
-      if (!thumbnail || !component$9.contains(thumbnail)) return;
+      if (!thumbnail || !component$a.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -6744,8 +6744,8 @@ if (!!component$9) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$8 = document.querySelector("[data-component='expertise']");
-if (!!component$8) {
+const component$9 = document.querySelector("[data-component='expertise']");
+if (!!component$9) {
   let animateName = function(id) {
     names.forEach((name) => {
       if (name.dataset.id == id) {
@@ -6830,13 +6830,13 @@ if (!!component$8) {
     }
   };
   var animateName2 = animateName, animateImage2 = animateImage, animateSummary2 = animateSummary, animationsEnded2 = animationsEnded;
-  const names = component$8.querySelectorAll("[data-expertise='name']");
-  const summaries = component$8.querySelectorAll("[data-expertise='summary']");
-  const images2 = component$8.querySelectorAll("[data-expertise='image']");
-  const summariesWrapper = component$8.querySelector(
+  const names = component$9.querySelectorAll("[data-expertise='name']");
+  const summaries = component$9.querySelectorAll("[data-expertise='summary']");
+  const images2 = component$9.querySelectorAll("[data-expertise='image']");
+  const summariesWrapper = component$9.querySelector(
     "[data-expertise='summaries-wrapper']"
   );
-  const summariesTarget = component$8.querySelector(
+  const summariesTarget = component$9.querySelector(
     "[data-expertise='summaries-target']"
   );
   if (window.innerWidth < 992) {
@@ -6906,8 +6906,8 @@ if (!!component$8) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$7 = document.querySelector("[data-component='testimonials']");
-if (!!component$7) {
+const component$8 = document.querySelector("[data-component='testimonials']");
+if (!!component$8) {
   let filterAndRemove = function(array) {
     return array.filter((el) => {
       const shouldRemove = idsToRemove.includes(el.dataset.id);
@@ -6917,16 +6917,16 @@ if (!!component$7) {
   };
   var filterAndRemove2 = filterAndRemove;
   let covers = Array.from(
-    component$7.querySelectorAll("[data-testimonials='cover']")
+    component$8.querySelectorAll("[data-testimonials='cover']")
   );
   let thumbnails = Array.from(
-    component$7.querySelectorAll("[data-testimonials='thumbnail']")
+    component$8.querySelectorAll("[data-testimonials='thumbnail']")
   );
   let testimonials = Array.from(
-    component$7.querySelectorAll("[data-testimonials='testimonial']")
+    component$8.querySelectorAll("[data-testimonials='testimonial']")
   );
   let metadatas = Array.from(
-    component$7.querySelectorAll("[data-testimonials='metadata']")
+    component$8.querySelectorAll("[data-testimonials='metadata']")
   );
   const idsToRemove = testimonials.filter((testimonial) => testimonial.firstChild.textContent.trim() === "").map((testimonial) => testimonial.dataset.id);
   covers = filterAndRemove(covers);
@@ -6939,10 +6939,10 @@ if (!!component$7) {
   });
   if (thumbnails[0]) thumbnails[0].classList.add("is-active");
   testimonials.forEach((testimonial, index) => {
-    const textElement = testimonial.firstChild;
-    textElement.textContent = `“${textElement.textContent}”`;
+    const textElement2 = testimonial.firstChild;
+    textElement2.textContent = `“${textElement2.textContent}”`;
     if (index === 0) {
-      SplitText.create(textElement, {
+      SplitText.create(textElement2, {
         type: "lines",
         mask: "lines",
         linesClass: "line",
@@ -6987,7 +6987,7 @@ if (!!component$7) {
     "-=1.5"
   );
   ScrollTrigger.create({
-    trigger: component$7,
+    trigger: component$8,
     start: "bottom bottom",
     onEnter: () => {
       tl.play();
@@ -7014,9 +7014,9 @@ if (!!component$7) {
       });
     });
   } else {
-    component$7.addEventListener("click", (e) => {
+    component$8.addEventListener("click", (e) => {
       const thumbnail = e.target.closest("[data-testimonials='thumbnail']");
-      if (!thumbnail || !component$7.contains(thumbnail)) return;
+      if (!thumbnail || !component$8.contains(thumbnail)) return;
       const targetId = thumbnail.dataset.id;
       if (!thumbnail.classList.contains("is-active")) {
         e.preventDefault();
@@ -11175,12 +11175,12 @@ Object.keys(prototypes).forEach((prototypeGroup) => {
 });
 Swiper.use([Resize, Observer]);
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component$6 = document.querySelector(
+const component$7 = document.querySelector(
   "[data-component='featured-projects']"
 );
-if (!!component$6) {
-  const images2 = component$6.querySelectorAll("[data-featured-projects='image']");
-  const metadatas = component$6.querySelectorAll(
+if (!!component$7) {
+  const images2 = component$7.querySelectorAll("[data-featured-projects='image']");
+  const metadatas = component$7.querySelectorAll(
     "[data-featured-projects='metadata']"
   );
   images2.forEach((image) => {
@@ -11192,7 +11192,7 @@ if (!!component$6) {
     location.textContent += `, ${date.textContent}`;
     date.remove();
   });
-  const slider = component$6.querySelector(".swiper");
+  const slider = component$7.querySelector(".swiper");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
@@ -11230,7 +11230,7 @@ if (!!component$6) {
         );
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "90% bottom",
+          start: "50% bottom",
           onEnter: () => tl.play()
         });
       },
@@ -11252,9 +11252,9 @@ if (!!component$6) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
-const component$5 = document.querySelector("[data-component='banner']");
-if (!!component$5) {
-  const buttonWrapper = component$5.querySelector(
+const component$6 = document.querySelector("[data-component='banner']");
+if (!!component$6) {
+  const buttonWrapper = component$6.querySelector(
     "[data-banner='button-wrapper']"
   );
   const tl = gsapWithCSS.timeline({ paused: true });
@@ -11267,7 +11267,7 @@ if (!!component$5) {
     });
   }
   ScrollTrigger.create({
-    trigger: component$5,
+    trigger: component$6,
     start: "top bottom",
     onEnter: () => tl.play()
   });
@@ -11317,13 +11317,13 @@ if (coverImageWrapper.length > 0) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const component$4 = document.querySelector("[data-component='team']");
-if (!!component$4) {
-  const images2 = component$4.querySelectorAll("[data-team='image']");
+const component$5 = document.querySelector("[data-component='team']");
+if (!!component$5) {
+  const images2 = component$5.querySelectorAll("[data-team='image']");
   images2.forEach((image) => {
     gsapWithCSS.set(image, { scale: 1.1 });
   });
-  const slider = component$4.querySelector(".swiper");
+  const slider = component$5.querySelector(".swiper");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
@@ -11383,6 +11383,19 @@ if (!!component$4) {
         });
       }
     }
+  });
+}
+const component$4 = document.querySelector("[data-component='our-values']");
+if (!!component$4) {
+  const section = component$4.querySelector("section");
+  const sectionHeight = section.offsetHeight;
+  const screenHeight = window.innerHeight;
+  const stickyOffset = sectionHeight - screenHeight;
+  section.style.top = `-${stickyOffset}px`;
+  const indexes = component$4.querySelectorAll("[data-our-values='item-index']");
+  indexes.forEach((index) => {
+    textElement = index.firstChild;
+    textElement.textContent = `/ ${textElement.textContent.padStart(3, "0")}`;
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
@@ -11811,11 +11824,11 @@ SplitText.create(revealText, {
   linesClass: "line",
   aria: "none"
 });
-revealText.forEach((textElement) => {
-  const lines = textElement.querySelectorAll(".line");
+revealText.forEach((textElement2) => {
+  const lines = textElement2.querySelectorAll(".line");
   const tl = gsapWithCSS.timeline({ paused: true });
-  const delay = textElement.dataset.delay / 1e3 || 0;
-  gsapWithCSS.set(textElement, { autoAlpha: 1 });
+  const delay = textElement2.dataset.delay / 1e3 || 0;
+  gsapWithCSS.set(textElement2, { autoAlpha: 1 });
   tl.from(lines, {
     yPercent: 100,
     duration: 1.5,
@@ -11826,7 +11839,7 @@ revealText.forEach((textElement) => {
     delay
   });
   ScrollTrigger.create({
-    trigger: textElement,
+    trigger: textElement2,
     start: "50% bottom",
     onEnter: () => tl.play()
   });
