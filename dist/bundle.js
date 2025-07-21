@@ -11283,11 +11283,13 @@ if (superscriptWrapper.length > 0 && numberOfProjects > 0) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
-const coverImageWrapper = document.querySelectorAll("[data-cover-image]");
+const coverImageWrapper = document.querySelectorAll(
+  "[data-cover-image='true']"
+);
 if (coverImageWrapper.length > 0) {
   coverImageWrapper.forEach((wrapper) => {
     const image = wrapper.querySelector("img");
-    if (image && wrapper.dataset.coverImage == " ") {
+    if (image) {
       if (window.innerWidth > 991) {
         gsapWithCSS.to(image, {
           scale: 1.2,
