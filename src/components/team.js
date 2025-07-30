@@ -1,16 +1,21 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CustomEase } from "gsap/CustomEase";
 import Swiper from "swiper";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(CustomEase);
 
 const component = document.querySelector("[data-component='team']");
 
 if (!!component) {
   const images = component.querySelectorAll("[data-team='image']");
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
+  const initialBlur = 5;
 
   images.forEach((image) => {
-    gsap.set(image, { scale: 1.1 });
+    gsap.set(image, { scale: 1.1
+    });
   });
 
   const slider = component.querySelector(".swiper");
@@ -38,26 +43,24 @@ if (!!component) {
         tl.to(visibleSlides, {
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
-          duration: 2,
-          ease: "expo.out",
+          duration: 1.5,
+          ease: "custom-ease",
           stagger: 0.1,
-          delay: 0.3,
         });
         tl.to(
           images,
           {
             scale: 1,
-            duration: 2,
-            ease: "expo.out",
+            duration: 1.5,
+            ease: "custom-ease",
             stagger: 0.1,
-            delay: 0.3,
           },
           0,
         );
 
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "90% bottom",
+          start: "25% bottom",
           onEnter: () => tl.play(),
         });
       },
@@ -71,8 +74,15 @@ if (!!component) {
             clipPath: "inset(0% 0% 0% 0%)",
             scale: 1,
             duration: 1,
-            ease: "expo.out",
+            ease: "custom-ease",
           });
+          tl.to(
+            slide.querySelector("[data-team='image']"),
+            {
+              ease: "custom-ease",
+            },
+            0,
+          );
         });
       },
     },

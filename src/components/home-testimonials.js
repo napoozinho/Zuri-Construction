@@ -73,10 +73,10 @@ if (!!component) {
   tl.from(thumbnails, {
     yPercent: 300,
     opacity: 0,
-    duration: 2,
+    duration: 1,
     ease: "expo.out",
     stagger: {
-      amount: 0.3,
+      amount: 0.2,
       from: "end",
     },
   })
@@ -84,22 +84,22 @@ if (!!component) {
       testimonials[0].querySelectorAll(".line"),
       {
         yPercent: 100,
-        duration: 1.5,
+        duration: 1,
         ease: "expo.out",
         stagger: {
-          amount: 0.3,
+          amount: 0.2,
         },
       },
-      "-=2",
+      "-=1",
     )
     .from(
       metadatas[0].childNodes[0],
       {
         yPercent: 100,
-        duration: 1.5,
+        duration: 1,
         ease: "expo.out",
       },
-      "-=1.5",
+      "-=1",
     );
   ScrollTrigger.create({
     trigger: component,

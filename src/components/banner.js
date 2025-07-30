@@ -16,9 +16,9 @@ if (!!component) {
   if (buttonWrapper) {
     tl.from(buttonWrapper, {
       clipPath: "inset(100% 0% 0% 0%)",
-      duration: 1.5,
+      duration: 1,
       ease: "expo.out",
-      delay: 1,
+      delay: 0.5,
     });
   }
 

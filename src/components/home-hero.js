@@ -1,8 +1,10 @@
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { supportsHover } from "../utils";
+import { CustomEase } from "gsap/CustomEase";
 
 gsap.registerPlugin(SplitText);
+gsap.registerPlugin(CustomEase);
 
 const component = document.querySelector("[data-component='home-hero']");
 
@@ -15,6 +17,8 @@ if (!!component) {
   const covers = component.querySelectorAll("[data-home-hero='cover']");
   const thumbnails = component.querySelectorAll("[data-home-hero='thumbnail']");
   const metadatas = component.querySelectorAll("[data-home-hero='metadata']");
+
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
 
   SplitText.create(heading, {
     type: "lines",
@@ -66,7 +70,7 @@ if (!!component) {
       {
         yPercent: 100,
         duration: 1.5,
-        ease: "expo.out",
+        ease: "custom-ease",
         stagger: {
           amount: 0.3,
         },
@@ -78,8 +82,8 @@ if (!!component) {
       {
         yPercent: 300,
         opacity: 0,
-        duration: 2,
-        ease: "expo.out",
+        duration: 1.5,
+        ease: "custom-ease",
         stagger: {
           amount: 0.3,
           from: "end",
@@ -91,10 +95,10 @@ if (!!component) {
       metadatas[0],
       {
         yPercent: 300,
-        duration: 2,
-        ease: "expo.out",
+        duration: 1.5,
+        ease: "custom-ease",
       },
-      "-=1.75",
+      "-=1.25",
     );
 
   // hero initial states

@@ -29,11 +29,11 @@ var _config = {
   duration: 0.5,
   overwrite: false,
   delay: 0
-}, _suppressOverwrites$1, _reverting$1, _context$3, _bigNum$1 = 1e8, _tinyNum = 1 / _bigNum$1, _2PI = Math.PI * 2, _HALF_PI = _2PI / 4, _gsID = 0, _sqrt = Math.sqrt, _cos = Math.cos, _sin = Math.sin, _isString$1 = function _isString(value) {
+}, _suppressOverwrites$1, _reverting$1, _context$3, _bigNum$2 = 1e8, _tinyNum = 1 / _bigNum$2, _2PI = Math.PI * 2, _HALF_PI = _2PI / 4, _gsID = 0, _sqrt$1 = Math.sqrt, _cos$1 = Math.cos, _sin$1 = Math.sin, _isString$1 = function _isString(value) {
   return typeof value === "string";
 }, _isFunction$1 = function _isFunction(value) {
   return typeof value === "function";
-}, _isNumber$1 = function _isNumber(value) {
+}, _isNumber$2 = function _isNumber(value) {
   return typeof value === "number";
 }, _isUndefined = function _isUndefined2(value) {
   return typeof value === "undefined";
@@ -46,8 +46,8 @@ var _config = {
 }, _isFuncOrString = function _isFuncOrString2(value) {
   return _isFunction$1(value) || _isString$1(value);
 }, _isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView || function() {
-}, _isArray = Array.isArray, _strictNumExp = /(?:-?\.?\d|\.)+/gi, _numExp = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/g, _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g, _complexStringNumExp = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi, _relExp = /[+-]=-?[.\d]+/, _delimitedValueExp = /[^,'"\[\]\s]+/gi, _unitExp = /^[+\-=e\s\d]*\d+[.\d]*([a-z]*|%)\s*$/i, _globalTimeline, _win$3, _coreInitted$3, _doc$3, _globals = {}, _installScope = {}, _coreReady, _install = function _install2(scope) {
-  return (_installScope = _merge(scope, _globals)) && gsap$3;
+}, _isArray = Array.isArray, _strictNumExp = /(?:-?\.?\d|\.)+/gi, _numExp$1 = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/g, _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g, _complexStringNumExp = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi, _relExp = /[+-]=-?[.\d]+/, _delimitedValueExp = /[^,'"\[\]\s]+/gi, _unitExp = /^[+\-=e\s\d]*\d+[.\d]*([a-z]*|%)\s*$/i, _globalTimeline, _win$3, _coreInitted$4, _doc$3, _globals = {}, _installScope = {}, _coreReady, _install = function _install2(scope) {
+  return (_installScope = _merge(scope, _globals)) && gsap$4;
 }, _missingPlugin = function _missingPlugin2(property, value) {
   return console.warn("Invalid property", property, "set to", value, "Missing plugin? gsap.registerPlugin()");
 }, _warn = function _warn2(message, suppress) {
@@ -85,7 +85,7 @@ var _config = {
   return (v = target[property]) && _isFunction$1(v) ? target[property]() : _isUndefined(v) && target.getAttribute && target.getAttribute(property) || v;
 }, _forEachName = function _forEachName2(names, func) {
   return (names = names.split(",")).forEach(func) || names;
-}, _round$1 = function _round(value) {
+}, _round$3 = function _round(value) {
   return Math.round(value * 1e5) / 1e5 || 0;
 }, _roundPrecise = function _roundPrecise2(value) {
   return Math.round(value * 1e7) / 1e7 || 0;
@@ -261,7 +261,7 @@ var _config = {
   }
 }, _addToTimeline = function _addToTimeline2(timeline2, child, position, skipChecks) {
   child.parent && _removeFromParent(child);
-  child._start = _roundPrecise((_isNumber$1(position) ? position : position || timeline2 !== _globalTimeline ? _parsePosition$1(timeline2, position, child) : timeline2._time) + child._delay);
+  child._start = _roundPrecise((_isNumber$2(position) ? position : position || timeline2 !== _globalTimeline ? _parsePosition$1(timeline2, position, child) : timeline2._time) + child._delay);
   child._end = _roundPrecise(child._start + (child.totalDuration() / Math.abs(child.timeScale()) || 0));
   _addLinkedListItem(timeline2, child, "_first", "_last", timeline2._sort ? "_start" : 0);
   _isFromOrFromStart(child) || (timeline2._recent = child);
@@ -345,8 +345,8 @@ var _config = {
       child = child._prev;
     }
   }
-}, _setDuration = function _setDuration2(animation, duration, skipUncache, leavePlayhead) {
-  var repeat = animation._repeat, dur = _roundPrecise(duration) || 0, totalProgress = animation._tTime / animation._tDur;
+}, _setDuration = function _setDuration2(animation, duration2, skipUncache, leavePlayhead) {
+  var repeat = animation._repeat, dur = _roundPrecise(duration2) || 0, totalProgress = animation._tTime / animation._tDur;
   totalProgress && !leavePlayhead && (animation._time *= dur / animation._dur);
   animation._dur = dur;
   animation._tDur = !repeat ? dur : repeat < 0 ? 1e10 : _roundPrecise(dur * (repeat + 1) + animation._rDelay * repeat);
@@ -361,7 +361,7 @@ var _config = {
   endTime: _emptyFunc,
   totalDuration: _emptyFunc
 }, _parsePosition$1 = function _parsePosition(animation, position, percentAnimation) {
-  var labels = animation.labels, recent = animation._recent || _zeroPosition, clippedDuration = animation.duration() >= _bigNum$1 ? recent.endTime(false) : animation._dur, i, offset, isPercent;
+  var labels = animation.labels, recent = animation._recent || _zeroPosition, clippedDuration = animation.duration() >= _bigNum$2 ? recent.endTime(false) : animation._dur, i, offset, isPercent;
   if (_isString$1(position) && (isNaN(position) || position in labels)) {
     offset = position.charAt(0);
     isPercent = position.substr(-1) === "%";
@@ -382,7 +382,7 @@ var _config = {
   }
   return position == null ? clippedDuration : +position;
 }, _createTweenType = function _createTweenType2(type, params, timeline2) {
-  var isLegacy = _isNumber$1(params[1]), varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1), vars = params[varsIndex], irVars, parent;
+  var isLegacy = _isNumber$2(params[1]), varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1), vars = params[varsIndex], irVars, parent;
   isLegacy && (vars.duration = params[1]);
   vars.parent = timeline2;
   if (type) {
@@ -417,7 +417,7 @@ var _config = {
     return _isString$1(value) && !leaveStrings || _isArrayLike(value, 1) ? (_accumulator = accumulator).push.apply(_accumulator, toArray(value)) : accumulator.push(value);
   }) || accumulator;
 }, toArray = function toArray2(value, scope, leaveStrings) {
-  return _context$3 && !scope && _context$3.selector ? _context$3.selector(value) : _isString$1(value) && !leaveStrings && (_coreInitted$3 || !_wake()) ? _slice.call((scope || _doc$3).querySelectorAll(value), 0) : _isArray(value) ? _flatten(value, leaveStrings) : _isArrayLike(value) ? _slice.call(value, 0) : value ? [value] : [];
+  return _context$3 && !scope && _context$3.selector ? _context$3.selector(value) : _isString$1(value) && !leaveStrings && (_coreInitted$4 || !_wake()) ? _slice.call((scope || _doc$3).querySelectorAll(value), 0) : _isArray(value) ? _flatten(value, leaveStrings) : _isArrayLike(value) ? _slice.call(value, 0) : value ? [value] : [];
 }, selector = function selector2(value) {
   value = toArray(value)[0] || _warn("Invalid scope") || {};
   return function(v) {
@@ -448,22 +448,22 @@ var _config = {
   return function(i, target, a) {
     var l = (a || vars).length, distances = cache[l], originX, originY, x, y, d, j, max, min, wrapAt;
     if (!distances) {
-      wrapAt = vars.grid === "auto" ? 0 : (vars.grid || [1, _bigNum$1])[1];
+      wrapAt = vars.grid === "auto" ? 0 : (vars.grid || [1, _bigNum$2])[1];
       if (!wrapAt) {
-        max = -_bigNum$1;
+        max = -_bigNum$2;
         while (max < (max = a[wrapAt++].getBoundingClientRect().left) && wrapAt < l) {
         }
         wrapAt < l && wrapAt--;
       }
       distances = cache[l] = [];
       originX = ratios ? Math.min(wrapAt, l) * ratioX - 0.5 : from % wrapAt;
-      originY = wrapAt === _bigNum$1 ? 0 : ratios ? l * ratioY / wrapAt - 0.5 : from / wrapAt | 0;
+      originY = wrapAt === _bigNum$2 ? 0 : ratios ? l * ratioY / wrapAt - 0.5 : from / wrapAt | 0;
       max = 0;
-      min = _bigNum$1;
+      min = _bigNum$2;
       for (j = 0; j < l; j++) {
         x = j % wrapAt - originX;
         y = originY - (j / wrapAt | 0);
-        distances[j] = d = !axis ? _sqrt(x * x + y * y) : Math.abs(axis === "y" ? y : x);
+        distances[j] = d = !axis ? _sqrt$1(x * x + y * y) : Math.abs(axis === "y" ? y : x);
         d > max && (max = d);
         d < min && (min = d);
       }
@@ -482,15 +482,15 @@ var _config = {
   var p = Math.pow(10, ((v + "").split(".")[1] || "").length);
   return function(raw) {
     var n = _roundPrecise(Math.round(parseFloat(raw) / v) * v * p);
-    return (n - n % 1) / p + (_isNumber$1(raw) ? 0 : getUnit(raw));
+    return (n - n % 1) / p + (_isNumber$2(raw) ? 0 : getUnit(raw));
   };
 }, snap = function snap2(snapTo, value) {
   var isArray = _isArray(snapTo), radius, is2D;
   if (!isArray && _isObject$1(snapTo)) {
-    radius = isArray = snapTo.radius || _bigNum$1;
+    radius = isArray = snapTo.radius || _bigNum$2;
     if (snapTo.values) {
       snapTo = toArray(snapTo.values);
-      if (is2D = !_isNumber$1(snapTo[0])) {
+      if (is2D = !_isNumber$2(snapTo[0])) {
         radius *= radius;
       }
     } else {
@@ -501,7 +501,7 @@ var _config = {
     is2D = snapTo(raw);
     return Math.abs(is2D - raw) <= radius ? is2D : raw;
   } : function(raw) {
-    var x = parseFloat(is2D ? raw.x : raw), y = parseFloat(is2D ? raw.y : 0), min = _bigNum$1, closest = 0, i = snapTo.length, dx, dy;
+    var x = parseFloat(is2D ? raw.x : raw), y = parseFloat(is2D ? raw.y : 0), min = _bigNum$2, closest = 0, i = snapTo.length, dx, dy;
     while (i--) {
       if (is2D) {
         dx = snapTo[i].x - x;
@@ -516,7 +516,7 @@ var _config = {
       }
     }
     closest = !radius || min <= radius ? snapTo[closest] : raw;
-    return is2D || closest === raw || _isNumber$1(raw) ? closest : closest + getUnit(raw);
+    return is2D || closest === raw || _isNumber$2(raw) ? closest : closest + getUnit(raw);
   });
 }, random = function random2(min, max, roundingIncrement, returnFunction) {
   return _conditionalReturn(_isArray(min) ? !max : roundingIncrement === true ? !!(roundingIncrement = 0) : !returnFunction, function() {
@@ -609,7 +609,7 @@ var _config = {
   }
   return _conditionalReturn(progress, func);
 }, _getLabelInDirection = function _getLabelInDirection2(timeline2, fromTime, backward) {
-  var labels = timeline2.labels, min = _bigNum$1, p, distance, label;
+  var labels = timeline2.labels, min = _bigNum$2, p, distance, label;
   for (p in labels) {
     distance = labels[p] - fromTime;
     if (distance < 0 === !!backward && distance && min > (distance = Math.abs(distance))) {
@@ -670,7 +670,7 @@ var _config = {
       name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin";
     }
     _addGlobal(name, Plugin);
-    config3.register && config3.register(gsap$3, Plugin, PropTween);
+    config3.register && config3.register(gsap$4, Plugin, PropTween);
   } else {
     _registerPluginQueue.push(config3);
   }
@@ -698,7 +698,7 @@ var _config = {
   h += h < 0 ? 1 : h > 1 ? -1 : 0;
   return (h * 6 < 1 ? m1 + (m2 - m1) * h * 6 : h < 0.5 ? m2 : h * 3 < 2 ? m1 + (m2 - m1) * (2 / 3 - h) * 6 : m1) * _255 + 0.5 | 0;
 }, splitColor = function splitColor2(v, toHSL, forceAlpha) {
-  var a = !v ? _colorLookup.black : _isNumber$1(v) ? [v >> 16, v >> 8 & _255, v & _255] : 0, r, g, b, h, s, l, max, min, d, wasHSL;
+  var a = !v ? _colorLookup.black : _isNumber$2(v) ? [v >> 16, v >> 8 & _255, v & _255] : 0, r, g, b, h, s, l, max, min, d, wasHSL;
   if (!a) {
     if (v.substr(-1) === ",") {
       v = v.substr(0, v.length - 1);
@@ -731,7 +731,7 @@ var _config = {
         a[1] = _hue(h, r, g);
         a[2] = _hue(h - 1 / 3, r, g);
       } else if (~v.indexOf("=")) {
-        a = v.match(_numExp);
+        a = v.match(_numExp$1);
         forceAlpha && a.length < 4 && (a[3] = 1);
         return a;
       }
@@ -844,11 +844,11 @@ var _config = {
     },
     wake: function wake() {
       if (_coreReady) {
-        if (!_coreInitted$3 && _windowExists$2()) {
-          _win$3 = _coreInitted$3 = window;
+        if (!_coreInitted$4 && _windowExists$2()) {
+          _win$3 = _coreInitted$4 = window;
           _doc$3 = _win$3.document || {};
-          _globals.gsap = gsap$3;
-          (_win$3.gsapVersions || (_win$3.gsapVersions = [])).push(gsap$3.version);
+          _globals.gsap = gsap$4;
+          (_win$3.gsapVersions || (_win$3.gsapVersions = [])).push(gsap$4.version);
           _install(_installScope || _win$3.GreenSockGlobals || !_win$3.gsap && _win$3 || {});
           _registerPluginQueue.forEach(_createPlugin);
         }
@@ -961,7 +961,7 @@ var _config = {
   };
 }, _configElastic = function _configElastic2(type, amplitude, period) {
   var p1 = amplitude >= 1 ? amplitude : 1, p2 = (period || (type ? 0.3 : 0.45)) / (amplitude < 1 ? amplitude : 1), p3 = p2 / _2PI * (Math.asin(1 / p1) || 0), easeOut = function easeOut2(p) {
-    return p === 1 ? 1 : p1 * Math.pow(2, -10 * p) * _sin((p - p3) * p2) + 1;
+    return p === 1 ? 1 : p1 * Math.pow(2, -10 * p) * _sin$1((p - p3) * p2) + 1;
   }, ease = type === "out" ? easeOut : type === "in" ? function(p) {
     return 1 - easeOut(1 - p);
   } : _easeInOutFromOut(easeOut);
@@ -1010,10 +1010,10 @@ _insertEase("Expo", function(p) {
   return Math.pow(2, 10 * (p - 1)) * p + p * p * p * p * p * p * (1 - p);
 });
 _insertEase("Circ", function(p) {
-  return -(_sqrt(1 - p * p) - 1);
+  return -(_sqrt$1(1 - p * p) - 1);
 });
 _insertEase("Sine", function(p) {
-  return p === 1 ? 1 : -_cos(p * _HALF_PI) + 1;
+  return p === 1 ? 1 : -_cos$1(p * _HALF_PI) + 1;
 });
 _insertEase("Back", _configBack("in"), _configBack("out"), _configBack());
 _easeMap.SteppedEase = _easeMap.steps = _globals.SteppedEase = {
@@ -1065,7 +1065,7 @@ var Animation = /* @__PURE__ */ function() {
     }
     return this._delay;
   };
-  _proto.duration = function duration(value) {
+  _proto.duration = function duration2(value) {
     return arguments.length ? this.totalDuration(this._repeat > 0 ? value + (value + this._rDelay) * this._repeat : value) : this.totalDuration() && this._dur;
   };
   _proto.totalDuration = function totalDuration(value) {
@@ -1342,24 +1342,24 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
   _proto2.call = function call(callback, params, position) {
     return _addToTimeline(this, Tween.delayedCall(0, callback, params), position);
   };
-  _proto2.staggerTo = function staggerTo(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams) {
-    vars.duration = duration;
-    vars.stagger = vars.stagger || stagger;
+  _proto2.staggerTo = function staggerTo(targets, duration2, vars, stagger2, position, onCompleteAll, onCompleteAllParams) {
+    vars.duration = duration2;
+    vars.stagger = vars.stagger || stagger2;
     vars.onComplete = onCompleteAll;
     vars.onCompleteParams = onCompleteAllParams;
     vars.parent = this;
     new Tween(targets, vars, _parsePosition$1(this, position));
     return this;
   };
-  _proto2.staggerFrom = function staggerFrom(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams) {
+  _proto2.staggerFrom = function staggerFrom(targets, duration2, vars, stagger2, position, onCompleteAll, onCompleteAllParams) {
     vars.runBackwards = 1;
     _inheritDefaults(vars).immediateRender = _isNotFalse(vars.immediateRender);
-    return this.staggerTo(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams);
+    return this.staggerTo(targets, duration2, vars, stagger2, position, onCompleteAll, onCompleteAllParams);
   };
-  _proto2.staggerFromTo = function staggerFromTo(targets, duration, fromVars, toVars, stagger, position, onCompleteAll, onCompleteAllParams) {
+  _proto2.staggerFromTo = function staggerFromTo(targets, duration2, fromVars, toVars, stagger2, position, onCompleteAll, onCompleteAllParams) {
     toVars.startAt = fromVars;
     _inheritDefaults(toVars).immediateRender = _isNotFalse(toVars.immediateRender);
-    return this.staggerTo(targets, duration, toVars, stagger, position, onCompleteAll, onCompleteAllParams);
+    return this.staggerTo(targets, duration2, toVars, stagger2, position, onCompleteAll, onCompleteAllParams);
   };
   _proto2.render = function render3(totalTime, suppressEvents, force) {
     var prevTime = this._time, tDur = this._dirty ? this.totalDuration() : this._tDur, dur = this._dur, tTime = totalTime <= 0 ? 0 : _roundPrecise(totalTime), crossingStart = this._zTime < 0 !== totalTime < 0 && (this._initted || !dur), time, child, next, iteration, cycleDuration, prevPaused, pauseTween, timeScale, prevStart, prevIteration, yoyo, isYoyo;
@@ -1512,7 +1512,7 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
   };
   _proto2.add = function add(child, position) {
     var _this2 = this;
-    _isNumber$1(position) || (position = _parsePosition$1(this, position, child));
+    _isNumber$2(position) || (position = _parsePosition$1(this, position, child));
     if (!(child instanceof Animation)) {
       if (_isArray(child)) {
         child.forEach(function(obj) {
@@ -1542,7 +1542,7 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
       timelines = true;
     }
     if (ignoreBeforeTime === void 0) {
-      ignoreBeforeTime = -_bigNum$1;
+      ignoreBeforeTime = -_bigNum$2;
     }
     var a = [], child = this._first;
     while (child) {
@@ -1623,7 +1623,7 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
     return this;
   };
   _proto2.getTweensOf = function getTweensOf2(targets, onlyActive) {
-    var a = [], parsedTargets = toArray(targets), child = this._first, isGlobalTime = _isNumber$1(onlyActive), children;
+    var a = [], parsedTargets = toArray(targets), child = this._first, isGlobalTime = _isNumber$2(onlyActive), children;
     while (child) {
       if (child instanceof Tween) {
         if (_arrayContainsAny(child._targets, parsedTargets) && (isGlobalTime ? (!_overwritingTween || child._initted && child._ts) && child.globalTime(0) <= onlyActive && child.globalTime(child.totalDuration()) > onlyActive : !onlyActive || child.isActive())) {
@@ -1648,8 +1648,8 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
       onStart: function onStart() {
         tl.pause();
         if (!initted) {
-          var duration = vars.duration || Math.abs((endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale());
-          tween._dur !== duration && _setDuration(tween, duration, 0, 1).render(tween._time, true, true);
+          var duration2 = vars.duration || Math.abs((endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale());
+          tween._dur !== duration2 && _setDuration(tween, duration2, 0, 1).render(tween._time, true, true);
           initted = 1;
         }
         _onStart && _onStart.apply(tween, onStartParams || []);
@@ -1727,7 +1727,7 @@ var Timeline = /* @__PURE__ */ function(_Animation) {
     return _uncache(this);
   };
   _proto2.totalDuration = function totalDuration(value) {
-    var max = 0, self = this, child = self._last, prevStart = _bigNum$1, prev, start, parent;
+    var max = 0, self = this, child = self._last, prevStart = _bigNum$2, prev, start, parent;
     if (arguments.length) {
       return self.timeScale((self._repeat < 0 ? self.duration() : self.totalDuration()) / (self.reversed() ? -value : value));
     }
@@ -1985,7 +1985,7 @@ var _addComplexStringPropTween = function _addComplexStringPropTween2(target, pr
   }
   tween._onUpdate = onUpdate;
   tween._initted = (!tween._op || tween._pt) && !overwritten;
-  keyframes && time <= 0 && tl.render(_bigNum$1, true, true);
+  keyframes && time <= 0 && tl.render(_bigNum$2, true, true);
 }, _updatePropTweens = function _updatePropTweens2(tween, property, value, start, startIsRelative, ratio, time, skipRecursion) {
   var ptCache = (tween._pt && tween._ptCache || (tween._ptCache = {}))[property], pt, rootPT, lookup, i;
   if (!ptCache) {
@@ -2016,7 +2016,7 @@ var _addComplexStringPropTween = function _addComplexStringPropTween2(target, pr
     pt = rootPT._pt || rootPT;
     pt.s = (start || start === 0) && !startIsRelative ? start : pt.s + (start || 0) + ratio * pt.c;
     pt.c = value - pt.s;
-    rootPT.e && (rootPT.e = _round$1(value) + getUnit(rootPT.e));
+    rootPT.e && (rootPT.e = _round$3(value) + getUnit(rootPT.e));
     rootPT.b && (rootPT.b = pt.s + getUnit(rootPT.b));
   }
 }, _addAliasesToVars = function _addAliasesToVars2(targets, vars) {
@@ -2072,11 +2072,11 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
       position = null;
     }
     _this3 = _Animation2.call(this, skipInherit ? vars : _inheritDefaults(vars)) || this;
-    var _this3$vars = _this3.vars, duration = _this3$vars.duration, delay = _this3$vars.delay, immediateRender = _this3$vars.immediateRender, stagger = _this3$vars.stagger, overwrite = _this3$vars.overwrite, keyframes = _this3$vars.keyframes, defaults3 = _this3$vars.defaults, scrollTrigger = _this3$vars.scrollTrigger, yoyoEase = _this3$vars.yoyoEase, parent = vars.parent || _globalTimeline, parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber$1(targets[0]) : "length" in vars) ? [targets] : toArray(targets), tl, i, copy, l, p, curTarget, staggerFunc, staggerVarsToMerge;
+    var _this3$vars = _this3.vars, duration2 = _this3$vars.duration, delay = _this3$vars.delay, immediateRender = _this3$vars.immediateRender, stagger2 = _this3$vars.stagger, overwrite = _this3$vars.overwrite, keyframes = _this3$vars.keyframes, defaults3 = _this3$vars.defaults, scrollTrigger = _this3$vars.scrollTrigger, yoyoEase = _this3$vars.yoyoEase, parent = vars.parent || _globalTimeline, parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber$2(targets[0]) : "length" in vars) ? [targets] : toArray(targets), tl, i, copy, l, p, curTarget, staggerFunc, staggerVarsToMerge;
     _this3._targets = parsedTargets.length ? _harness(parsedTargets) : _warn("GSAP target " + targets + " not found. https://gsap.com", !_config.nullTargetWarn) || [];
     _this3._ptLookup = [];
     _this3._overwrite = overwrite;
-    if (keyframes || stagger || _isFuncOrString(duration) || _isFuncOrString(delay)) {
+    if (keyframes || stagger2 || _isFuncOrString(duration2) || _isFuncOrString(delay)) {
       vars = _this3.vars;
       tl = _this3.timeline = new Timeline({
         data: "nested",
@@ -2086,14 +2086,14 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
       tl.kill();
       tl.parent = tl._dp = _assertThisInitialized(_this3);
       tl._start = 0;
-      if (stagger || _isFuncOrString(duration) || _isFuncOrString(delay)) {
+      if (stagger2 || _isFuncOrString(duration2) || _isFuncOrString(delay)) {
         l = parsedTargets.length;
-        staggerFunc = stagger && distribute(stagger);
-        if (_isObject$1(stagger)) {
-          for (p in stagger) {
+        staggerFunc = stagger2 && distribute(stagger2);
+        if (_isObject$1(stagger2)) {
+          for (p in stagger2) {
             if (~_staggerTweenProps.indexOf(p)) {
               staggerVarsToMerge || (staggerVarsToMerge = {});
-              staggerVarsToMerge[p] = stagger[p];
+              staggerVarsToMerge[p] = stagger2[p];
             }
           }
         }
@@ -2103,9 +2103,9 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
           yoyoEase && (copy.yoyoEase = yoyoEase);
           staggerVarsToMerge && _merge(copy, staggerVarsToMerge);
           curTarget = parsedTargets[i];
-          copy.duration = +_parseFuncOrString(duration, _assertThisInitialized(_this3), i, curTarget, parsedTargets);
+          copy.duration = +_parseFuncOrString(duration2, _assertThisInitialized(_this3), i, curTarget, parsedTargets);
           copy.delay = (+_parseFuncOrString(delay, _assertThisInitialized(_this3), i, curTarget, parsedTargets) || 0) - _this3._delay;
-          if (!stagger && l === 1 && copy.delay) {
+          if (!stagger2 && l === 1 && copy.delay) {
             _this3._delay = delay = copy.delay;
             _this3._start += delay;
             copy.delay = 0;
@@ -2113,7 +2113,7 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
           tl.to(curTarget, copy, staggerFunc ? staggerFunc(i, curTarget, parsedTargets) : 0);
           tl._ease = _easeMap.none;
         }
-        tl.duration() ? duration = delay = 0 : _this3.timeline = 0;
+        tl.duration() ? duration2 = delay = 0 : _this3.timeline = 0;
       } else if (keyframes) {
         _inheritDefaults(_setDefaults$1(tl.vars.defaults, {
           ease: "none"
@@ -2139,19 +2139,19 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
               kf = a[i];
               v = {
                 ease: kf.e,
-                duration: (kf.t - (i ? a[i - 1].t : 0)) / 100 * duration
+                duration: (kf.t - (i ? a[i - 1].t : 0)) / 100 * duration2
               };
               v[p] = kf.v;
               tl.to(parsedTargets, v, time);
               time += v.duration;
             }
           }
-          tl.duration() < duration && tl.to({}, {
-            duration: duration - tl.duration()
+          tl.duration() < duration2 && tl.to({}, {
+            duration: duration2 - tl.duration()
           });
         }
       }
-      duration || _this3.duration(duration = tl.duration());
+      duration2 || _this3.duration(duration2 = tl.duration());
     } else {
       _this3.timeline = 0;
     }
@@ -2163,7 +2163,7 @@ var Tween = /* @__PURE__ */ function(_Animation2) {
     _addToTimeline(parent, _assertThisInitialized(_this3), position);
     vars.reversed && _this3.reverse();
     vars.paused && _this3.paused(true);
-    if (immediateRender || !duration && !keyframes && _this3._start === _roundPrecise(parent._time) && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && parent.data !== "nested") {
+    if (immediateRender || !duration2 && !keyframes && _this3._start === _roundPrecise(parent._time) && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && parent.data !== "nested") {
       _this3._tTime = -_tinyNum;
       _this3.render(Math.max(0, -delay) || 0);
     }
@@ -2720,7 +2720,7 @@ var _gsap = {
     target = toArray(target);
     if (target.length > 1) {
       var setters = target.map(function(t) {
-        return gsap$3.quickSetter(t, property, unit);
+        return gsap$4.quickSetter(t, property, unit);
       }), l = setters.length;
       return function(value) {
         var i = l;
@@ -2743,7 +2743,7 @@ var _gsap = {
   },
   quickTo: function quickTo(target, property, vars) {
     var _setDefaults22;
-    var tween = gsap$3.to(target, _setDefaults$1((_setDefaults22 = {}, _setDefaults22[property] = "+=0.1", _setDefaults22.paused = true, _setDefaults22.stagger = 0, _setDefaults22), vars || {})), func = function func2(value, start, startIsRelative) {
+    var tween = gsap$4.to(target, _setDefaults$1((_setDefaults22 = {}, _setDefaults22[property] = "+=0.1", _setDefaults22.paused = true, _setDefaults22.stagger = 0, _setDefaults22), vars || {})), func = function func2(value, start, startIsRelative) {
       return tween.resetTo(property, value, start, startIsRelative);
     };
     func.tween = tween;
@@ -2930,7 +2930,7 @@ var _getPluginPropTween = function _getPluginPropTween2(plugin, prop) {
     }
   };
 };
-var gsap$3 = _gsap.registerPlugin({
+var gsap$4 = _gsap.registerPlugin({
   name: "attr",
   init: function init(target, vars, tween, index, targets) {
     var p, pt, v;
@@ -2960,7 +2960,7 @@ var gsap$3 = _gsap.registerPlugin({
     }
   }
 }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap;
-Tween.version = Timeline.version = gsap$3.version = "3.13.0";
+Tween.version = Timeline.version = gsap$4.version = "3.13.0";
 _coreReady = 1;
 _windowExists$2() && _wake();
 _easeMap.Power0;
@@ -2991,7 +2991,7 @@ _easeMap.Circ;
 */
 var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, _reverting, _windowExists$1 = function _windowExists2() {
   return typeof window !== "undefined";
-}, _transformProps = {}, _RAD2DEG = 180 / Math.PI, _DEG2RAD = Math.PI / 180, _atan2 = Math.atan2, _bigNum = 1e8, _capsExp$1 = /([A-Z])/g, _horizontalExp = /(left|right|width|margin|padding|x)/i, _complexExp = /[\s,\(]\S/, _propertyAliases = {
+}, _transformProps = {}, _RAD2DEG = 180 / Math.PI, _DEG2RAD$1 = Math.PI / 180, _atan2 = Math.atan2, _bigNum$1 = 1e8, _capsExp$1 = /([A-Z])/g, _horizontalExp = /(left|right|width|margin|padding|x)/i, _complexExp = /[\s,\(]\S/, _propertyAliases = {
   autoAlpha: "opacity,visibility",
   scale: "scaleX,scaleY",
   alpha: "opacity"
@@ -3093,7 +3093,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
     revert: _revertStyle,
     save: _saveStyle
   };
-  target._gsap || gsap$3.core.getCache(target);
+  target._gsap || gsap$4.core.getCache(target);
   properties && target.style && target.nodeType && properties.split(",").forEach(function(p) {
     return saver.save(p);
   });
@@ -3113,7 +3113,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   while (i-- && !(_prefixes[i] + property in s)) {
   }
   return i < 0 ? null : (i === 3 ? "ms" : i >= 0 ? _prefixes[i] : "") + property;
-}, _initCore$1 = function _initCore() {
+}, _initCore$2 = function _initCore() {
   if (_windowExists$1() && window.document) {
     _win$2 = window;
     _doc$2 = _win$2.document;
@@ -3126,7 +3126,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
     _transformOriginProp = _transformProp$1 + "Origin";
     _tempDiv.style.cssText = "border-width:0;line-height:0;position:absolute;padding:0";
     _supports3D = !!_checkPropPrefix("perspective");
-    _reverting = gsap$3.core.reverting;
+    _reverting = gsap$4.core.reverting;
     _pluginInitted = 1;
   }
 }, _getReparentedCloneBBox = function _getReparentedCloneBBox2(target) {
@@ -3204,7 +3204,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   isSVG = target.getCTM && _isSVG(target);
   if ((toPercent || curUnit === "%") && (_transformProps[property] || ~property.indexOf("adius"))) {
     px = isSVG ? target.getBBox()[horizontal ? "width" : "height"] : target[measureProperty];
-    return _round$1(toPercent ? curValue / px * amount : curValue / 100 * px);
+    return _round$3(toPercent ? curValue / px * amount : curValue / 100 * px);
   }
   style2[horizontal ? "width" : "height"] = amount + (toPixels ? curUnit : unit);
   parent = unit !== "rem" && ~property.indexOf("adius") || unit === "em" && target.appendChild && !isRootSVG ? target : target.parentNode;
@@ -3216,7 +3216,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   }
   cache = parent._gsap;
   if (cache && toPercent && cache.width && horizontal && cache.time === _ticker.time && !cache.uncache) {
-    return _round$1(curValue / cache.width * amount);
+    return _round$3(curValue / cache.width * amount);
   } else {
     if (toPercent && (property === "height" || property === "width")) {
       var v = target.style[property];
@@ -3237,10 +3237,10 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
       cache.width = parent[measureProperty];
     }
   }
-  return _round$1(toPixels ? px * curValue / amount : px && curValue ? amount / px * curValue : 0);
+  return _round$3(toPixels ? px * curValue / amount : px && curValue ? amount / px * curValue : 0);
 }, _get = function _get2(target, property, unit, uncache) {
   var value;
-  _pluginInitted || _initCore$1();
+  _pluginInitted || _initCore$2();
   if (property in _propertyAliases && property !== "transform") {
     property = _propertyAliases[property];
     if (~property.indexOf(",")) {
@@ -3453,7 +3453,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   return value === "matrix(1, 0, 0, 1, 0, 0)" || value === "none" || !value;
 }, _getComputedTransformMatrixAsArray = function _getComputedTransformMatrixAsArray2(target) {
   var matrixString = _getComputedProperty(target, _transformProp$1);
-  return _isNullTransform(matrixString) ? _identity2DMatrix : matrixString.substr(7).match(_numExp).map(_round$1);
+  return _isNullTransform(matrixString) ? _identity2DMatrix : matrixString.substr(7).match(_numExp$1).map(_round$3);
 }, _getMatrix = function _getMatrix2(target, force2D) {
   var cache = target._gsap || _getCache(target), style2 = target.style, matrix = _getComputedTransformMatrixAsArray(target), parent, nextSibling, temp, addedToDOM;
   if (cache.svg && target.getAttribute("transform")) {
@@ -3549,7 +3549,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
       scaleY = Math.sqrt(d * d + c * c);
       rotation = a || b ? _atan2(b, a) * _RAD2DEG : 0;
       skewX = c || d ? _atan2(c, d) * _RAD2DEG + rotation : 0;
-      skewX && (scaleY *= Math.abs(Math.cos(skewX * _DEG2RAD)));
+      skewX && (scaleY *= Math.abs(Math.cos(skewX * _DEG2RAD$1)));
       if (cache.svg) {
         x -= xOrigin - (xOrigin * a + yOrigin * c);
         y -= yOrigin - (xOrigin * b + yOrigin * d);
@@ -3609,8 +3609,8 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
         rotationX = rotation = 0;
         rotationY = 180 - rotationY;
       }
-      scaleX = _round$1(Math.sqrt(a * a + b * b + c * c));
-      scaleY = _round$1(Math.sqrt(a22 * a22 + a32 * a32));
+      scaleX = _round$3(Math.sqrt(a * a + b * b + c * c));
+      scaleY = _round$3(Math.sqrt(a22 * a22 + a32 * a32));
       angle = _atan2(a12, a22);
       skewX = Math.abs(angle) > 2e-4 ? angle * _RAD2DEG : 0;
       perspective = a43 ? 1 / (a43 < 0 ? -a43 : a43) : 0;
@@ -3635,11 +3635,11 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   cache.x = x - ((cache.xPercent = x && (!uncache && cache.xPercent || (Math.round(target.offsetWidth / 2) === Math.round(-x) ? -50 : 0))) ? target.offsetWidth * cache.xPercent / 100 : 0) + px;
   cache.y = y - ((cache.yPercent = y && (!uncache && cache.yPercent || (Math.round(target.offsetHeight / 2) === Math.round(-y) ? -50 : 0))) ? target.offsetHeight * cache.yPercent / 100 : 0) + px;
   cache.z = z + px;
-  cache.scaleX = _round$1(scaleX);
-  cache.scaleY = _round$1(scaleY);
-  cache.rotation = _round$1(rotation) + deg;
-  cache.rotationX = _round$1(rotationX) + deg;
-  cache.rotationY = _round$1(rotationY) + deg;
+  cache.scaleX = _round$3(scaleX);
+  cache.scaleY = _round$3(scaleY);
+  cache.rotation = _round$3(rotation) + deg;
+  cache.rotationX = _round$3(rotationX) + deg;
+  cache.rotationY = _round$3(rotationY) + deg;
   cache.skewX = skewX + deg;
   cache.skewY = skewY + deg;
   cache.transformPerspective = perspective + px;
@@ -3655,7 +3655,7 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
   return (value = value.split(" "))[0] + " " + value[1];
 }, _addPxTranslate = function _addPxTranslate2(target, start, value) {
   var unit = getUnit(start);
-  return _round$1(parseFloat(start) + parseFloat(_convertToUnit(target, "x", value + "px", unit))) + unit;
+  return _round$3(parseFloat(start) + parseFloat(_convertToUnit(target, "x", value + "px", unit))) + unit;
 }, _renderNon3DTransforms = function _renderNon3DTransforms2(ratio, cache) {
   cache.z = "0px";
   cache.rotationY = cache.rotationX = "0deg";
@@ -3664,8 +3664,8 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
 }, _zeroDeg = "0deg", _zeroPx = "0px", _endParenthesis = ") ", _renderCSSTransforms = function _renderCSSTransforms2(ratio, cache) {
   var _ref = cache || this, xPercent = _ref.xPercent, yPercent = _ref.yPercent, x = _ref.x, y = _ref.y, z = _ref.z, rotation = _ref.rotation, rotationY = _ref.rotationY, rotationX = _ref.rotationX, skewX = _ref.skewX, skewY = _ref.skewY, scaleX = _ref.scaleX, scaleY = _ref.scaleY, transformPerspective = _ref.transformPerspective, force3D = _ref.force3D, target = _ref.target, zOrigin = _ref.zOrigin, transforms = "", use3D = force3D === "auto" && ratio && ratio !== 1 || force3D === true;
   if (zOrigin && (rotationX !== _zeroDeg || rotationY !== _zeroDeg)) {
-    var angle = parseFloat(rotationY) * _DEG2RAD, a13 = Math.sin(angle), a33 = Math.cos(angle), cos;
-    angle = parseFloat(rotationX) * _DEG2RAD;
+    var angle = parseFloat(rotationY) * _DEG2RAD$1, a13 = Math.sin(angle), a33 = Math.cos(angle), cos;
+    angle = parseFloat(rotationX) * _DEG2RAD$1;
     cos = Math.cos(angle);
     x = _addPxTranslate(target, x, a13 * cos * -zOrigin);
     y = _addPxTranslate(target, y, -Math.sin(angle) * -zOrigin);
@@ -3707,14 +3707,14 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
     rotation += skewY;
   }
   if (rotation || skewX) {
-    rotation *= _DEG2RAD;
-    skewX *= _DEG2RAD;
+    rotation *= _DEG2RAD$1;
+    skewX *= _DEG2RAD$1;
     a11 = Math.cos(rotation) * scaleX;
     a21 = Math.sin(rotation) * scaleX;
     a12 = Math.sin(rotation - skewX) * -scaleY;
     a22 = Math.cos(rotation - skewX) * scaleY;
     if (skewX) {
-      skewY *= _DEG2RAD;
+      skewY *= _DEG2RAD$1;
       temp = Math.tan(skewX - skewY);
       temp = Math.sqrt(1 + temp * temp);
       a12 *= temp;
@@ -3726,10 +3726,10 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
         a21 *= temp;
       }
     }
-    a11 = _round$1(a11);
-    a21 = _round$1(a21);
-    a12 = _round$1(a12);
-    a22 = _round$1(a22);
+    a11 = _round$3(a11);
+    a21 = _round$3(a21);
+    a12 = _round$3(a12);
+    a22 = _round$3(a22);
   } else {
     a11 = scaleX;
     a22 = scaleY;
@@ -3740,13 +3740,13 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
     ty = _convertToUnit(target, "y", y, "px");
   }
   if (xOrigin || yOrigin || xOffset || yOffset) {
-    tx = _round$1(tx + xOrigin - (xOrigin * a11 + yOrigin * a12) + xOffset);
-    ty = _round$1(ty + yOrigin - (xOrigin * a21 + yOrigin * a22) + yOffset);
+    tx = _round$3(tx + xOrigin - (xOrigin * a11 + yOrigin * a12) + xOffset);
+    ty = _round$3(ty + yOrigin - (xOrigin * a21 + yOrigin * a22) + yOffset);
   }
   if (xPercent || yPercent) {
     temp = target.getBBox();
-    tx = _round$1(tx + xPercent / 100 * temp.width);
-    ty = _round$1(ty + yPercent / 100 * temp.height);
+    tx = _round$3(tx + xPercent / 100 * temp.width);
+    ty = _round$3(ty + yPercent / 100 * temp.height);
   }
   temp = "matrix(" + a11 + "," + a21 + "," + a12 + "," + a22 + "," + tx + "," + ty + ")";
   target.setAttribute("transform", temp);
@@ -3762,9 +3762,9 @@ var _win$2, _doc$2, _docElement, _pluginInitted, _tempDiv, _recentSetterPlugin, 
       }
     }
     if (direction === "cw" && change < 0) {
-      change = (change + cap * _bigNum) % cap - ~~(change / cap) * cap;
+      change = (change + cap * _bigNum$1) % cap - ~~(change / cap) * cap;
     } else if (direction === "ccw" && change > 0) {
-      change = (change - cap * _bigNum) % cap - ~~(change / cap) * cap;
+      change = (change - cap * _bigNum$1) % cap - ~~(change / cap) * cap;
     }
   }
   plugin._pt = pt = new PropTween(plugin._pt, target, property, startNum, change, _renderPropWithEnd);
@@ -3830,13 +3830,13 @@ _forEachName("padding,margin,Width,Radius", function(name, index) {
 });
 var CSSPlugin = {
   name: "css",
-  register: _initCore$1,
+  register: _initCore$2,
   targetTest: function targetTest(target) {
     return target.style && target.nodeType;
   },
   init: function init3(target, vars, tween, index, targets) {
     var props = this._props, style2 = target.style, startAt = tween.vars.startAt, startValue, endValue, endNum, startNum, type, specialProp, p, startUnit, endUnit, relative, isTransformRelated, transformPropTween, cache, smooth, hasPriority, inlineProps;
-    _pluginInitted || _initCore$1();
+    _pluginInitted || _initCore$2();
     this.styles = this.styles || _getStyleSaver(target);
     inlineProps = this.styles.props;
     this.tween = tween;
@@ -3996,8 +3996,8 @@ var CSSPlugin = {
     _getMatrix
   }
 };
-gsap$3.utils.checkPrefix = _checkPropPrefix;
-gsap$3.core.getStyleSaver = _getStyleSaver;
+gsap$4.utils.checkPrefix = _checkPropPrefix;
+gsap$4.core.getStyleSaver = _getStyleSaver;
 (function(positionAndScale, rotation, others, aliases) {
   var all = _forEachName(positionAndScale + "," + rotation + "," + others, function(name) {
     _transformProps[name] = 1;
@@ -4015,8 +4015,8 @@ gsap$3.core.getStyleSaver = _getStyleSaver;
 _forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,perspective", function(name) {
   _config.units[name] = "px";
 });
-gsap$3.registerPlugin(CSSPlugin);
-var gsapWithCSS = gsap$3.registerPlugin(CSSPlugin) || gsap$3;
+gsap$4.registerPlugin(CSSPlugin);
+var gsapWithCSS = gsap$4.registerPlugin(CSSPlugin) || gsap$4;
 gsapWithCSS.core.Tween;
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -4039,8 +4039,8 @@ function _createClass(Constructor, protoProps, staticProps) {
  * Subject to the terms at https://gsap.com/standard-license
  * @author: Jack Doyle, jack@greensock.com
 */
-var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointerType, ScrollTrigger$1, _root$1, _normalizer$1, _eventTypes, _context$2, _getGSAP$1 = function _getGSAP() {
-  return gsap$2 || typeof window !== "undefined" && (gsap$2 = window.gsap) && gsap$2.registerPlugin && gsap$2;
+var gsap$3, _coreInitted$3, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointerType, ScrollTrigger$1, _root$1, _normalizer$1, _eventTypes, _context$2, _getGSAP$2 = function _getGSAP() {
+  return gsap$3 || typeof window !== "undefined" && (gsap$3 = window.gsap) && gsap$3.registerPlugin && gsap$3;
 }, _startup$1 = 1, _observers = [], _scrollers = [], _proxies = [], _getTime$1 = Date.now, _bridge = function _bridge2(name, value) {
   return value;
 }, _integrate = function _integrate2() {
@@ -4108,7 +4108,7 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
     return arguments.length ? _win$1.scrollTo(_horizontal.sc(), value) : _win$1.pageYOffset || _doc$1[_scrollTop] || _docEl$1[_scrollTop] || _body$1[_scrollTop] || 0;
   })
 }, _getTarget = function _getTarget2(t, self) {
-  return (self && self._ctx && self._ctx.selector || gsap$2.utils.toArray)(t)[0] || (typeof t === "string" && gsap$2.config().nullTargetWarn !== false ? console.warn("Element not found:", t) : null);
+  return (self && self._ctx && self._ctx.selector || gsap$3.utils.toArray)(t)[0] || (typeof t === "string" && gsap$3.config().nullTargetWarn !== false ? console.warn("Element not found:", t) : null);
 }, _isWithin = function _isWithin2(element, list) {
   var i = list.length;
   while (i--) {
@@ -4127,7 +4127,7 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
     return arguments.length ? element[s] = value : element[s];
   })));
   func.target = element;
-  prev || (func.smooth = gsap$2.getProperty(element, "scrollBehavior") === "smooth");
+  prev || (func.smooth = gsap$3.getProperty(element, "scrollBehavior") === "smooth");
   return func;
 }, _getVelocityProp = function _getVelocityProp2(value, minTimeRefresh, useDelta) {
   var v1 = value, v2 = value, t1 = _getTime$1(), t2 = t1, min = minTimeRefresh || 50, dropToZeroTime = Math.max(500, min * 3), update2 = function update3(value2, force) {
@@ -4162,18 +4162,18 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
   var max = Math.max.apply(Math, a), min = Math.min.apply(Math, a);
   return Math.abs(max) >= Math.abs(min) ? max : min;
 }, _setScrollTrigger = function _setScrollTrigger2() {
-  ScrollTrigger$1 = gsap$2.core.globals().ScrollTrigger;
+  ScrollTrigger$1 = gsap$3.core.globals().ScrollTrigger;
   ScrollTrigger$1 && ScrollTrigger$1.core && _integrate();
-}, _initCore2 = function _initCore3(core) {
-  gsap$2 = core || _getGSAP$1();
-  if (!_coreInitted$2 && gsap$2 && typeof document !== "undefined" && document.body) {
+}, _initCore$1 = function _initCore2(core) {
+  gsap$3 = core || _getGSAP$2();
+  if (!_coreInitted$3 && gsap$3 && typeof document !== "undefined" && document.body) {
     _win$1 = window;
     _doc$1 = document;
     _docEl$1 = _doc$1.documentElement;
     _body$1 = _doc$1.body;
     _root$1 = [_win$1, _doc$1, _docEl$1, _body$1];
-    gsap$2.utils.clamp;
-    _context$2 = gsap$2.core.context || function() {
+    gsap$3.utils.clamp;
+    _context$2 = gsap$3.core.context || function() {
     };
     _pointerType = "onpointerenter" in _body$1 ? "pointer" : "mouse";
     _isTouch = Observer$1.isTouch = _win$1.matchMedia && _win$1.matchMedia("(hover: none), (pointer: coarse)").matches ? 1 : "ontouchstart" in _win$1 || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0 ? 2 : 0;
@@ -4182,9 +4182,9 @@ var gsap$2, _coreInitted$2, _win$1, _doc$1, _docEl$1, _body$1, _isTouch, _pointe
       return _startup$1 = 0;
     }, 500);
     _setScrollTrigger();
-    _coreInitted$2 = 1;
+    _coreInitted$3 = 1;
   }
-  return _coreInitted$2;
+  return _coreInitted$3;
 };
 _horizontal.op = _vertical;
 _scrollers.cache = 0;
@@ -4194,12 +4194,12 @@ var Observer$1 = /* @__PURE__ */ function() {
   }
   var _proto = Observer2.prototype;
   _proto.init = function init4(vars) {
-    _coreInitted$2 || _initCore2(gsap$2) || console.warn("Please gsap.registerPlugin(Observer)");
+    _coreInitted$3 || _initCore$1(gsap$3) || console.warn("Please gsap.registerPlugin(Observer)");
     ScrollTrigger$1 || _setScrollTrigger();
     var tolerance = vars.tolerance, dragMinimum = vars.dragMinimum, type = vars.type, target = vars.target, lineHeight = vars.lineHeight, debounce = vars.debounce, preventDefault = vars.preventDefault, onStop = vars.onStop, onStopDelay = vars.onStopDelay, ignore = vars.ignore, wheelSpeed = vars.wheelSpeed, event = vars.event, onDragStart = vars.onDragStart, onDragEnd = vars.onDragEnd, onDrag = vars.onDrag, onPress = vars.onPress, onRelease = vars.onRelease, onRight = vars.onRight, onLeft = vars.onLeft, onUp = vars.onUp, onDown = vars.onDown, onChangeX = vars.onChangeX, onChangeY = vars.onChangeY, onChange = vars.onChange, onToggleX = vars.onToggleX, onToggleY = vars.onToggleY, onHover = vars.onHover, onHoverEnd = vars.onHoverEnd, onMove = vars.onMove, ignoreCheck = vars.ignoreCheck, isNormalizer = vars.isNormalizer, onGestureStart = vars.onGestureStart, onGestureEnd = vars.onGestureEnd, onWheel = vars.onWheel, onEnable = vars.onEnable, onDisable = vars.onDisable, onClick2 = vars.onClick, scrollSpeed = vars.scrollSpeed, capture = vars.capture, allowClicks = vars.allowClicks, lockAxis = vars.lockAxis, onLockAxis = vars.onLockAxis;
     this.target = target = _getTarget(target) || _docEl$1;
     this.vars = vars;
-    ignore && (ignore = gsap$2.utils.toArray(ignore));
+    ignore && (ignore = gsap$3.utils.toArray(ignore));
     tolerance = tolerance || 1e-9;
     dragMinimum = dragMinimum || 0;
     wheelSpeed = wheelSpeed || 1;
@@ -4309,7 +4309,7 @@ var Observer$1 = /* @__PURE__ */ function() {
         self._vx.reset();
         self._vy.reset();
         if (preventDefault && allowClicks) {
-          gsap$2.delayedCall(0.08, function() {
+          gsap$3.delayedCall(0.08, function() {
             if (_getTime$1() - onClickTime > 300 && !e.defaultPrevented) {
               if (e.target.click) {
                 e.target.click();
@@ -4368,7 +4368,7 @@ var Observer$1 = /* @__PURE__ */ function() {
     }, _onClick = function _onClick2(e) {
       return _ignoreCheck(e) || _getEvent(e, preventDefault) && onClick2(self);
     };
-    onStopDelayedCall = self._dc = gsap$2.delayedCall(onStopDelay || 0.25, onStopFunc).pause();
+    onStopDelayedCall = self._dc = gsap$3.delayedCall(onStopDelay || 0.25, onStopFunc).pause();
     self.deltaX = self.deltaY = 0;
     self._vx = _getVelocityProp(0, 50, true);
     self._vy = _getVelocityProp(0, 50, true);
@@ -4457,7 +4457,7 @@ Observer$1.version = "3.13.0";
 Observer$1.create = function(vars) {
   return new Observer$1(vars);
 };
-Observer$1.register = _initCore2;
+Observer$1.register = _initCore$1;
 Observer$1.getAll = function() {
   return _observers.slice();
 };
@@ -4466,7 +4466,7 @@ Observer$1.getById = function(id) {
     return o.vars.id === id;
   })[0];
 };
-_getGSAP$1() && gsap$2.registerPlugin(Observer$1);
+_getGSAP$2() && gsap$3.registerPlugin(Observer$1);
 /*!
  * ScrollTrigger 3.13.0
  * https://gsap.com
@@ -4475,7 +4475,7 @@ _getGSAP$1() && gsap$2.registerPlugin(Observer$1);
  * Subject to the terms at https://gsap.com/standard-license
  * @author: Jack Doyle, jack@greensock.com
 */
-var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toArray$1, _clamp2, _time2, _syncInterval, _refreshing, _pointerIsDown, _transformProp, _i, _prevWidth, _prevHeight, _autoRefresh, _sort, _suppressOverwrites, _ignoreResize, _normalizer, _ignoreMobileResize, _baseScreenHeight, _baseScreenWidth, _fixIOSBug, _context$1, _scrollRestoration, _div100vh, _100vh, _isReverted, _clampingMax, _limitCallbacks, _startup = 1, _getTime = Date.now, _time1 = _getTime(), _lastScrollTime = 0, _enabled = 0, _parseClamp = function _parseClamp2(value, type, self) {
+var gsap$2, _coreInitted$2, _win, _doc, _docEl, _body, _root, _resizeDelay, _toArray$1, _clamp2, _time2, _syncInterval, _refreshing, _pointerIsDown, _transformProp, _i, _prevWidth, _prevHeight, _autoRefresh, _sort, _suppressOverwrites, _ignoreResize, _normalizer, _ignoreMobileResize, _baseScreenHeight, _baseScreenWidth, _fixIOSBug, _context$1, _scrollRestoration, _div100vh, _100vh, _isReverted, _clampingMax, _limitCallbacks, _startup = 1, _getTime = Date.now, _time1 = _getTime(), _lastScrollTime = 0, _enabled = 0, _parseClamp = function _parseClamp2(value, type, self) {
   var clamp3 = _isString2(value) && (value.substr(0, 6) === "clamp(" || value.indexOf("max") > -1);
   self["_" + type + "Clamp"] = clamp3;
   return clamp3 ? value.substr(6, value.length - 7) : value;
@@ -4489,12 +4489,12 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   return _pointerIsDown = 0;
 }, _passThrough2 = function _passThrough3(v) {
   return v;
-}, _round2 = function _round3(value) {
+}, _round$2 = function _round2(value) {
   return Math.round(value * 1e5) / 1e5 || 0;
 }, _windowExists3 = function _windowExists4() {
   return typeof window !== "undefined";
-}, _getGSAP2 = function _getGSAP3() {
-  return gsap$1 || _windowExists3() && (gsap$1 = window.gsap) && gsap$1.registerPlugin && gsap$1;
+}, _getGSAP$1 = function _getGSAP2() {
+  return gsap$2 || _windowExists3() && (gsap$2 = window.gsap) && gsap$2.registerPlugin && gsap$2;
 }, _isViewport2 = function _isViewport3(e) {
   return !!~_root.indexOf(e);
 }, _getViewportDimension = function _getViewportDimension2(dimensionProperty) {
@@ -4529,7 +4529,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   return typeof value === "string";
 }, _isFunction2 = function _isFunction3(value) {
   return typeof value === "function";
-}, _isNumber2 = function _isNumber3(value) {
+}, _isNumber$1 = function _isNumber2(value) {
   return typeof value === "number";
 }, _isObject2 = function _isObject3(value) {
   return typeof value === "object";
@@ -4542,7 +4542,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
     }) : func(self);
     result && result.totalTime && (self.callbackAnimation = result);
   }
-}, _abs = Math.abs, _left = "left", _top = "top", _right = "right", _bottom = "bottom", _width = "width", _height = "height", _Right = "Right", _Left = "Left", _Top = "Top", _Bottom = "Bottom", _padding = "padding", _margin = "margin", _Width = "Width", _Height = "Height", _px = "px", _getComputedStyle = function _getComputedStyle2(element) {
+}, _abs$1 = Math.abs, _left = "left", _top = "top", _right = "right", _bottom = "bottom", _width = "width", _height = "height", _Right = "Right", _Left = "Left", _Top = "Top", _Bottom = "Bottom", _padding = "padding", _margin = "margin", _Width = "Width", _Height = "Height", _px = "px", _getComputedStyle = function _getComputedStyle2(element) {
   return _win.getComputedStyle(element);
 }, _makePositionable = function _makePositionable2(element) {
   var position = _getComputedStyle(element).position;
@@ -4553,7 +4553,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   }
   return obj;
 }, _getBounds = function _getBounds2(element, withoutTransforms) {
-  var tween = withoutTransforms && _getComputedStyle(element)[_transformProp] !== "matrix(1, 0, 0, 1, 0, 0)" && gsap$1.to(element, {
+  var tween = withoutTransforms && _getComputedStyle(element)[_transformProp] !== "matrix(1, 0, 0, 1, 0, 0)" && gsap$2.to(element, {
     x: 0,
     y: 0,
     xPercent: 0,
@@ -4571,17 +4571,17 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   var d2 = _ref3.d2;
   return element["offset" + d2] || element["client" + d2] || 0;
 }, _getLabelRatioArray = function _getLabelRatioArray2(timeline2) {
-  var a = [], labels = timeline2.labels, duration = timeline2.duration(), p;
+  var a = [], labels = timeline2.labels, duration2 = timeline2.duration(), p;
   for (p in labels) {
-    a.push(labels[p] / duration);
+    a.push(labels[p] / duration2);
   }
   return a;
 }, _getClosestLabel = function _getClosestLabel2(animation) {
   return function(value) {
-    return gsap$1.utils.snap(_getLabelRatioArray(animation), value);
+    return gsap$2.utils.snap(_getLabelRatioArray(animation), value);
   };
 }, _snapDirectional = function _snapDirectional2(snapIncrementOrArray) {
-  var snap3 = gsap$1.utils.snap(snapIncrementOrArray), a = Array.isArray(snapIncrementOrArray) && snapIncrementOrArray.slice(0).sort(function(a2, b) {
+  var snap3 = gsap$2.utils.snap(snapIncrementOrArray), a = Array.isArray(snapIncrementOrArray) && snapIncrementOrArray.slice(0).sort(function(a2, b) {
     return a2 - b;
   });
   return a ? function(value, direction, threshold) {
@@ -4687,7 +4687,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   vars["border" + side + _Width] = 1;
   vars["border" + oppositeSide + _Width] = 0;
   vars[direction.p] = start + "px";
-  gsap$1.set(marker, vars);
+  gsap$2.set(marker, vars);
 }, _triggers = [], _ids = {}, _rafID, _sync = function _sync2() {
   return _getTime() - _lastScrollTime > 34 && (_rafID || (_rafID = requestAnimationFrame(_updateAll)));
 }, _onScroll2 = function _onScroll3() {
@@ -4891,7 +4891,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _capsExp = /([A-Z])/g, _setState = function _setState2(state) {
   if (state) {
     var style2 = state.t.style, l = state.length, i = 0, p, value;
-    (state.t._gsap || gsap$1.core.getCache(state.t)).uncache = 1;
+    (state.t._gsap || gsap$2.core.getCache(state.t)).uncache = 1;
     for (; i < l; i += 2) {
       value = state[i + 1];
       p = state[i];
@@ -4928,7 +4928,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
   var time = containerAnimation ? containerAnimation.time() : 0, p1, p2, element;
   containerAnimation && containerAnimation.seek(0);
   isNaN(value) || (value = +value);
-  if (!_isNumber2(value)) {
+  if (!_isNumber$1(value)) {
     _isFunction2(trigger) && (trigger = trigger(self));
     var offsets = (value || "0").split(" "), bounds, localOffset, globalOffset, display;
     element = _getTarget(trigger, self) || _body;
@@ -4945,7 +4945,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
     markerScroller && _positionMarker(markerScroller, globalOffset, direction, scrollerSize - globalOffset < 20 || markerScroller._isStart && globalOffset > 20);
     scrollerSize -= scrollerSize - globalOffset;
   } else {
-    containerAnimation && (value = gsap$1.utils.mapRange(containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, 0, scrollerMax, value));
+    containerAnimation && (value = gsap$2.utils.mapRange(containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, 0, scrollerMax, value));
     markerScroller && _positionMarker(markerScroller, scrollerSize, direction, true);
   }
   if (clampZeroProp) {
@@ -4986,7 +4986,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
     } else {
       style2.cssText = element._stOrig;
     }
-    gsap$1.core.getCache(element).uncache = 1;
+    gsap$2.core.getCache(element).uncache = 1;
     parent.appendChild(element);
   }
 }, _interruptionTracker = function _interruptionTracker2(getValueFunc, initialValue, onInterrupt) {
@@ -5004,7 +5004,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 }, _shiftMarker = function _shiftMarker2(marker, direction, value) {
   var vars = {};
   vars[direction.p] = "+=" + value;
-  gsap$1.set(marker, vars);
+  gsap$2.set(marker, vars);
 }, _getTweenCreator = function _getTweenCreator2(scroller, direction) {
   var getScroll = _getScrollFunc(scroller, direction), prop = "_scroll" + direction.p2, getTween = function getTween2(scrollTo, vars, initialValue, change1, change2) {
     var tween = getTween2.tween, onComplete = vars.onComplete, modifiers = {};
@@ -5030,7 +5030,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
       getTween2.tween = 0;
       onComplete && onComplete.call(tween);
     };
-    tween = getTween2.tween = gsap$1.to(scroller, vars);
+    tween = getTween2.tween = gsap$2.to(scroller, vars);
     return tween;
   };
   scroller[prop] = getScroll;
@@ -5043,7 +5043,7 @@ var gsap$1, _coreInitted$1, _win, _doc, _docEl, _body, _root, _resizeDelay, _toA
 };
 var ScrollTrigger = /* @__PURE__ */ function() {
   function ScrollTrigger2(vars, animation) {
-    _coreInitted$1 || ScrollTrigger2.register(gsap$1) || console.warn("Please gsap.registerPlugin(ScrollTrigger)");
+    _coreInitted$2 || ScrollTrigger2.register(gsap$2) || console.warn("Please gsap.registerPlugin(ScrollTrigger)");
     _context$1(this);
     this.init(vars, animation);
   }
@@ -5055,10 +5055,10 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       this.update = this.refresh = this.kill = _passThrough2;
       return;
     }
-    vars = _setDefaults2(_isString2(vars) || _isNumber2(vars) || vars.nodeType ? {
+    vars = _setDefaults2(_isString2(vars) || _isNumber$1(vars) || vars.nodeType ? {
       trigger: vars
     } : vars, _defaults);
-    var _vars = vars, onUpdate = _vars.onUpdate, toggleClass = _vars.toggleClass, id = _vars.id, onToggle = _vars.onToggle, onRefresh = _vars.onRefresh, scrub = _vars.scrub, trigger = _vars.trigger, pin = _vars.pin, pinSpacing = _vars.pinSpacing, invalidateOnRefresh = _vars.invalidateOnRefresh, anticipatePin = _vars.anticipatePin, onScrubComplete = _vars.onScrubComplete, onSnapComplete = _vars.onSnapComplete, once = _vars.once, snap3 = _vars.snap, pinReparent = _vars.pinReparent, pinSpacer = _vars.pinSpacer, containerAnimation = _vars.containerAnimation, fastScrollEnd = _vars.fastScrollEnd, preventOverlaps = _vars.preventOverlaps, direction = vars.horizontal || vars.containerAnimation && vars.horizontal !== false ? _horizontal : _vertical, isToggle = !scrub && scrub !== 0, scroller = _getTarget(vars.scroller || _win), scrollerCache = gsap$1.core.getCache(scroller), isViewport = _isViewport2(scroller), useFixedPosition = ("pinType" in vars ? vars.pinType : _getProxyProp(scroller, "pinType") || isViewport && "fixed") === "fixed", callbacks = [vars.onEnter, vars.onLeave, vars.onEnterBack, vars.onLeaveBack], toggleActions = isToggle && vars.toggleActions.split(" "), markers = "markers" in vars ? vars.markers : _defaults.markers, borderWidth = isViewport ? 0 : parseFloat(_getComputedStyle(scroller)["border" + direction.p2 + _Width]) || 0, self = this, onRefreshInit = vars.onRefreshInit && function() {
+    var _vars = vars, onUpdate = _vars.onUpdate, toggleClass = _vars.toggleClass, id = _vars.id, onToggle = _vars.onToggle, onRefresh = _vars.onRefresh, scrub = _vars.scrub, trigger = _vars.trigger, pin = _vars.pin, pinSpacing = _vars.pinSpacing, invalidateOnRefresh = _vars.invalidateOnRefresh, anticipatePin = _vars.anticipatePin, onScrubComplete = _vars.onScrubComplete, onSnapComplete = _vars.onSnapComplete, once = _vars.once, snap3 = _vars.snap, pinReparent = _vars.pinReparent, pinSpacer = _vars.pinSpacer, containerAnimation = _vars.containerAnimation, fastScrollEnd = _vars.fastScrollEnd, preventOverlaps = _vars.preventOverlaps, direction = vars.horizontal || vars.containerAnimation && vars.horizontal !== false ? _horizontal : _vertical, isToggle = !scrub && scrub !== 0, scroller = _getTarget(vars.scroller || _win), scrollerCache = gsap$2.core.getCache(scroller), isViewport = _isViewport2(scroller), useFixedPosition = ("pinType" in vars ? vars.pinType : _getProxyProp(scroller, "pinType") || isViewport && "fixed") === "fixed", callbacks = [vars.onEnter, vars.onLeave, vars.onEnterBack, vars.onLeaveBack], toggleActions = isToggle && vars.toggleActions.split(" "), markers = "markers" in vars ? vars.markers : _defaults.markers, borderWidth = isViewport ? 0 : parseFloat(_getComputedStyle(scroller)["border" + direction.p2 + _Width]) || 0, self = this, onRefreshInit = vars.onRefreshInit && function() {
       return vars.onRefreshInit(self);
     }, getScrollerSize = _getSizeFunc(scroller, isViewport, direction), getScrollerOffsets = _getOffsetsFunc(scroller, isViewport), lastSnap = 0, lastRefresh = 0, prevProgress = 0, scrollFunc = _getScrollFunc(scroller, direction), tweenTo, pinCache, snapFunc, scroll1, scroll2, start, end, markerStart, markerEnd, markerStartTrigger, markerEndTrigger, markerVars, executingOnRefresh, change, pinOriginalState, pinActiveState, pinState, spacer, offset, pinGetter, pinSetter, pinStart, pinChange, spacingStart, spacerState, markerStartSetter, pinMoves, markerEndSetter, cs, snap1, snap22, scrubTween, scrubSmooth, snapDurClamp, snapDelayedCall, prevScroll, prevAnimProgress, caMarkerSetter, customRevertReturn;
     self._startClamp = self._endClamp = false;
@@ -5079,12 +5079,12 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     };
     self.tweenTo = tweenTo = scrollerCache.tweenScroll[direction.p];
     self.scrubDuration = function(value) {
-      scrubSmooth = _isNumber2(value) && value;
+      scrubSmooth = _isNumber$1(value) && value;
       if (!scrubSmooth) {
         scrubTween && scrubTween.progress(1).kill();
         scrubTween = 0;
       } else {
-        scrubTween ? scrubTween.duration(value) : scrubTween = gsap$1.to(animation, {
+        scrubTween ? scrubTween.duration(value) : scrubTween = gsap$2.to(animation, {
           ease: "expo",
           totalProgress: "+=0",
           inherit: false,
@@ -5111,7 +5111,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           snapTo: snap3
         };
       }
-      "scrollBehavior" in _body.style && gsap$1.set(isViewport ? [_body, _docEl] : scroller, {
+      "scrollBehavior" in _body.style && gsap$2.set(isViewport ? [_body, _docEl] : scroller, {
         scrollBehavior: "auto"
       });
       _scrollers.forEach(function(o) {
@@ -5119,30 +5119,30 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       });
       snapFunc = _isFunction2(snap3.snapTo) ? snap3.snapTo : snap3.snapTo === "labels" ? _getClosestLabel(animation) : snap3.snapTo === "labelsDirectional" ? _getLabelAtDirection(animation) : snap3.directional !== false ? function(value, st) {
         return _snapDirectional(snap3.snapTo)(value, _getTime() - lastRefresh < 500 ? 0 : st.direction);
-      } : gsap$1.utils.snap(snap3.snapTo);
+      } : gsap$2.utils.snap(snap3.snapTo);
       snapDurClamp = snap3.duration || {
         min: 0.1,
         max: 2
       };
       snapDurClamp = _isObject2(snapDurClamp) ? _clamp2(snapDurClamp.min, snapDurClamp.max) : _clamp2(snapDurClamp, snapDurClamp);
-      snapDelayedCall = gsap$1.delayedCall(snap3.delay || scrubSmooth / 2 || 0.1, function() {
+      snapDelayedCall = gsap$2.delayedCall(snap3.delay || scrubSmooth / 2 || 0.1, function() {
         var scroll = scrollFunc(), refreshedRecently = _getTime() - lastRefresh < 500, tween = tweenTo.tween;
         if ((refreshedRecently || Math.abs(self.getVelocity()) < 10) && !tween && !_pointerIsDown && lastSnap !== scroll) {
-          var progress = (scroll - start) / change, totalProgress = animation && !isToggle ? animation.totalProgress() : progress, velocity = refreshedRecently ? 0 : (totalProgress - snap22) / (_getTime() - _time2) * 1e3 || 0, change1 = gsap$1.utils.clamp(-progress, 1 - progress, _abs(velocity / 2) * velocity / 0.185), naturalEnd = progress + (snap3.inertia === false ? 0 : change1), endValue, endScroll, _snap = snap3, onStart = _snap.onStart, _onInterrupt = _snap.onInterrupt, _onComplete = _snap.onComplete;
+          var progress = (scroll - start) / change, totalProgress = animation && !isToggle ? animation.totalProgress() : progress, velocity = refreshedRecently ? 0 : (totalProgress - snap22) / (_getTime() - _time2) * 1e3 || 0, change1 = gsap$2.utils.clamp(-progress, 1 - progress, _abs$1(velocity / 2) * velocity / 0.185), naturalEnd = progress + (snap3.inertia === false ? 0 : change1), endValue, endScroll, _snap = snap3, onStart = _snap.onStart, _onInterrupt = _snap.onInterrupt, _onComplete = _snap.onComplete;
           endValue = snapFunc(naturalEnd, self);
-          _isNumber2(endValue) || (endValue = naturalEnd);
+          _isNumber$1(endValue) || (endValue = naturalEnd);
           endScroll = Math.max(0, Math.round(start + endValue * change));
           if (scroll <= end && scroll >= start && endScroll !== scroll) {
-            if (tween && !tween._initted && tween.data <= _abs(endScroll - scroll)) {
+            if (tween && !tween._initted && tween.data <= _abs$1(endScroll - scroll)) {
               return;
             }
             if (snap3.inertia === false) {
               change1 = endValue - progress;
             }
             tweenTo(endScroll, {
-              duration: snapDurClamp(_abs(Math.max(_abs(naturalEnd - totalProgress), _abs(endValue - totalProgress)) * 0.185 / velocity / 0.05 || 0)),
+              duration: snapDurClamp(_abs$1(Math.max(_abs$1(naturalEnd - totalProgress), _abs$1(endValue - totalProgress)) * 0.185 / velocity / 0.05 || 0)),
               ease: snap3.ease || "power3",
-              data: _abs(endScroll - scroll),
+              data: _abs$1(endScroll - scroll),
               // record the distance so that if another snap tween occurs (conflict) we can prioritize the closest snap.
               onInterrupt: function onInterrupt() {
                 return snapDelayedCall.restart(true) && _onInterrupt && _onInterrupt(self);
@@ -5177,7 +5177,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     if (pin) {
       pinSpacing === false || pinSpacing === _margin || (pinSpacing = !pinSpacing && pin.parentNode && pin.parentNode.style && _getComputedStyle(pin.parentNode).display === "flex" ? false : _padding);
       self.pin = pin;
-      pinCache = gsap$1.core.getCache(pin);
+      pinCache = gsap$2.core.getCache(pin);
       if (!pinCache.spacer) {
         if (pinSpacer) {
           pinSpacer = _getTarget(pinSpacer);
@@ -5192,14 +5192,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       } else {
         pinOriginalState = pinCache.pinState;
       }
-      vars.force3D !== false && gsap$1.set(pin, {
+      vars.force3D !== false && gsap$2.set(pin, {
         force3D: true
       });
       self.spacer = spacer = pinCache.spacer;
       cs = _getComputedStyle(pin);
       spacingStart = cs[pinSpacing + direction.os2];
-      pinGetter = gsap$1.getProperty(pin);
-      pinSetter = gsap$1.quickSetter(pin, direction.a, _px);
+      pinGetter = gsap$2.getProperty(pin);
+      pinSetter = gsap$2.quickSetter(pin, direction.a, _px);
       _swapPinIn(pin, spacer, cs);
       pinState = _getState(pin);
     }
@@ -5211,14 +5211,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       var content = _getTarget(_getProxyProp(scroller, "content") || scroller);
       markerStart = this.markerStart = _createMarker("start", id, content, direction, markerVars, offset, 0, containerAnimation);
       markerEnd = this.markerEnd = _createMarker("end", id, content, direction, markerVars, offset, 0, containerAnimation);
-      containerAnimation && (caMarkerSetter = gsap$1.quickSetter([markerStart, markerEnd], direction.a, _px));
+      containerAnimation && (caMarkerSetter = gsap$2.quickSetter([markerStart, markerEnd], direction.a, _px));
       if (!useFixedPosition && !(_proxies.length && _getProxyProp(scroller, "fixedMarkers") === true)) {
         _makePositionable(isViewport ? _body : scroller);
-        gsap$1.set([markerStartTrigger, markerEndTrigger], {
+        gsap$2.set([markerStartTrigger, markerEndTrigger], {
           force3D: true
         });
-        markerStartSetter = gsap$1.quickSetter(markerStartTrigger, direction.a, _px);
-        markerEndSetter = gsap$1.quickSetter(markerEndTrigger, direction.a, _px);
+        markerStartSetter = gsap$2.quickSetter(markerStartTrigger, direction.a, _px);
+        markerEndSetter = gsap$2.quickSetter(markerEndTrigger, direction.a, _px);
       }
     }
     if (containerAnimation) {
@@ -5291,8 +5291,8 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       self._subPinOffset = false;
       var size = getScrollerSize(), scrollerBounds = getScrollerOffsets(), max = containerAnimation ? containerAnimation.duration() : _maxScroll(scroller, direction), isFirstRefresh = change <= 0.01 || !change, offset2 = 0, otherPinOffset = pinOffset || 0, parsedEnd = _isObject2(position) ? position.end : vars.end, parsedEndTrigger = vars.endTrigger || trigger, parsedStart = _isObject2(position) ? position.start : vars.start || (vars.start === 0 || !trigger ? 0 : pin ? "0 0" : "0 100%"), pinnedContainer = self.pinnedContainer = vars.pinnedContainer && _getTarget(vars.pinnedContainer, self), triggerIndex = trigger && Math.max(0, _triggers.indexOf(self)) || 0, i = triggerIndex, cs2, bounds, scroll, isVertical, override, curTrigger, curPin, oppositeScroll, initted, revertedPins, forcedOverflow, markerStartOffset, markerEndOffset;
       if (markers && _isObject2(position)) {
-        markerStartOffset = gsap$1.getProperty(markerStartTrigger, direction.p);
-        markerEndOffset = gsap$1.getProperty(markerEndTrigger, direction.p);
+        markerStartOffset = gsap$2.getProperty(markerStartTrigger, direction.p);
+        markerEndOffset = gsap$2.getProperty(markerEndTrigger, direction.p);
       }
       while (i-- > 0) {
         curTrigger = _triggers[i];
@@ -5317,7 +5317,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           parsedEnd = (_isString2(parsedStart) ? parsedStart.split(" ")[0] : "") + parsedEnd;
         } else {
           offset2 = _offsetToPx(parsedEnd.substr(2), size);
-          parsedEnd = _isString2(parsedStart) ? parsedStart : (containerAnimation ? gsap$1.utils.mapRange(0, containerAnimation.duration(), containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, start) : start) + offset2;
+          parsedEnd = _isString2(parsedStart) ? parsedStart : (containerAnimation ? gsap$2.utils.mapRange(0, containerAnimation.duration(), containerAnimation.scrollTrigger.start, containerAnimation.scrollTrigger.end, start) : start) + offset2;
           parsedEndTrigger = trigger;
         }
       }
@@ -5345,14 +5345,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       }
       change = end - start || (start -= 0.01) && 1e-3;
       if (isFirstRefresh) {
-        prevProgress = gsap$1.utils.clamp(0, 1, gsap$1.utils.normalize(start, end, prevScroll));
+        prevProgress = gsap$2.utils.clamp(0, 1, gsap$2.utils.normalize(start, end, prevScroll));
       }
       self._pinPush = otherPinOffset;
       if (markerStart && offset2) {
         cs2 = {};
         cs2[direction.a] = "+=" + offset2;
         pinnedContainer && (cs2[direction.p] = "-=" + scrollFunc());
-        gsap$1.set([markerStart, markerEnd], cs2);
+        gsap$2.set([markerStart, markerEnd], cs2);
       }
       if (pin && !(_clampingMax && self.end >= _maxScroll(scroller, direction))) {
         cs2 = _getComputedStyle(pin);
@@ -5456,14 +5456,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
       _refreshing = 0;
       animation && isToggle && (animation._initted || prevAnimProgress) && animation.progress() !== prevAnimProgress && animation.progress(prevAnimProgress || 0, true).render(animation.time(), true, true);
       if (isFirstRefresh || prevProgress !== self.progress || containerAnimation || invalidateOnRefresh || animation && !animation._initted) {
-        animation && !isToggle && (animation._initted || prevProgress || animation.vars.immediateRender !== false) && animation.totalProgress(containerAnimation && start < -1e-3 && !prevProgress ? gsap$1.utils.normalize(start, end, 0) : prevProgress, true);
+        animation && !isToggle && (animation._initted || prevProgress || animation.vars.immediateRender !== false) && animation.totalProgress(containerAnimation && start < -1e-3 && !prevProgress ? gsap$2.utils.normalize(start, end, 0) : prevProgress, true);
         self.progress = isFirstRefresh || (scroll1 - start) / change === prevProgress ? 0 : prevProgress;
       }
       pin && pinSpacing && (spacer._pinOffset = Math.round(self.progress * pinChange));
       scrubTween && scrubTween.invalidate();
       if (!isNaN(markerStartOffset)) {
-        markerStartOffset -= gsap$1.getProperty(markerStartTrigger, direction.p);
-        markerEndOffset -= gsap$1.getProperty(markerEndTrigger, direction.p);
+        markerStartOffset -= gsap$2.getProperty(markerStartTrigger, direction.p);
+        markerEndOffset -= gsap$2.getProperty(markerEndTrigger, direction.p);
         _shiftMarker(markerStartTrigger, direction, markerStartOffset);
         _shiftMarker(markerStart, direction, markerStartOffset - (pinOffset || 0));
         _shiftMarker(markerEndTrigger, direction, markerEndOffset);
@@ -5549,7 +5549,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         if (pin) {
           reset && pinSpacing && (spacer.style[pinSpacing + direction.os2] = spacingStart);
           if (!useFixedPosition) {
-            pinSetter(_round2(pinStart + pinChange * clipped));
+            pinSetter(_round$2(pinStart + pinChange * clipped));
           } else if (stateChanged) {
             isAtMax = !reset && clipped > prevProgress2 && end + 1 > scroll && scroll + 1 >= _maxScroll(scroller, direction);
             if (pinReparent) {
@@ -5593,7 +5593,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
               callbacks[toggleState] && _callback2(self, callbacks[toggleState]);
             }
           }
-          if (fastScrollEnd && !isActive && Math.abs(self.getVelocity()) > (_isNumber2(fastScrollEnd) ? fastScrollEnd : 2500)) {
+          if (fastScrollEnd && !isActive && Math.abs(self.getVelocity()) > (_isNumber$1(fastScrollEnd) ? fastScrollEnd : 2500)) {
             _endAnimation(self.callbackAnimation);
             scrubTween ? scrubTween.progress(1) : _endAnimation(animation, action === "reverse" ? 1 : !clipped, 1);
           }
@@ -5626,9 +5626,9 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     };
     self.setPositions = function(newStart, newEnd, keepClamp, pinOffset) {
       if (containerAnimation) {
-        var st = containerAnimation.scrollTrigger, duration = containerAnimation.duration(), _change = st.end - st.start;
-        newStart = st.start + _change * newStart / duration;
-        newEnd = st.start + _change * newEnd / duration;
+        var st = containerAnimation.scrollTrigger, duration2 = containerAnimation.duration(), _change = st.end - st.start;
+        newStart = st.start + _change * newStart / duration2;
+        newEnd = st.start + _change * newEnd / duration2;
       }
       self.refresh(false, false, {
         start: _keepClamp(newStart, keepClamp && !!self._startClamp),
@@ -5711,7 +5711,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         _scrollers.cache++;
         start || end || self.refresh();
       };
-      gsap$1.delayedCall(0.01, self.update);
+      gsap$2.delayedCall(0.01, self.update);
       change = 0.01;
       start = end = 0;
     } else {
@@ -5720,12 +5720,12 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     pin && _queueRefreshAll();
   };
   ScrollTrigger2.register = function register(core) {
-    if (!_coreInitted$1) {
-      gsap$1 = core || _getGSAP2();
+    if (!_coreInitted$2) {
+      gsap$2 = core || _getGSAP$1();
       _windowExists3() && window.document && ScrollTrigger2.enable();
-      _coreInitted$1 = _enabled;
+      _coreInitted$2 = _enabled;
     }
-    return _coreInitted$1;
+    return _coreInitted$2;
   };
   ScrollTrigger2.defaults = function defaults3(config3) {
     if (config3) {
@@ -5759,14 +5759,14 @@ var ScrollTrigger = /* @__PURE__ */ function() {
     _doc = document;
     _docEl = _doc.documentElement;
     _body = _doc.body;
-    if (gsap$1) {
-      _toArray$1 = gsap$1.utils.toArray;
-      _clamp2 = gsap$1.utils.clamp;
-      _context$1 = gsap$1.core.context || _passThrough2;
-      _suppressOverwrites = gsap$1.core.suppressOverwrites || _passThrough2;
+    if (gsap$2) {
+      _toArray$1 = gsap$2.utils.toArray;
+      _clamp2 = gsap$2.utils.clamp;
+      _context$1 = gsap$2.core.context || _passThrough2;
+      _suppressOverwrites = gsap$2.core.suppressOverwrites || _passThrough2;
       _scrollRestoration = _win.history.scrollRestoration || "auto";
       _lastScroll = _win.pageYOffset || 0;
-      gsap$1.core.globals("ScrollTrigger", ScrollTrigger2);
+      gsap$2.core.globals("ScrollTrigger", ScrollTrigger2);
       if (_body) {
         _enabled = 1;
         _div100vh = document.createElement("div");
@@ -5774,31 +5774,31 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         _div100vh.style.position = "absolute";
         _refresh100vh();
         _rafBugFix();
-        Observer$1.register(gsap$1);
+        Observer$1.register(gsap$2);
         ScrollTrigger2.isTouch = Observer$1.isTouch;
         _fixIOSBug = Observer$1.isTouch && /(iPad|iPhone|iPod|Mac)/g.test(navigator.userAgent);
         _ignoreMobileResize = Observer$1.isTouch === 1;
         _addListener2(_win, "wheel", _onScroll2);
         _root = [_win, _doc, _docEl, _body];
-        if (gsap$1.matchMedia) {
+        if (gsap$2.matchMedia) {
           ScrollTrigger2.matchMedia = function(vars) {
-            var mm = gsap$1.matchMedia(), p;
+            var mm = gsap$2.matchMedia(), p;
             for (p in vars) {
               mm.add(p, vars[p]);
             }
             return mm;
           };
-          gsap$1.addEventListener("matchMediaInit", function() {
+          gsap$2.addEventListener("matchMediaInit", function() {
             return _revertAll();
           });
-          gsap$1.addEventListener("matchMediaRevert", function() {
+          gsap$2.addEventListener("matchMediaRevert", function() {
             return _revertRecorded();
           });
-          gsap$1.addEventListener("matchMedia", function() {
+          gsap$2.addEventListener("matchMedia", function() {
             _refreshAll(0, 1);
             _dispatch2("matchMedia");
           });
-          gsap$1.matchMedia().add("(orientation: portrait)", function() {
+          gsap$2.matchMedia().add("(orientation: portrait)", function() {
             _setBaseDimensions();
             return _setBaseDimensions;
           });
@@ -5807,7 +5807,7 @@ var ScrollTrigger = /* @__PURE__ */ function() {
         }
         _setBaseDimensions();
         _addListener2(_doc, "scroll", _onScroll2);
-        var bodyHasStyle = _body.hasAttribute("style"), bodyStyle = _body.style, border = bodyStyle.borderTopStyle, AnimationProto = gsap$1.core.Animation.prototype, bounds, i;
+        var bodyHasStyle = _body.hasAttribute("style"), bodyStyle = _body.style, border = bodyStyle.borderTopStyle, AnimationProto = gsap$2.core.Animation.prototype, bounds, i;
         AnimationProto.revert || Object.defineProperty(AnimationProto, "revert", {
           value: function value() {
             return this.time(-0.01, true);
@@ -5823,17 +5823,17 @@ var ScrollTrigger = /* @__PURE__ */ function() {
           _body.removeAttribute("style");
         }
         _syncInterval = setInterval(_sync, 250);
-        gsap$1.delayedCall(0.5, function() {
+        gsap$2.delayedCall(0.5, function() {
           return _startup = 0;
         });
         _addListener2(_doc, "touchcancel", _passThrough2);
         _addListener2(_body, "touchstart", _passThrough2);
         _multiListener(_addListener2, _doc, "pointerdown,touchstart,mousedown", _pointerDownHandler);
         _multiListener(_addListener2, _doc, "pointerup,touchend,mouseup", _pointerUpHandler);
-        _transformProp = gsap$1.utils.checkPrefix("transform");
+        _transformProp = gsap$2.utils.checkPrefix("transform");
         _stateProps.push(_transformProp);
-        _coreInitted$1 = _getTime();
-        _resizeDelay = gsap$1.delayedCall(0.2, _refreshAll).pause();
+        _coreInitted$2 = _getTime();
+        _resizeDelay = gsap$2.delayedCall(0.2, _refreshAll).pause();
         _autoRefresh = [_doc, "visibilitychange", function() {
           var w = _win.innerWidth, h = _win.innerHeight;
           if (_doc.hidden) {
@@ -5907,7 +5907,7 @@ ScrollTrigger.saveStyles = function(targets) {
     if (target && target.style) {
       var i = _savedStyles.indexOf(target);
       i >= 0 && _savedStyles.splice(i, 5);
-      _savedStyles.push(target, target.style.cssText, target.getBBox && target.getAttribute("transform"), gsap$1.core.getCache(target), _context$1());
+      _savedStyles.push(target, target.style.cssText, target.getBBox && target.getAttribute("transform"), gsap$2.core.getCache(target), _context$1());
     }
   }) : _savedStyles;
 };
@@ -5918,7 +5918,7 @@ ScrollTrigger.create = function(vars, animation) {
   return new ScrollTrigger(vars, animation);
 };
 ScrollTrigger.refresh = function(safe) {
-  return safe ? _onResize(true) : (_coreInitted$1 || ScrollTrigger.register()) && _refreshAll(true);
+  return safe ? _onResize(true) : (_coreInitted$2 || ScrollTrigger.register()) && _refreshAll(true);
 };
 ScrollTrigger.update = function(force) {
   return ++_scrollers.cache && _updateAll(force === true ? 2 : 0);
@@ -5952,7 +5952,7 @@ ScrollTrigger.removeEventListener = function(type, callback) {
 };
 ScrollTrigger.batch = function(targets, vars) {
   var result = [], varsCopy = {}, interval = vars.interval || 0.016, batchMax = vars.batchMax || 1e9, proxyCallback = function proxyCallback2(type, callback) {
-    var elements = [], triggers = [], delay = gsap$1.delayedCall(interval, function() {
+    var elements = [], triggers = [], delay = gsap$2.delayedCall(interval, function() {
       callback(elements, triggers);
       elements = [];
       triggers = [];
@@ -5998,7 +5998,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   scroll: 1
 }, _nestedScroll = function _nestedScroll2(_ref5) {
   var event = _ref5.event, target = _ref5.target, axis = _ref5.axis;
-  var node = (event.changedTouches ? event.changedTouches[0] : event).target, cache = node._gsap || gsap$1.core.getCache(node), time = _getTime(), cs;
+  var node = (event.changedTouches ? event.changedTouches[0] : event).target, cache = node._gsap || gsap$2.core.getCache(node), time = _getTime(), cs;
   if (!cache._isScrollT || time - cache._isScrollT > 2e3) {
     while (node && node !== _body && (node.scrollHeight <= node.clientHeight && node.scrollWidth <= node.clientWidth || !(_overflow[(cs = _getComputedStyle(node)).overflowY] || _overflow[cs.overflowX]))) {
       node = node.parentNode;
@@ -6040,7 +6040,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   vars.type || (vars.type = "wheel,touch");
   vars.debounce = !!vars.debounce;
   vars.id = vars.id || "normalizer";
-  var _vars2 = vars, normalizeScrollX = _vars2.normalizeScrollX, momentum = _vars2.momentum, allowNestedScroll = _vars2.allowNestedScroll, onRelease = _vars2.onRelease, self, maxY, target = _getTarget(vars.target) || _docEl, smoother = gsap$1.core.globals().ScrollSmoother, smootherInstance = smoother && smoother.get(), content = _fixIOSBug && (vars.content && _getTarget(vars.content) || smootherInstance && vars.content !== false && !smootherInstance.smooth() && smootherInstance.content()), scrollFuncY = _getScrollFunc(target, _vertical), scrollFuncX = _getScrollFunc(target, _horizontal), scale = 1, initialScale = (Observer$1.isTouch && _win.visualViewport ? _win.visualViewport.scale * _win.visualViewport.width : _win.outerWidth) / _win.innerWidth, wheelRefresh = 0, resolveMomentumDuration = _isFunction2(momentum) ? function() {
+  var _vars2 = vars, normalizeScrollX = _vars2.normalizeScrollX, momentum = _vars2.momentum, allowNestedScroll = _vars2.allowNestedScroll, onRelease = _vars2.onRelease, self, maxY, target = _getTarget(vars.target) || _docEl, smoother = gsap$2.core.globals().ScrollSmoother, smootherInstance = smoother && smoother.get(), content = _fixIOSBug && (vars.content && _getTarget(vars.content) || smootherInstance && vars.content !== false && !smootherInstance.smooth() && smootherInstance.content()), scrollFuncY = _getScrollFunc(target, _vertical), scrollFuncX = _getScrollFunc(target, _horizontal), scale = 1, initialScale = (Observer$1.isTouch && _win.visualViewport ? _win.visualViewport.scale * _win.visualViewport.width : _win.outerWidth) / _win.innerWidth, wheelRefresh = 0, resolveMomentumDuration = _isFunction2(momentum) ? function() {
     return momentum(self);
   } : function() {
     return momentum || 2.8;
@@ -6052,16 +6052,16 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
     normalizeScrollX && (scrollClampX = _clamp2(0, _maxScroll(target, _horizontal)));
     lastRefreshID = _refreshID;
   }, removeContentOffset = function removeContentOffset2() {
-    content._gsap.y = _round2(parseFloat(content._gsap.y) + scrollFuncY.offset) + "px";
+    content._gsap.y = _round$2(parseFloat(content._gsap.y) + scrollFuncY.offset) + "px";
     content.style.transform = "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, " + parseFloat(content._gsap.y) + ", 0, 1)";
     scrollFuncY.offset = scrollFuncY.cacheID = 0;
   }, ignoreDrag = function ignoreDrag2() {
     if (skipTouchMove) {
       requestAnimationFrame(resumeTouchMove);
-      var offset = _round2(self.deltaY / 2), scroll = scrollClampY(scrollFuncY.v - offset);
+      var offset = _round$2(self.deltaY / 2), scroll = scrollClampY(scrollFuncY.v - offset);
       if (content && scroll !== scrollFuncY.v + scrollFuncY.offset) {
         scrollFuncY.offset = scroll - scrollFuncY.v;
-        var y = _round2((parseFloat(content && content._gsap.y) || 0) - scrollFuncY.offset);
+        var y = _round$2((parseFloat(content && content._gsap.y) || 0) - scrollFuncY.offset);
         content.style.transform = "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, " + y + ", 0, 1)";
         content._gsap.y = y + "px";
         scrollFuncY.cacheID = _scrollers.cache;
@@ -6077,7 +6077,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
       scrollFuncY() > maxY ? tween.progress(1) && scrollFuncY(maxY) : tween.resetTo("scrollY", maxY);
     }
   };
-  content && gsap$1.set(content, {
+  content && gsap$2.set(content, {
     y: "+=0"
   });
   vars.ignoreCheck = function(e) {
@@ -6086,7 +6086,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   vars.onPress = function() {
     skipTouchMove = false;
     var prevScale = scale;
-    scale = _round2((_win.visualViewport && _win.visualViewport.scale || 1) / initialScale);
+    scale = _round$2((_win.visualViewport && _win.visualViewport.scale || 1) / initialScale);
     tween.pause();
     prevScale !== scale && _allowNativePanning(target, scale > 1.01 ? true : normalizeScrollX ? false : "x");
     startScrollX = scrollFuncX();
@@ -6113,7 +6113,7 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
       tween.vars.scrollY = scrollClampY(endScroll);
       tween.invalidate().duration(dur).play(0.01);
       if (_fixIOSBug && tween.vars.scrollY >= maxY || currentScroll >= maxY - 1) {
-        gsap$1.to({}, {
+        gsap$2.to({}, {
           onUpdate: onResize2,
           duration: dur
         });
@@ -6159,9 +6159,9 @@ var _clampScrollAndGetDurationMultiplier = function _clampScrollAndGetDurationMu
   self = new Observer$1(vars);
   self.iOS = _fixIOSBug;
   _fixIOSBug && !scrollFuncY() && scrollFuncY(1);
-  _fixIOSBug && gsap$1.ticker.add(_passThrough2);
+  _fixIOSBug && gsap$2.ticker.add(_passThrough2);
   onStopDelayedCall = self._dc;
-  tween = gsap$1.to(self, {
+  tween = gsap$2.to(self, {
     ease: "power4",
     paused: true,
     inherit: false,
@@ -6227,7 +6227,7 @@ ScrollTrigger.core = {
     }
   }
 };
-_getGSAP2() && gsap$1.registerPlugin(ScrollTrigger);
+_getGSAP$1() && gsap$2.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(ScrollTrigger);
 const navbar = document.querySelector("[data-component='navbar']");
 if (!!navbar) {
@@ -6288,7 +6288,7 @@ if (!!navbar) {
  * @license Copyright 2025, GreenSock. All rights reserved. Subject to the terms at https://gsap.com/standard-license.
  * @author: Jack Doyle
  */
-let gsap, _fonts, _coreInitted, _initIfNecessary = () => _coreInitted || SplitText.register(window.gsap), _charSegmenter = typeof Intl !== "undefined" ? new Intl.Segmenter() : 0, _toArray = (r) => typeof r === "string" ? _toArray(document.querySelectorAll(r)) : "length" in r ? Array.from(r) : [r], _elements = (targets) => _toArray(targets).filter((e) => e instanceof HTMLElement), _emptyArray = [], _context = function() {
+let gsap$1, _fonts, _coreInitted$1, _initIfNecessary = () => _coreInitted$1 || SplitText.register(window.gsap), _charSegmenter = typeof Intl !== "undefined" ? new Intl.Segmenter() : 0, _toArray = (r) => typeof r === "string" ? _toArray(document.querySelectorAll(r)) : "length" in r ? Array.from(r) : [r], _elements = (targets) => _toArray(targets).filter((e) => e instanceof HTMLElement), _emptyArray = [], _context = function() {
 }, _spacesRegEx = /\s+/g, _emojiSafeRegEx = new RegExp("\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u{200D}\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*|.", "gu"), _emptyBounds = { left: 0, top: 0, width: 0, height: 0 }, _stretchToFitSpecialChars = (collection, specialCharsRegEx) => {
   if (specialCharsRegEx) {
     let charsFound = new Set(collection.join("").match(specialCharsRegEx) || _emptyArray), i = collection.length, slots, word, char, combined;
@@ -6575,14 +6575,14 @@ const _SplitText = class _SplitText2 {
     return new _SplitText2(elements, config3);
   }
   static register(core) {
-    gsap = gsap || core || window.gsap;
-    if (gsap) {
-      _toArray = gsap.utils.toArray;
-      _context = gsap.core.context || _context;
+    gsap$1 = gsap$1 || core || window.gsap;
+    if (gsap$1) {
+      _toArray = gsap$1.utils.toArray;
+      _context = gsap$1.core.context || _context;
     }
-    if (!_coreInitted && window.innerWidth > 0) {
+    if (!_coreInitted$1 && window.innerWidth > 0) {
       _fonts = document.fonts;
-      _coreInitted = true;
+      _coreInitted$1 = true;
     }
   }
 };
@@ -6591,7 +6591,475 @@ let SplitText = _SplitText;
 const supportsHover = window.matchMedia(
   "(hover: hover) and (pointer: fine)"
 ).matches;
+/*!
+ * paths 3.13.0
+ * https://gsap.com
+ *
+ * Copyright 2008-2025, GreenSock. All rights reserved.
+ * Subject to the terms at https://gsap.com/standard-license
+ * @author: Jack Doyle, jack@greensock.com
+*/
+var _svgPathExp = /[achlmqstvz]|(-?\d*\.?\d*(?:e[\-+]?\d+)?)[0-9]/ig, _scientific = /[\+\-]?\d*\.?\d+e[\+\-]?\d+/ig, _DEG2RAD = Math.PI / 180, _sin = Math.sin, _cos = Math.cos, _abs = Math.abs, _sqrt = Math.sqrt, _isNumber3 = function _isNumber4(value) {
+  return typeof value === "number";
+}, _roundingNum = 1e5, _round$1 = function _round3(value) {
+  return Math.round(value * _roundingNum) / _roundingNum || 0;
+};
+function transformRawPath(rawPath, a, b, c, d, tx, ty) {
+  var j = rawPath.length, segment, l, i, x, y;
+  while (--j > -1) {
+    segment = rawPath[j];
+    l = segment.length;
+    for (i = 0; i < l; i += 2) {
+      x = segment[i];
+      y = segment[i + 1];
+      segment[i] = x * a + y * c + tx;
+      segment[i + 1] = x * b + y * d + ty;
+    }
+  }
+  rawPath._dirty = 1;
+  return rawPath;
+}
+function arcToSegment(lastX, lastY, rx, ry, angle, largeArcFlag, sweepFlag, x, y) {
+  if (lastX === x && lastY === y) {
+    return;
+  }
+  rx = _abs(rx);
+  ry = _abs(ry);
+  var angleRad = angle % 360 * _DEG2RAD, cosAngle = _cos(angleRad), sinAngle = _sin(angleRad), PI = Math.PI, TWOPI = PI * 2, dx2 = (lastX - x) / 2, dy2 = (lastY - y) / 2, x1 = cosAngle * dx2 + sinAngle * dy2, y1 = -sinAngle * dx2 + cosAngle * dy2, x1_sq = x1 * x1, y1_sq = y1 * y1, radiiCheck = x1_sq / (rx * rx) + y1_sq / (ry * ry);
+  if (radiiCheck > 1) {
+    rx = _sqrt(radiiCheck) * rx;
+    ry = _sqrt(radiiCheck) * ry;
+  }
+  var rx_sq = rx * rx, ry_sq = ry * ry, sq = (rx_sq * ry_sq - rx_sq * y1_sq - ry_sq * x1_sq) / (rx_sq * y1_sq + ry_sq * x1_sq);
+  if (sq < 0) {
+    sq = 0;
+  }
+  var coef = (largeArcFlag === sweepFlag ? -1 : 1) * _sqrt(sq), cx1 = coef * (rx * y1 / ry), cy1 = coef * -(ry * x1 / rx), sx2 = (lastX + x) / 2, sy2 = (lastY + y) / 2, cx = sx2 + (cosAngle * cx1 - sinAngle * cy1), cy = sy2 + (sinAngle * cx1 + cosAngle * cy1), ux = (x1 - cx1) / rx, uy = (y1 - cy1) / ry, vx = (-x1 - cx1) / rx, vy = (-y1 - cy1) / ry, temp = ux * ux + uy * uy, angleStart = (uy < 0 ? -1 : 1) * Math.acos(ux / _sqrt(temp)), angleExtent = (ux * vy - uy * vx < 0 ? -1 : 1) * Math.acos((ux * vx + uy * vy) / _sqrt(temp * (vx * vx + vy * vy)));
+  isNaN(angleExtent) && (angleExtent = PI);
+  if (!sweepFlag && angleExtent > 0) {
+    angleExtent -= TWOPI;
+  } else if (sweepFlag && angleExtent < 0) {
+    angleExtent += TWOPI;
+  }
+  angleStart %= TWOPI;
+  angleExtent %= TWOPI;
+  var segments = Math.ceil(_abs(angleExtent) / (TWOPI / 4)), rawPath = [], angleIncrement = angleExtent / segments, controlLength = 4 / 3 * _sin(angleIncrement / 2) / (1 + _cos(angleIncrement / 2)), ma = cosAngle * rx, mb = sinAngle * rx, mc = sinAngle * -ry, md = cosAngle * ry, i;
+  for (i = 0; i < segments; i++) {
+    angle = angleStart + i * angleIncrement;
+    x1 = _cos(angle);
+    y1 = _sin(angle);
+    ux = _cos(angle += angleIncrement);
+    uy = _sin(angle);
+    rawPath.push(x1 - controlLength * y1, y1 + controlLength * x1, ux + controlLength * uy, uy - controlLength * ux, ux, uy);
+  }
+  for (i = 0; i < rawPath.length; i += 2) {
+    x1 = rawPath[i];
+    y1 = rawPath[i + 1];
+    rawPath[i] = x1 * ma + y1 * mc + cx;
+    rawPath[i + 1] = x1 * mb + y1 * md + cy;
+  }
+  rawPath[i - 2] = x;
+  rawPath[i - 1] = y;
+  return rawPath;
+}
+function stringToRawPath(d) {
+  var a = (d + "").replace(_scientific, function(m) {
+    var n = +m;
+    return n < 1e-4 && n > -1e-4 ? 0 : n;
+  }).match(_svgPathExp) || [], path = [], relativeX = 0, relativeY = 0, twoThirds = 2 / 3, elements = a.length, points = 0, errorMessage = "ERROR: malformed path: " + d, i, j, x, y, command, isRelative, segment, startX, startY, difX, difY, beziers, prevCommand, flag1, flag2, line = function line2(sx, sy, ex, ey) {
+    difX = (ex - sx) / 3;
+    difY = (ey - sy) / 3;
+    segment.push(sx + difX, sy + difY, ex - difX, ey - difY, ex, ey);
+  };
+  if (!d || !isNaN(a[0]) || isNaN(a[1])) {
+    console.log(errorMessage);
+    return path;
+  }
+  for (i = 0; i < elements; i++) {
+    prevCommand = command;
+    if (isNaN(a[i])) {
+      command = a[i].toUpperCase();
+      isRelative = command !== a[i];
+    } else {
+      i--;
+    }
+    x = +a[i + 1];
+    y = +a[i + 2];
+    if (isRelative) {
+      x += relativeX;
+      y += relativeY;
+    }
+    if (!i) {
+      startX = x;
+      startY = y;
+    }
+    if (command === "M") {
+      if (segment) {
+        if (segment.length < 8) {
+          path.length -= 1;
+        } else {
+          points += segment.length;
+        }
+      }
+      relativeX = startX = x;
+      relativeY = startY = y;
+      segment = [x, y];
+      path.push(segment);
+      i += 2;
+      command = "L";
+    } else if (command === "C") {
+      if (!segment) {
+        segment = [0, 0];
+      }
+      if (!isRelative) {
+        relativeX = relativeY = 0;
+      }
+      segment.push(x, y, relativeX + a[i + 3] * 1, relativeY + a[i + 4] * 1, relativeX += a[i + 5] * 1, relativeY += a[i + 6] * 1);
+      i += 6;
+    } else if (command === "S") {
+      difX = relativeX;
+      difY = relativeY;
+      if (prevCommand === "C" || prevCommand === "S") {
+        difX += relativeX - segment[segment.length - 4];
+        difY += relativeY - segment[segment.length - 3];
+      }
+      if (!isRelative) {
+        relativeX = relativeY = 0;
+      }
+      segment.push(difX, difY, x, y, relativeX += a[i + 3] * 1, relativeY += a[i + 4] * 1);
+      i += 4;
+    } else if (command === "Q") {
+      difX = relativeX + (x - relativeX) * twoThirds;
+      difY = relativeY + (y - relativeY) * twoThirds;
+      if (!isRelative) {
+        relativeX = relativeY = 0;
+      }
+      relativeX += a[i + 3] * 1;
+      relativeY += a[i + 4] * 1;
+      segment.push(difX, difY, relativeX + (x - relativeX) * twoThirds, relativeY + (y - relativeY) * twoThirds, relativeX, relativeY);
+      i += 4;
+    } else if (command === "T") {
+      difX = relativeX - segment[segment.length - 4];
+      difY = relativeY - segment[segment.length - 3];
+      segment.push(relativeX + difX, relativeY + difY, x + (relativeX + difX * 1.5 - x) * twoThirds, y + (relativeY + difY * 1.5 - y) * twoThirds, relativeX = x, relativeY = y);
+      i += 2;
+    } else if (command === "H") {
+      line(relativeX, relativeY, relativeX = x, relativeY);
+      i += 1;
+    } else if (command === "V") {
+      line(relativeX, relativeY, relativeX, relativeY = x + (isRelative ? relativeY - relativeX : 0));
+      i += 1;
+    } else if (command === "L" || command === "Z") {
+      if (command === "Z") {
+        x = startX;
+        y = startY;
+        segment.closed = true;
+      }
+      if (command === "L" || _abs(relativeX - x) > 0.5 || _abs(relativeY - y) > 0.5) {
+        line(relativeX, relativeY, x, y);
+        if (command === "L") {
+          i += 2;
+        }
+      }
+      relativeX = x;
+      relativeY = y;
+    } else if (command === "A") {
+      flag1 = a[i + 4];
+      flag2 = a[i + 5];
+      difX = a[i + 6];
+      difY = a[i + 7];
+      j = 7;
+      if (flag1.length > 1) {
+        if (flag1.length < 3) {
+          difY = difX;
+          difX = flag2;
+          j--;
+        } else {
+          difY = flag2;
+          difX = flag1.substr(2);
+          j -= 2;
+        }
+        flag2 = flag1.charAt(1);
+        flag1 = flag1.charAt(0);
+      }
+      beziers = arcToSegment(relativeX, relativeY, +a[i + 1], +a[i + 2], +a[i + 3], +flag1, +flag2, (isRelative ? relativeX : 0) + difX * 1, (isRelative ? relativeY : 0) + difY * 1);
+      i += j;
+      if (beziers) {
+        for (j = 0; j < beziers.length; j++) {
+          segment.push(beziers[j]);
+        }
+      }
+      relativeX = segment[segment.length - 2];
+      relativeY = segment[segment.length - 1];
+    } else {
+      console.log(errorMessage);
+    }
+  }
+  i = segment.length;
+  if (i < 6) {
+    path.pop();
+    i = 0;
+  } else if (segment[0] === segment[i - 2] && segment[1] === segment[i - 1]) {
+    segment.closed = true;
+  }
+  path.totalPoints = points + i;
+  return path;
+}
+function rawPathToString(rawPath) {
+  if (_isNumber3(rawPath[0])) {
+    rawPath = [rawPath];
+  }
+  var result = "", l = rawPath.length, sl, s, i, segment;
+  for (s = 0; s < l; s++) {
+    segment = rawPath[s];
+    result += "M" + _round$1(segment[0]) + "," + _round$1(segment[1]) + " C";
+    sl = segment.length;
+    for (i = 2; i < sl; i++) {
+      result += _round$1(segment[i++]) + "," + _round$1(segment[i++]) + " " + _round$1(segment[i++]) + "," + _round$1(segment[i++]) + " " + _round$1(segment[i++]) + "," + _round$1(segment[i]) + " ";
+    }
+    if (segment.closed) {
+      result += "z";
+    }
+  }
+  return result;
+}
+/*!
+ * CustomEase 3.13.0
+ * https://gsap.com
+ *
+ * @license Copyright 2008-2025, GreenSock. All rights reserved.
+ * Subject to the terms at https://gsap.com/standard-license
+ * @author: Jack Doyle, jack@greensock.com
+*/
+var gsap, _coreInitted, _getGSAP3 = function _getGSAP4() {
+  return gsap || typeof window !== "undefined" && (gsap = window.gsap) && gsap.registerPlugin && gsap;
+}, _initCore3 = function _initCore4() {
+  gsap = _getGSAP3();
+  if (gsap) {
+    gsap.registerEase("_CE", CustomEase.create);
+    _coreInitted = 1;
+  } else {
+    console.warn("Please gsap.registerPlugin(CustomEase)");
+  }
+}, _bigNum = 1e20, _round4 = function _round5(value) {
+  return ~~(value * 1e3 + (value < 0 ? -0.5 : 0.5)) / 1e3;
+}, _numExp = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/gi, _needsParsingExp = /[cLlsSaAhHvVtTqQ]/g, _findMinimum = function _findMinimum2(values) {
+  var l = values.length, min = _bigNum, i;
+  for (i = 1; i < l; i += 6) {
+    +values[i] < min && (min = +values[i]);
+  }
+  return min;
+}, _normalize = function _normalize2(values, height, originY) {
+  if (!originY && originY !== 0) {
+    originY = Math.max(+values[values.length - 1], +values[1]);
+  }
+  var tx = +values[0] * -1, ty = -originY, l = values.length, sx = 1 / (+values[l - 2] + tx), sy = -height || (Math.abs(+values[l - 1] - +values[1]) < 0.01 * (+values[l - 2] - +values[0]) ? _findMinimum(values) + ty : +values[l - 1] + ty), i;
+  if (sy) {
+    sy = 1 / sy;
+  } else {
+    sy = -sx;
+  }
+  for (i = 0; i < l; i += 2) {
+    values[i] = (+values[i] + tx) * sx;
+    values[i + 1] = (+values[i + 1] + ty) * sy;
+  }
+}, _bezierToPoints = function _bezierToPoints2(x1, y1, x2, y2, x3, y3, x4, y4, threshold, points, index) {
+  var x12 = (x1 + x2) / 2, y12 = (y1 + y2) / 2, x23 = (x2 + x3) / 2, y23 = (y2 + y3) / 2, x34 = (x3 + x4) / 2, y34 = (y3 + y4) / 2, x123 = (x12 + x23) / 2, y123 = (y12 + y23) / 2, x234 = (x23 + x34) / 2, y234 = (y23 + y34) / 2, x1234 = (x123 + x234) / 2, y1234 = (y123 + y234) / 2, dx = x4 - x1, dy = y4 - y1, d2 = Math.abs((x2 - x4) * dy - (y2 - y4) * dx), d3 = Math.abs((x3 - x4) * dy - (y3 - y4) * dx), length;
+  if (!points) {
+    points = [{
+      x: x1,
+      y: y1
+    }, {
+      x: x4,
+      y: y4
+    }];
+    index = 1;
+  }
+  points.splice(index || points.length - 1, 0, {
+    x: x1234,
+    y: y1234
+  });
+  if ((d2 + d3) * (d2 + d3) > threshold * (dx * dx + dy * dy)) {
+    length = points.length;
+    _bezierToPoints2(x1, y1, x12, y12, x123, y123, x1234, y1234, threshold, points, index);
+    _bezierToPoints2(x1234, y1234, x234, y234, x34, y34, x4, y4, threshold, points, index + 1 + (points.length - length));
+  }
+  return points;
+};
+var CustomEase = /* @__PURE__ */ function() {
+  function CustomEase2(id, data, config3) {
+    _coreInitted || _initCore3();
+    this.id = id;
+    this.setData(data, config3);
+  }
+  var _proto = CustomEase2.prototype;
+  _proto.setData = function setData(data, config3) {
+    config3 = config3 || {};
+    data = data || "0,0,1,1";
+    var values = data.match(_numExp), closest = 1, points = [], lookup = [], precision = config3.precision || 1, fast = precision <= 1, l, a1, a2, i, inc, j, point, prevPoint, p;
+    this.data = data;
+    if (_needsParsingExp.test(data) || ~data.indexOf("M") && data.indexOf("C") < 0) {
+      values = stringToRawPath(data)[0];
+    }
+    l = values.length;
+    if (l === 4) {
+      values.unshift(0, 0);
+      values.push(1, 1);
+      l = 8;
+    } else if ((l - 2) % 6) {
+      throw "Invalid CustomEase";
+    }
+    if (+values[0] !== 0 || +values[l - 2] !== 1) {
+      _normalize(values, config3.height, config3.originY);
+    }
+    this.segment = values;
+    for (i = 2; i < l; i += 6) {
+      a1 = {
+        x: +values[i - 2],
+        y: +values[i - 1]
+      };
+      a2 = {
+        x: +values[i + 4],
+        y: +values[i + 5]
+      };
+      points.push(a1, a2);
+      _bezierToPoints(a1.x, a1.y, +values[i], +values[i + 1], +values[i + 2], +values[i + 3], a2.x, a2.y, 1 / (precision * 2e5), points, points.length - 1);
+    }
+    l = points.length;
+    for (i = 0; i < l; i++) {
+      point = points[i];
+      prevPoint = points[i - 1] || point;
+      if ((point.x > prevPoint.x || prevPoint.y !== point.y && prevPoint.x === point.x || point === prevPoint) && point.x <= 1) {
+        prevPoint.cx = point.x - prevPoint.x;
+        prevPoint.cy = point.y - prevPoint.y;
+        prevPoint.n = point;
+        prevPoint.nx = point.x;
+        if (fast && i > 1 && Math.abs(prevPoint.cy / prevPoint.cx - points[i - 2].cy / points[i - 2].cx) > 2) {
+          fast = 0;
+        }
+        if (prevPoint.cx < closest) {
+          if (!prevPoint.cx) {
+            prevPoint.cx = 1e-3;
+            if (i === l - 1) {
+              prevPoint.x -= 1e-3;
+              closest = Math.min(closest, 1e-3);
+              fast = 0;
+            }
+          } else {
+            closest = prevPoint.cx;
+          }
+        }
+      } else {
+        points.splice(i--, 1);
+        l--;
+      }
+    }
+    l = 1 / closest + 1 | 0;
+    inc = 1 / l;
+    j = 0;
+    point = points[0];
+    if (fast) {
+      for (i = 0; i < l; i++) {
+        p = i * inc;
+        if (point.nx < p) {
+          point = points[++j];
+        }
+        a1 = point.y + (p - point.x) / point.cx * point.cy;
+        lookup[i] = {
+          x: p,
+          cx: inc,
+          y: a1,
+          cy: 0,
+          nx: 9
+        };
+        if (i) {
+          lookup[i - 1].cy = a1 - lookup[i - 1].y;
+        }
+      }
+      j = points[points.length - 1];
+      lookup[l - 1].cy = j.y - a1;
+      lookup[l - 1].cx = j.x - lookup[lookup.length - 1].x;
+    } else {
+      for (i = 0; i < l; i++) {
+        if (point.nx < i * inc) {
+          point = points[++j];
+        }
+        lookup[i] = point;
+      }
+      if (j < points.length - 1) {
+        lookup[i - 1] = points[points.length - 2];
+      }
+    }
+    this.ease = function(p2) {
+      var point2 = lookup[p2 * l | 0] || lookup[l - 1];
+      if (point2.nx < p2) {
+        point2 = point2.n;
+      }
+      return point2.y + (p2 - point2.x) / point2.cx * point2.cy;
+    };
+    this.ease.custom = this;
+    this.id && gsap && gsap.registerEase(this.id, this.ease);
+    return this;
+  };
+  _proto.getSVGData = function getSVGData(config3) {
+    return CustomEase2.getSVGData(this, config3);
+  };
+  CustomEase2.create = function create(id, data, config3) {
+    return new CustomEase2(id, data, config3).ease;
+  };
+  CustomEase2.register = function register(core) {
+    gsap = core;
+    _initCore3();
+  };
+  CustomEase2.get = function get(id) {
+    return gsap.parseEase(id);
+  };
+  CustomEase2.getSVGData = function getSVGData(ease, config3) {
+    config3 = config3 || {};
+    var width = config3.width || 100, height = config3.height || 100, x = config3.x || 0, y = (config3.y || 0) + height, e = gsap.utils.toArray(config3.path)[0], a, slope, i, inc, tx, ty, precision, threshold, prevX, prevY;
+    if (config3.invert) {
+      height = -height;
+      y = 0;
+    }
+    if (typeof ease === "string") {
+      ease = gsap.parseEase(ease);
+    }
+    if (ease.custom) {
+      ease = ease.custom;
+    }
+    if (ease instanceof CustomEase2) {
+      a = rawPathToString(transformRawPath([ease.segment], width, 0, 0, -height, x, y));
+    } else {
+      a = [x, y];
+      precision = Math.max(5, (config3.precision || 1) * 200);
+      inc = 1 / precision;
+      precision += 2;
+      threshold = 5 / precision;
+      prevX = _round4(x + inc * width);
+      prevY = _round4(y + ease(inc) * -height);
+      slope = (prevY - y) / (prevX - x);
+      for (i = 2; i < precision; i++) {
+        tx = _round4(x + i * inc * width);
+        ty = _round4(y + ease(i * inc) * -height);
+        if (Math.abs((ty - prevY) / (tx - prevX) - slope) > threshold || i === precision - 1) {
+          a.push(prevX, prevY);
+          slope = (ty - prevY) / (tx - prevX);
+        }
+        prevX = tx;
+        prevY = ty;
+      }
+      a = "M" + a.join(",");
+    }
+    e && e.setAttribute("d", a);
+    return a;
+  };
+  return CustomEase2;
+}();
+CustomEase.version = "3.13.0";
+CustomEase.headless = true;
+_getGSAP3() && gsap.registerPlugin(CustomEase);
 gsapWithCSS.registerPlugin(SplitText);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$a = document.querySelector("[data-component='home-hero']");
 if (!!component$a) {
   const curtain = component$a.querySelector("[data-home-hero='curtain']");
@@ -6602,6 +7070,7 @@ if (!!component$a) {
   const covers = component$a.querySelectorAll("[data-home-hero='cover']");
   const thumbnails = component$a.querySelectorAll("[data-home-hero='thumbnail']");
   const metadatas = component$a.querySelectorAll("[data-home-hero='metadata']");
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   SplitText.create(heading, {
     type: "lines",
     mask: "lines",
@@ -6648,7 +7117,7 @@ if (!!component$a) {
     {
       yPercent: 100,
       duration: 1.5,
-      ease: "expo.out",
+      ease: "custom-ease",
       stagger: {
         amount: 0.3
       }
@@ -6659,8 +7128,8 @@ if (!!component$a) {
     {
       yPercent: 300,
       opacity: 0,
-      duration: 2,
-      ease: "expo.out",
+      duration: 1.5,
+      ease: "custom-ease",
       stagger: {
         amount: 0.3,
         from: "end"
@@ -6671,10 +7140,10 @@ if (!!component$a) {
     metadatas[0],
     {
       yPercent: 300,
-      duration: 2,
-      ease: "expo.out"
+      duration: 1.5,
+      ease: "custom-ease"
     },
-    "-=1.75"
+    "-=1.25"
   );
   covers.forEach((cover, i) => {
     if (i === 0) {
@@ -6744,6 +7213,7 @@ if (!!component$a) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$9 = document.querySelector("[data-component='expertise']");
 if (!!component$9) {
   let animateName = function(id) {
@@ -6760,8 +7230,8 @@ if (!!component$9) {
       if (image.dataset.id == id) {
         gsapWithCSS.to(image, {
           clipPath: "inset(0% 0% 0% 0%)",
-          duration: 1,
-          ease: "power2.inOut",
+          duration: 0.75,
+          ease: "custom-ease",
           onStart: () => {
             images2.forEach((image2) => {
               if (image2.dataset.id == id) {
@@ -6792,11 +7262,11 @@ if (!!component$9) {
         summary.classList.remove("hide");
         tl.to(lines, {
           yPercent: 0,
-          duration: 1,
-          delay: 0.2,
-          ease: "power4.inOut",
+          duration: 0.5,
+          delay: 0.1,
+          ease: "custom-ease",
           stagger: {
-            amount: 0.3
+            amount: 0.1
           },
           onComplete: () => {
             isSummaryAnimating = false;
@@ -6806,10 +7276,10 @@ if (!!component$9) {
       } else {
         tl.to(lines, {
           yPercent: 100,
-          duration: 1,
-          ease: "power4.inOut",
+          duration: 0.5,
+          ease: "custom-ease",
           stagger: {
-            amount: 0.3
+            amount: 0.1
           },
           onComplete: () => {
             summary.classList.add("hide");
@@ -6839,6 +7309,7 @@ if (!!component$9) {
   const summariesTarget = component$9.querySelector(
     "[data-expertise='summaries-target']"
   );
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   if (window.innerWidth < 992) {
     summariesTarget.append(summariesWrapper);
     const tallestSummary = Math.max(
@@ -6859,7 +7330,7 @@ if (!!component$9) {
     },
     clipPath: "inset(0% 0% 0% 0%)",
     duration: 1,
-    ease: "power2.inOut"
+    ease: "custom-ease"
   });
   summaries.forEach((summary, index) => {
     if (summary.firstElementChild) {
@@ -6875,7 +7346,7 @@ if (!!component$9) {
     tl.from(lines, {
       yPercent: 100,
       duration: 1,
-      ease: "power4.inOut",
+      ease: "custom-ease",
       stagger: {
         amount: 0.3
       }
@@ -6960,31 +7431,31 @@ if (!!component$8) {
   tl.from(thumbnails, {
     yPercent: 300,
     opacity: 0,
-    duration: 2,
+    duration: 1,
     ease: "expo.out",
     stagger: {
-      amount: 0.3,
+      amount: 0.2,
       from: "end"
     }
   }).from(
     testimonials[0].querySelectorAll(".line"),
     {
       yPercent: 100,
-      duration: 1.5,
+      duration: 1,
       ease: "expo.out",
       stagger: {
-        amount: 0.3
+        amount: 0.2
       }
     },
-    "-=2"
+    "-=1"
   ).from(
     metadatas[0].childNodes[0],
     {
       yPercent: 100,
-      duration: 1.5,
+      duration: 1,
       ease: "expo.out"
     },
-    "-=1.5"
+    "-=1"
   );
   ScrollTrigger.create({
     trigger: component$8,
@@ -7319,7 +7790,7 @@ function animateCSSModeScroll(_ref) {
   const startPosition = -swiper.translate;
   let startTime = null;
   let time;
-  const duration = swiper.params.speed;
+  const duration2 = swiper.params.speed;
   swiper.wrapperEl.style.scrollSnapType = "none";
   window2.cancelAnimationFrame(swiper.cssModeFrameID);
   const dir = targetPosition > startPosition ? "next" : "prev";
@@ -7331,7 +7802,7 @@ function animateCSSModeScroll(_ref) {
     if (startTime === null) {
       startTime = time;
     }
-    const progress = Math.max(Math.min((time - startTime) / duration, 1), 0);
+    const progress = Math.max(Math.min((time - startTime) / duration2, 1), 0);
     const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
     let currentPosition = startPosition + easeProgress * (targetPosition - startPosition);
     if (isOutOfBound(currentPosition, targetPosition)) {
@@ -8681,13 +9152,13 @@ var translate = {
   maxTranslate,
   translateTo
 };
-function setTransition(duration, byController) {
+function setTransition(duration2, byController) {
   const swiper = this;
   if (!swiper.params.cssMode) {
-    swiper.wrapperEl.style.transitionDuration = `${duration}ms`;
-    swiper.wrapperEl.style.transitionDelay = duration === 0 ? `0ms` : "";
+    swiper.wrapperEl.style.transitionDuration = `${duration2}ms`;
+    swiper.wrapperEl.style.transitionDelay = duration2 === 0 ? `0ms` : "";
   }
-  swiper.emit("setTransition", duration, byController);
+  swiper.emit("setTransition", duration2, byController);
 }
 function transitionEmit(_ref) {
   let {
@@ -11175,6 +11646,7 @@ Object.keys(prototypes).forEach((prototypeGroup) => {
 });
 Swiper.use([Resize, Observer]);
 gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$7 = document.querySelector(
   "[data-component='featured-projects']"
 );
@@ -11183,8 +11655,14 @@ if (!!component$7) {
   const metadatas = component$7.querySelectorAll(
     "[data-featured-projects='metadata']"
   );
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
+  const initialBlur = 5;
   images2.forEach((image) => {
-    gsapWithCSS.set(image, { scale: 1.1 });
+    gsapWithCSS.set(image, {
+      scale: 1.1,
+      webkitFilter: `blur(${initialBlur}px)`,
+      filter: `blur(${initialBlur}px)`
+    });
   });
   metadatas.forEach((metadata) => {
     const location = metadata.childNodes[0];
@@ -11212,25 +11690,27 @@ if (!!component$7) {
         tl.to(visibleSlides, {
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
-          duration: 2,
-          ease: "expo.out",
-          stagger: 0.1,
-          delay: 0.3
+          duration: 1.5,
+          ease: "custom-ease",
+          stagger: 0.07,
+          delay: 0
         });
         tl.to(
           images3,
           {
             scale: 1,
-            duration: 2,
-            ease: "expo.out",
-            stagger: 0.1,
-            delay: 0.3
+            webkitFilter: `blur(0px)`,
+            filter: `blur(0px)`,
+            duration: 1.5,
+            ease: "custom-ease",
+            stagger: 0.07,
+            delay: 0
           },
           0
         );
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "50% bottom",
+          start: "25% bottom",
           onEnter: () => tl.play()
         });
       },
@@ -11240,11 +11720,24 @@ if (!!component$7) {
           if (slide2.dataset.rendered) return;
           slide2.dataset.rendered = "true";
           const tl = gsapWithCSS.timeline();
-          tl.to(slide2, {
-            clipPath: "inset(0% 0% 0% 0%)",
-            scale: 1,
-            ease: "expo.out"
-          });
+          tl.to(
+            slide2,
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              scale: 1,
+              ease: "custom-ease"
+            },
+            0
+          );
+          tl.to(
+            slide2.querySelector("[data-featured-projects='image']"),
+            {
+              webkitFilter: `blur(0px)`,
+              filter: `blur(0px)`,
+              ease: "custom-ease"
+            },
+            0
+          );
         });
       }
     }
@@ -11261,9 +11754,9 @@ if (!!component$6) {
   if (buttonWrapper) {
     tl.from(buttonWrapper, {
       clipPath: "inset(100% 0% 0% 0%)",
-      duration: 1.5,
+      duration: 1,
       ease: "expo.out",
-      delay: 1
+      delay: 0.5
     });
   }
   ScrollTrigger.create({
@@ -11319,11 +11812,15 @@ if (coverImageWrapper.length > 0) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$5 = document.querySelector("[data-component='team']");
 if (!!component$5) {
   const images2 = component$5.querySelectorAll("[data-team='image']");
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   images2.forEach((image) => {
-    gsapWithCSS.set(image, { scale: 1.1 });
+    gsapWithCSS.set(image, {
+      scale: 1.1
+    });
   });
   const slider = component$5.querySelector(".swiper");
   new Swiper(slider, {
@@ -11348,25 +11845,23 @@ if (!!component$5) {
         tl.to(visibleSlides, {
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
-          duration: 2,
-          ease: "expo.out",
-          stagger: 0.1,
-          delay: 0.3
+          duration: 1.5,
+          ease: "custom-ease",
+          stagger: 0.1
         });
         tl.to(
           images3,
           {
             scale: 1,
-            duration: 2,
-            ease: "expo.out",
-            stagger: 0.1,
-            delay: 0.3
+            duration: 1.5,
+            ease: "custom-ease",
+            stagger: 0.1
           },
           0
         );
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "90% bottom",
+          start: "25% bottom",
           onEnter: () => tl.play()
         });
       },
@@ -11380,8 +11875,15 @@ if (!!component$5) {
             clipPath: "inset(0% 0% 0% 0%)",
             scale: 1,
             duration: 1,
-            ease: "expo.out"
+            ease: "custom-ease"
           });
+          tl.to(
+            slide2.querySelector("[data-team='image']"),
+            {
+              ease: "custom-ease"
+            },
+            0
+          );
         });
       }
     }
@@ -11401,13 +11903,20 @@ if (!!component$4) {
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$3 = document.querySelector("[data-component='projects']");
 if (!!component$3) {
   const items = component$3.querySelectorAll("[data-projects='item']");
   const images2 = component$3.querySelectorAll("[data-projects='image']");
   const metadatas = component$3.querySelectorAll("[data-projects='metadata']");
+  const initialBlur = 5;
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   images2.forEach((image) => {
-    gsapWithCSS.set(image, { scale: 1.1 });
+    gsapWithCSS.set(image, {
+      scale: 1.1,
+      webkitFilter: `blur(${initialBlur}px)`,
+      filter: `blur(${initialBlur}px)`
+    });
   });
   metadatas.forEach((metadata) => {
     const location = metadata.childNodes[0];
@@ -11420,24 +11929,24 @@ if (!!component$3) {
     gsapWithCSS.to(item, {
       scrollTrigger: {
         trigger: item,
-        start: "60% bottom",
-        end: "bottom top"
+        start: "25% bottom"
       },
       clipPath: "inset(0% 0% 0% 0%)",
-      duration: 2,
+      duration: 1.5,
       delay: Math.random() * 0.25,
-      ease: "expo.out"
+      ease: "custom-ease"
     });
     gsapWithCSS.to(item.querySelector("[data-projects='image']"), {
       scrollTrigger: {
         trigger: item,
-        start: "80% bottom",
-        end: "bottom top"
+        start: "25% bottom"
       },
       clipPath: "inset(0% 0% 0% 0%)",
+      webkitFilter: `blur(0px)`,
+      filter: `blur(0px)`,
       scale: 1,
-      duration: 2,
-      ease: "expo.out",
+      duration: 1.5,
+      ease: "custom-ease",
       delay: Math.random() * 0.25
     });
   });
@@ -11744,9 +12253,11 @@ function requireMacy() {
 var macyExports = requireMacy();
 const Macy = /* @__PURE__ */ getDefaultExportFromCjs(macyExports);
 gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(CustomEase);
 const component$2 = document.querySelector("[data-component='project-gallery']");
 if (!!component$2) {
   const container = component$2.querySelector(".w-dyn-items");
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   const macy2 = Macy({
     container,
     margin: 16,
@@ -11765,21 +12276,25 @@ if (!!component$2) {
     if (macyFirstInit) {
       macyFirstInit = false;
       const thumbnails = container.querySelectorAll("img");
+      const initialBlur = 5;
       thumbnails.forEach((thumbnail) => {
         gsapWithCSS.set(thumbnail, {
           clipPath: "inset(100% 0% 0% 0%)",
-          scale: 1.1
+          scale: 1.1,
+          webkitFilter: `blur(${initialBlur}px)`,
+          filter: `blur(${initialBlur}px)`
         });
         gsapWithCSS.to(thumbnail, {
           scrollTrigger: {
             trigger: thumbnail,
-            start: "bottom bottom",
-            end: "bottom top"
+            start: "25% bottom"
           },
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
-          duration: 2,
-          ease: "expo.out",
+          duration: 1.6,
+          webkitFilter: `blur(0px)`,
+          filter: `blur(0px)`,
+          ease: "custom-ease",
           delay: Math.random() * 0.25
         });
       });
@@ -11815,6 +12330,7 @@ if (!!component) {
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
+gsapWithCSS.registerPlugin(CustomEase);
 const revealText = document.querySelectorAll("[data-reveal-text='true']");
 revealText.forEach((el) => {
   el.innerHTML = el.innerHTML.replace(/\n/g, "<br>");
@@ -11826,26 +12342,37 @@ SplitText.create(revealText, {
   linesClass: "line",
   aria: "none"
 });
-revealText.forEach((textElement2) => {
-  const lines = textElement2.querySelectorAll(".line");
-  const tl = gsapWithCSS.timeline({ paused: true });
-  const delay = textElement2.dataset.delay / 1e3 || 0;
-  gsapWithCSS.set(textElement2, { autoAlpha: 1 });
-  tl.from(lines, {
-    yPercent: 100,
-    duration: 1.5,
-    ease: "expo.out",
-    stagger: {
-      amount: 0.3
-    },
-    delay
+CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
+const duration = 1.47;
+const stagger = 0.2;
+setTimeout(() => {
+  revealText.forEach((textElement2) => {
+    const lines = textElement2.querySelectorAll(".line");
+    const tl = gsapWithCSS.timeline({ paused: true });
+    const delay = textElement2.dataset.delay / 1e3 || 0;
+    gsapWithCSS.set(textElement2, { autoAlpha: 1 });
+    tl.from(
+      lines,
+      {
+        yPercent: 100,
+        duration,
+        ease: "custom-ease",
+        stagger: {
+          amount: stagger
+        },
+        delay
+      },
+      -0.2
+    );
+    ScrollTrigger.create({
+      trigger: textElement2,
+      start: "0% 100%",
+      onEnter: () => {
+        tl.play();
+      }
+    });
   });
-  ScrollTrigger.create({
-    trigger: textElement2,
-    start: "50% bottom",
-    onEnter: () => tl.play()
-  });
-});
+}, 300);
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(SplitText);
 const revealLink = document.querySelectorAll("[data-reveal-link='true']");
@@ -11886,26 +12413,32 @@ revealLink.forEach((linkElement) => {
   });
 });
 gsapWithCSS.registerPlugin(ScrollTrigger);
+gsapWithCSS.registerPlugin(CustomEase);
+CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
 const images = document.querySelectorAll("[data-image-reveal]");
 images.forEach((image) => {
   const tl = gsapWithCSS.timeline({ paused: true });
+  const initialBlur = 5;
   tl.fromTo(
     image,
     {
       clipPath: "inset(100% 0% 0% 0%)",
-      scale: 1.1
+      scale: 1.1,
+      webkitFilter: `blur(${initialBlur}px)`,
+      filter: `blur(${initialBlur}px)`
     },
     {
       clipPath: "inset(0% 0% 0% 0%)",
       scale: 1,
-      duration: 2,
-      ease: "expo.out",
-      delay: 0.3
+      duration: 1.5,
+      ease: "custom-ease",
+      webkitFilter: `blur(0px)`,
+      filter: `blur(0px)`
     }
   );
   ScrollTrigger.create({
     trigger: image,
-    start: "50% bottom",
+    start: "25% bottom",
     onEnter: () => tl.play()
   });
 });

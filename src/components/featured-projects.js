@@ -1,8 +1,10 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CustomEase } from "gsap/CustomEase";
 import Swiper from "swiper";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(CustomEase);
 
 const component = document.querySelector(
   "[data-component='featured-projects']",
@@ -14,8 +16,15 @@ if (!!component) {
     "[data-featured-projects='metadata']",
   );
 
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
+  const initialBlur = 5;
+
   images.forEach((image) => {
-    gsap.set(image, { scale: 1.1 });
+    gsap.set(image, {
+      scale: 1.1,
+      webkitFilter: `blur(${initialBlur}px)`,
+      filter: `blur(${initialBlur}px)`,
+    });
   });
 
   metadatas.forEach((metadata) => {
@@ -46,26 +55,28 @@ if (!!component) {
         tl.to(visibleSlides, {
           clipPath: "inset(0% 0% 0% 0%)",
           scale: 1,
-          duration: 2,
-          ease: "expo.out",
-          stagger: 0.1,
-          delay: 0.3,
+          duration: 1.5,
+          ease: "custom-ease",
+          stagger: 0.07,
+          delay: 0,
         });
         tl.to(
           images,
           {
             scale: 1,
-            duration: 2,
-            ease: "expo.out",
-            stagger: 0.1,
-            delay: 0.3,
+            webkitFilter: `blur(0px)`,
+            filter: `blur(0px)`,
+            duration: 1.5,
+            ease: "custom-ease",
+            stagger: 0.07,
+            delay: 0,
           },
           0,
         );
 
         ScrollTrigger.create({
           trigger: visibleSlides[0],
-          start: "50% bottom",
+          start: "25% bottom",
           onEnter: () => tl.play(),
         });
       },
@@ -75,11 +86,24 @@ if (!!component) {
           if (slide.dataset.rendered) return;
           slide.dataset.rendered = "true";
           const tl = gsap.timeline();
-          tl.to(slide, {
-            clipPath: "inset(0% 0% 0% 0%)",
-            scale: 1,
-            ease: "expo.out",
-          });
+          tl.to(
+            slide,
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              scale: 1,
+              ease: "custom-ease",
+            },
+            0,
+          );
+          tl.to(
+            slide.querySelector("[data-featured-projects='image']"),
+            {
+              webkitFilter: `blur(0px)`,
+              filter: `blur(0px)`,
+              ease: "custom-ease",
+            },
+            0,
+          );
         });
       },
     },

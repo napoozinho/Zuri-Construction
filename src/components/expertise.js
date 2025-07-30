@@ -1,9 +1,11 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { CustomEase } from "gsap/CustomEase";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
+gsap.registerPlugin(CustomEase);
 
 const component = document.querySelector("[data-component='expertise']");
 
@@ -17,7 +19,8 @@ if (!!component) {
   const summariesTarget = component.querySelector(
     "[data-expertise='summaries-target']",
   );
-
+  CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
+  
   if (window.innerWidth < 992) {
     summariesTarget.append(summariesWrapper);
     const tallestSummary = Math.max(
@@ -42,7 +45,7 @@ if (!!component) {
     },
     clipPath: "inset(0% 0% 0% 0%)",
     duration: 1,
-    ease: "power2.inOut",
+    ease: "custom-ease",
   });
 
   /* summaries initial states */
@@ -60,7 +63,7 @@ if (!!component) {
     tl.from(lines, {
       yPercent: 100,
       duration: 1,
-      ease: "power4.inOut",
+      ease: "custom-ease",
       stagger: {
         amount: 0.3,
       },
@@ -101,8 +104,8 @@ if (!!component) {
       if (image.dataset.id == id) {
         gsap.to(image, {
           clipPath: "inset(0% 0% 0% 0%)",
-          duration: 1,
-          ease: "power2.inOut",
+          duration: .75,
+          ease: "custom-ease",
           onStart: () => {
             images.forEach((image) => {
               if (image.dataset.id == id) {
@@ -135,11 +138,11 @@ if (!!component) {
         summary.classList.remove("hide");
         tl.to(lines, {
           yPercent: 0,
-          duration: 1,
-          delay: 0.2,
-          ease: "power4.inOut",
+          duration: .5,
+          delay: 0.1,
+          ease: "custom-ease",
           stagger: {
-            amount: 0.3,
+            amount: 0.1,
           },
           onComplete: () => {
             isSummaryAnimating = false;
@@ -149,10 +152,10 @@ if (!!component) {
       } else {
         tl.to(lines, {
           yPercent: 100,
-          duration: 1,
-          ease: "power4.inOut",
+          duration: .5,
+          ease: "custom-ease",
           stagger: {
-            amount: 0.3,
+            amount: 0.1,
           },
           onComplete: () => {
             summary.classList.add("hide");
