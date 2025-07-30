@@ -1,11 +1,13 @@
-const superscriptWrapper = document.querySelectorAll("[data-superscript]");
+const superscriptWrapper = document.querySelectorAll("[data-projects-sup]");
 const numberOfProjects = document.querySelectorAll("[data-project]").length;
 
 if (superscriptWrapper.length > 0 && numberOfProjects > 0) {
   superscriptWrapper.forEach((superscript) => {
-    const texts = superscript.querySelectorAll("p");
-    texts.forEach((text) => {
-      text.innerHTML += `<sup>(${numberOfProjects})</sup>`;
-    });
+    const sup = superscript.querySelector("sup");
+    sup.textContent = `(${numberOfProjects})`;
+    // const texts = superscript.querySelectorAll("p");
+    // texts.forEach((text) => {
+    //   text.innerHTML += `<sup>(${numberOfProjects})</sup>`;
+    // });
   });
 }

@@ -7158,7 +7158,7 @@ if (!!component$a) {
     } else {
       metadata.classList.add("hide");
     }
-    const location = metadata.children[1];
+    const location = metadata.children[2];
     const date = metadata.lastChild;
     if (location && date) {
       location.textContent += `, ${date.textContent}`;
@@ -11765,14 +11765,12 @@ if (!!component$6) {
     onEnter: () => tl.play()
   });
 }
-const superscriptWrapper = document.querySelectorAll("[data-superscript]");
+const superscriptWrapper = document.querySelectorAll("[data-projects-sup]");
 const numberOfProjects = document.querySelectorAll("[data-project]").length;
 if (superscriptWrapper.length > 0 && numberOfProjects > 0) {
   superscriptWrapper.forEach((superscript) => {
-    const texts = superscript.querySelectorAll("p");
-    texts.forEach((text) => {
-      text.innerHTML += `<sup>(${numberOfProjects})</sup>`;
-    });
+    const sup = superscript.querySelector("sup");
+    sup.textContent = `(${numberOfProjects})`;
   });
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
@@ -11818,9 +11816,7 @@ if (!!component$5) {
   const images2 = component$5.querySelectorAll("[data-team='image']");
   CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
   images2.forEach((image) => {
-    gsapWithCSS.set(image, {
-      scale: 1.1
-    });
+    gsapWithCSS.set(image, { scale: 1.1 });
   });
   const slider = component$5.querySelector(".swiper");
   new Swiper(slider, {

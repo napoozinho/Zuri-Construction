@@ -14,8 +14,7 @@ if (!!component) {
   const initialBlur = 5;
 
   images.forEach((image) => {
-    gsap.set(image, { scale: 1.1
-    });
+    gsap.set(image, { scale: 1.1 });
   });
 
   const slider = component.querySelector(".swiper");

@@ -115,7 +115,7 @@ if (!!component) {
     } else {
       metadata.classList.add("hide");
     }
-    const location = metadata.children[1];
+    const location = metadata.children[2];
     const date = metadata.lastChild;
     if (location && date) {
       location.textContent += `, ${date.textContent}`;

@@ -20,7 +20,7 @@ if (!!component) {
     "[data-expertise='summaries-target']",
   );
   CustomEase.create("custom-ease", "0.62, 0.05, 0.01, 0.99");
-  
+
   if (window.innerWidth < 992) {
     summariesTarget.append(summariesWrapper);
     const tallestSummary = Math.max(
@@ -104,7 +104,7 @@ if (!!component) {
       if (image.dataset.id == id) {
         gsap.to(image, {
           clipPath: "inset(0% 0% 0% 0%)",
-          duration: .75,
+          duration: 0.75,
           ease: "custom-ease",
           onStart: () => {
             images.forEach((image) => {
@@ -138,7 +138,7 @@ if (!!component) {
         summary.classList.remove("hide");
         tl.to(lines, {
           yPercent: 0,
-          duration: .5,
+          duration: 0.5,
           delay: 0.1,
           ease: "custom-ease",
           stagger: {
@@ -152,7 +152,7 @@ if (!!component) {
       } else {
         tl.to(lines, {
           yPercent: 100,
-          duration: .5,
+          duration: 0.5,
           ease: "custom-ease",
           stagger: {
             amount: 0.1,
