@@ -2,9 +2,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
 import Swiper from "swiper";
+import { Navigation } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(CustomEase);
+Swiper.use([Navigation]);
+Swiper.use([Pagination]);
 
 const component = document.querySelector(
   "[data-component='featured-projects']",
@@ -35,9 +39,26 @@ if (!!component) {
   });
 
   const slider = component.querySelector(".swiper");
+  const pagination = component.querySelector(
+    "[data-slider-controls='pagination']",
+  );
+  const prevEl = component.querySelector("[data-slider-controls='prev']");
+  const nextEl = component.querySelector("[data-slider-controls='next']");
+
   const swiper = new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
+    navigation: {
+      prevEl,
+      nextEl,
+    },
+    pagination: {
+      el: pagination,
+      type: "custom",
+      renderCustom: function (swiper, current, total) {
+        return current + "/" + total;
+      },
+    },
     on: {
       init: function (e) {
         const allSlides = e.slides;

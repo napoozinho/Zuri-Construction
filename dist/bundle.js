@@ -1,4 +1,1076 @@
 const swiperCss = "/**\n * Swiper 11.2.10\n * Most modern mobile touch slider and framework with hardware accelerated transitions\n * https://swiperjs.com\n *\n * Copyright 2014-2025 Vladimir Kharlampidi\n *\n * Released under the MIT License\n *\n * Released on: June 28, 2025\n */\n\n/* FONT_START */\n@font-face {\n  font-family: 'swiper-icons';\n  src: url('data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYABXR1BPUwAABhQAAAAuAAAANuAY7+xHU1VCAAAFxAAAAFAAAABm2fPczU9TLzIAAAHcAAAASgAAAGBP9V5RY21hcAAAAkQAAACIAAABYt6F0cBjdnQgAAACzAAAAAQAAAAEABEBRGdhc3AAAAWYAAAACAAAAAj//wADZ2x5ZgAAAywAAADMAAAD2MHtryVoZWFkAAABbAAAADAAAAA2E2+eoWhoZWEAAAGcAAAAHwAAACQC9gDzaG10eAAAAigAAAAZAAAArgJkABFsb2NhAAAC0AAAAFoAAABaFQAUGG1heHAAAAG8AAAAHwAAACAAcABAbmFtZQAAA/gAAAE5AAACXvFdBwlwb3N0AAAFNAAAAGIAAACE5s74hXjaY2BkYGAAYpf5Hu/j+W2+MnAzMYDAzaX6QjD6/4//Bxj5GA8AuRwMYGkAPywL13jaY2BkYGA88P8Agx4j+/8fQDYfA1AEBWgDAIB2BOoAeNpjYGRgYNBh4GdgYgABEMnIABJzYNADCQAACWgAsQB42mNgYfzCOIGBlYGB0YcxjYGBwR1Kf2WQZGhhYGBiYGVmgAFGBiQQkOaawtDAoMBQxXjg/wEGPcYDDA4wNUA2CCgwsAAAO4EL6gAAeNpj2M0gyAACqxgGNWBkZ2D4/wMA+xkDdgAAAHjaY2BgYGaAYBkGRgYQiAHyGMF8FgYHIM3DwMHABGQrMOgyWDLEM1T9/w8UBfEMgLzE////P/5//f/V/xv+r4eaAAeMbAxwIUYmIMHEgKYAYjUcsDAwsLKxc3BycfPw8jEQA/gZBASFhEVExcQlJKWkZWTl5BUUlZRVVNXUNTQZBgMAAMR+E+gAEQFEAAAAKgAqACoANAA+AEgAUgBcAGYAcAB6AIQAjgCYAKIArAC2AMAAygDUAN4A6ADyAPwBBgEQARoBJAEuATgBQgFMAVYBYAFqAXQBfgGIAZIBnAGmAbIBzgHsAAB42u2NMQ6CUAyGW568x9AneYYgm4MJbhKFaExIOAVX8ApewSt4Bic4AfeAid3VOBixDxfPYEza5O+Xfi04YADggiUIULCuEJK8VhO4bSvpdnktHI5QCYtdi2sl8ZnXaHlqUrNKzdKcT8cjlq+rwZSvIVczNiezsfnP/uznmfPFBNODM2K7MTQ45YEAZqGP81AmGGcF3iPqOop0r1SPTaTbVkfUe4HXj97wYE+yNwWYxwWu4v1ugWHgo3S1XdZEVqWM7ET0cfnLGxWfkgR42o2PvWrDMBSFj/IHLaF0zKjRgdiVMwScNRAoWUoH78Y2icB/yIY09An6AH2Bdu/UB+yxopYshQiEvnvu0dURgDt8QeC8PDw7Fpji3fEA4z/PEJ6YOB5hKh4dj3EvXhxPqH/SKUY3rJ7srZ4FZnh1PMAtPhwP6fl2PMJMPDgeQ4rY8YT6Gzao0eAEA409DuggmTnFnOcSCiEiLMgxCiTI6Cq5DZUd3Qmp10vO0LaLTd2cjN4fOumlc7lUYbSQcZFkutRG7g6JKZKy0RmdLY680CDnEJ+UMkpFFe1RN7nxdVpXrC4aTtnaurOnYercZg2YVmLN/d/gczfEimrE/fs/bOuq29Zmn8tloORaXgZgGa78yO9/cnXm2BpaGvq25Dv9S4E9+5SIc9PqupJKhYFSSl47+Qcr1mYNAAAAeNptw0cKwkAAAMDZJA8Q7OUJvkLsPfZ6zFVERPy8qHh2YER+3i/BP83vIBLLySsoKimrqKqpa2hp6+jq6RsYGhmbmJqZSy0sraxtbO3sHRydnEMU4uR6yx7JJXveP7WrDycAAAAAAAH//wACeNpjYGRgYOABYhkgZgJCZgZNBkYGLQZtIJsFLMYAAAw3ALgAeNolizEKgDAQBCchRbC2sFER0YD6qVQiBCv/H9ezGI6Z5XBAw8CBK/m5iQQVauVbXLnOrMZv2oLdKFa8Pjuru2hJzGabmOSLzNMzvutpB3N42mNgZGBg4GKQYzBhYMxJLMlj4GBgAYow/P/PAJJhLM6sSoWKfWCAAwDAjgbRAAB42mNgYGBkAIIbCZo5IPrmUn0hGA0AO8EFTQAA');\n  font-weight: 400;\n  font-style: normal;\n}\n/* FONT_END */\n:root {\n  --swiper-theme-color: #007aff;\n  /*\n  --swiper-preloader-color: var(--swiper-theme-color);\n  --swiper-wrapper-transition-timing-function: initial;\n  */\n}\n:host {\n  position: relative;\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n  z-index: 1;\n}\n.swiper {\n  margin-left: auto;\n  margin-right: auto;\n  position: relative;\n  overflow: hidden;\n  list-style: none;\n  padding: 0;\n  /* Fix of Webkit flickering */\n  z-index: 1;\n  display: block;\n}\n.swiper-vertical > .swiper-wrapper {\n  flex-direction: column;\n}\n.swiper-wrapper {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  z-index: 1;\n  display: flex;\n  transition-property: transform;\n  transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);\n  box-sizing: content-box;\n}\n.swiper-android .swiper-slide,\n.swiper-ios .swiper-slide,\n.swiper-wrapper {\n  transform: translate3d(0px, 0, 0);\n}\n.swiper-horizontal {\n  touch-action: pan-y;\n}\n.swiper-vertical {\n  touch-action: pan-x;\n}\n.swiper-slide {\n  flex-shrink: 0;\n  width: 100%;\n  height: 100%;\n  position: relative;\n  transition-property: transform;\n  display: block;\n}\n.swiper-slide-invisible-blank {\n  visibility: hidden;\n}\n/* Auto Height */\n.swiper-autoheight,\n.swiper-autoheight .swiper-slide {\n  height: auto;\n}\n.swiper-autoheight .swiper-wrapper {\n  align-items: flex-start;\n  transition-property: transform, height;\n}\n.swiper-backface-hidden .swiper-slide {\n  transform: translateZ(0);\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n}\n/* 3D Effects */\n.swiper-3d.swiper-css-mode .swiper-wrapper {\n  perspective: 1200px;\n}\n.swiper-3d .swiper-wrapper {\n  transform-style: preserve-3d;\n}\n.swiper-3d {\n  perspective: 1200px;\n}\n.swiper-3d .swiper-slide,\n.swiper-3d .swiper-cube-shadow {\n  transform-style: preserve-3d;\n}\n/* CSS Mode */\n.swiper-css-mode > .swiper-wrapper {\n  overflow: auto;\n  scrollbar-width: none;\n  /* For Firefox */\n  -ms-overflow-style: none;\n  /* For Internet Explorer and Edge */\n}\n.swiper-css-mode > .swiper-wrapper::-webkit-scrollbar {\n  display: none;\n}\n.swiper-css-mode > .swiper-wrapper > .swiper-slide {\n  scroll-snap-align: start start;\n}\n.swiper-css-mode.swiper-horizontal > .swiper-wrapper {\n  scroll-snap-type: x mandatory;\n}\n.swiper-css-mode.swiper-vertical > .swiper-wrapper {\n  scroll-snap-type: y mandatory;\n}\n.swiper-css-mode.swiper-free-mode > .swiper-wrapper {\n  scroll-snap-type: none;\n}\n.swiper-css-mode.swiper-free-mode > .swiper-wrapper > .swiper-slide {\n  scroll-snap-align: none;\n}\n.swiper-css-mode.swiper-centered > .swiper-wrapper::before {\n  content: '';\n  flex-shrink: 0;\n  order: 9999;\n}\n.swiper-css-mode.swiper-centered > .swiper-wrapper > .swiper-slide {\n  scroll-snap-align: center center;\n  scroll-snap-stop: always;\n}\n.swiper-css-mode.swiper-centered.swiper-horizontal > .swiper-wrapper > .swiper-slide:first-child {\n  margin-inline-start: var(--swiper-centered-offset-before);\n}\n.swiper-css-mode.swiper-centered.swiper-horizontal > .swiper-wrapper::before {\n  height: 100%;\n  min-height: 1px;\n  width: var(--swiper-centered-offset-after);\n}\n.swiper-css-mode.swiper-centered.swiper-vertical > .swiper-wrapper > .swiper-slide:first-child {\n  margin-block-start: var(--swiper-centered-offset-before);\n}\n.swiper-css-mode.swiper-centered.swiper-vertical > .swiper-wrapper::before {\n  width: 100%;\n  min-width: 1px;\n  height: var(--swiper-centered-offset-after);\n}\n/* Slide styles start */\n/* 3D Shadows */\n.swiper-3d .swiper-slide-shadow,\n.swiper-3d .swiper-slide-shadow-left,\n.swiper-3d .swiper-slide-shadow-right,\n.swiper-3d .swiper-slide-shadow-top,\n.swiper-3d .swiper-slide-shadow-bottom,\n.swiper-3d .swiper-slide-shadow,\n.swiper-3d .swiper-slide-shadow-left,\n.swiper-3d .swiper-slide-shadow-right,\n.swiper-3d .swiper-slide-shadow-top,\n.swiper-3d .swiper-slide-shadow-bottom {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  z-index: 10;\n}\n.swiper-3d .swiper-slide-shadow {\n  background: rgba(0, 0, 0, 0.15);\n}\n.swiper-3d .swiper-slide-shadow-left {\n  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));\n}\n.swiper-3d .swiper-slide-shadow-right {\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));\n}\n.swiper-3d .swiper-slide-shadow-top {\n  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));\n}\n.swiper-3d .swiper-slide-shadow-bottom {\n  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));\n}\n.swiper-lazy-preloader {\n  width: 42px;\n  height: 42px;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  margin-left: -21px;\n  margin-top: -21px;\n  z-index: 10;\n  transform-origin: 50%;\n  box-sizing: border-box;\n  border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));\n  border-radius: 50%;\n  border-top-color: transparent;\n}\n.swiper:not(.swiper-watch-progress) .swiper-lazy-preloader,\n.swiper-watch-progress .swiper-slide-visible .swiper-lazy-preloader {\n  animation: swiper-preloader-spin 1s infinite linear;\n}\n.swiper-lazy-preloader-white {\n  --swiper-preloader-color: #fff;\n}\n.swiper-lazy-preloader-black {\n  --swiper-preloader-color: #000;\n}\n@keyframes swiper-preloader-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n/* Slide styles end */\n";
+var version = "1.3.8";
+function clamp$1(min, input, max) {
+  return Math.max(min, Math.min(input, max));
+}
+function lerp(x, y, t) {
+  return (1 - t) * x + t * y;
+}
+function damp(x, y, lambda, deltaTime) {
+  return lerp(x, y, 1 - Math.exp(-lambda * deltaTime));
+}
+function modulo(n, d) {
+  return (n % d + d) % d;
+}
+var Animate = class {
+  isRunning = false;
+  value = 0;
+  from = 0;
+  to = 0;
+  currentTime = 0;
+  // These are instanciated in the fromTo method
+  lerp;
+  duration;
+  easing;
+  onUpdate;
+  /**
+   * Advance the animation by the given delta time
+   *
+   * @param deltaTime - The time in seconds to advance the animation
+   */
+  advance(deltaTime) {
+    if (!this.isRunning) return;
+    let completed = false;
+    if (this.duration && this.easing) {
+      this.currentTime += deltaTime;
+      const linearProgress = clamp$1(0, this.currentTime / this.duration, 1);
+      completed = linearProgress >= 1;
+      const easedProgress = completed ? 1 : this.easing(linearProgress);
+      this.value = this.from + (this.to - this.from) * easedProgress;
+    } else if (this.lerp) {
+      this.value = damp(this.value, this.to, this.lerp * 60, deltaTime);
+      if (Math.round(this.value) === this.to) {
+        this.value = this.to;
+        completed = true;
+      }
+    } else {
+      this.value = this.to;
+      completed = true;
+    }
+    if (completed) {
+      this.stop();
+    }
+    this.onUpdate?.(this.value, completed);
+  }
+  /** Stop the animation */
+  stop() {
+    this.isRunning = false;
+  }
+  /**
+   * Set up the animation from a starting value to an ending value
+   * with optional parameters for lerping, duration, easing, and onUpdate callback
+   *
+   * @param from - The starting value
+   * @param to - The ending value
+   * @param options - Options for the animation
+   */
+  fromTo(from, to, { lerp: lerp2, duration: duration2, easing, onStart, onUpdate }) {
+    this.from = this.value = from;
+    this.to = to;
+    this.lerp = lerp2;
+    this.duration = duration2;
+    this.easing = easing;
+    this.currentTime = 0;
+    this.isRunning = true;
+    onStart?.();
+    this.onUpdate = onUpdate;
+  }
+};
+function debounce(callback, delay) {
+  let timer;
+  return function(...args) {
+    let context3 = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = void 0;
+      callback.apply(context3, args);
+    }, delay);
+  };
+}
+var Dimensions = class {
+  constructor(wrapper, content, { autoResize = true, debounce: debounceValue = 250 } = {}) {
+    this.wrapper = wrapper;
+    this.content = content;
+    if (autoResize) {
+      this.debouncedResize = debounce(this.resize, debounceValue);
+      if (this.wrapper instanceof Window) {
+        window.addEventListener("resize", this.debouncedResize, false);
+      } else {
+        this.wrapperResizeObserver = new ResizeObserver(this.debouncedResize);
+        this.wrapperResizeObserver.observe(this.wrapper);
+      }
+      this.contentResizeObserver = new ResizeObserver(this.debouncedResize);
+      this.contentResizeObserver.observe(this.content);
+    }
+    this.resize();
+  }
+  width = 0;
+  height = 0;
+  scrollHeight = 0;
+  scrollWidth = 0;
+  // These are instanciated in the constructor as they need information from the options
+  debouncedResize;
+  wrapperResizeObserver;
+  contentResizeObserver;
+  destroy() {
+    this.wrapperResizeObserver?.disconnect();
+    this.contentResizeObserver?.disconnect();
+    if (this.wrapper === window && this.debouncedResize) {
+      window.removeEventListener("resize", this.debouncedResize, false);
+    }
+  }
+  resize = () => {
+    this.onWrapperResize();
+    this.onContentResize();
+  };
+  onWrapperResize = () => {
+    if (this.wrapper instanceof Window) {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+    } else {
+      this.width = this.wrapper.clientWidth;
+      this.height = this.wrapper.clientHeight;
+    }
+  };
+  onContentResize = () => {
+    if (this.wrapper instanceof Window) {
+      this.scrollHeight = this.content.scrollHeight;
+      this.scrollWidth = this.content.scrollWidth;
+    } else {
+      this.scrollHeight = this.wrapper.scrollHeight;
+      this.scrollWidth = this.wrapper.scrollWidth;
+    }
+  };
+  get limit() {
+    return {
+      x: this.scrollWidth - this.width,
+      y: this.scrollHeight - this.height
+    };
+  }
+};
+var Emitter = class {
+  events = {};
+  /**
+   * Emit an event with the given data
+   * @param event Event name
+   * @param args Data to pass to the event handlers
+   */
+  emit(event, ...args) {
+    let callbacks = this.events[event] || [];
+    for (let i = 0, length = callbacks.length; i < length; i++) {
+      callbacks[i]?.(...args);
+    }
+  }
+  /**
+   * Add a callback to the event
+   * @param event Event name
+   * @param cb Callback function
+   * @returns Unsubscribe function
+   */
+  on(event, cb) {
+    this.events[event]?.push(cb) || (this.events[event] = [cb]);
+    return () => {
+      this.events[event] = this.events[event]?.filter((i) => cb !== i);
+    };
+  }
+  /**
+   * Remove a callback from the event
+   * @param event Event name
+   * @param callback Callback function
+   */
+  off(event, callback) {
+    this.events[event] = this.events[event]?.filter((i) => callback !== i);
+  }
+  /**
+   * Remove all event listeners and clean up
+   */
+  destroy() {
+    this.events = {};
+  }
+};
+var LINE_HEIGHT = 100 / 6;
+var listenerOptions = { passive: false };
+var VirtualScroll = class {
+  constructor(element, options = { wheelMultiplier: 1, touchMultiplier: 1 }) {
+    this.element = element;
+    this.options = options;
+    window.addEventListener("resize", this.onWindowResize, false);
+    this.onWindowResize();
+    this.element.addEventListener("wheel", this.onWheel, listenerOptions);
+    this.element.addEventListener(
+      "touchstart",
+      this.onTouchStart,
+      listenerOptions
+    );
+    this.element.addEventListener(
+      "touchmove",
+      this.onTouchMove,
+      listenerOptions
+    );
+    this.element.addEventListener("touchend", this.onTouchEnd, listenerOptions);
+  }
+  touchStart = {
+    x: 0,
+    y: 0
+  };
+  lastDelta = {
+    x: 0,
+    y: 0
+  };
+  window = {
+    width: 0,
+    height: 0
+  };
+  emitter = new Emitter();
+  /**
+   * Add an event listener for the given event and callback
+   *
+   * @param event Event name
+   * @param callback Callback function
+   */
+  on(event, callback) {
+    return this.emitter.on(event, callback);
+  }
+  /** Remove all event listeners and clean up */
+  destroy() {
+    this.emitter.destroy();
+    window.removeEventListener("resize", this.onWindowResize, false);
+    this.element.removeEventListener("wheel", this.onWheel, listenerOptions);
+    this.element.removeEventListener(
+      "touchstart",
+      this.onTouchStart,
+      listenerOptions
+    );
+    this.element.removeEventListener(
+      "touchmove",
+      this.onTouchMove,
+      listenerOptions
+    );
+    this.element.removeEventListener(
+      "touchend",
+      this.onTouchEnd,
+      listenerOptions
+    );
+  }
+  /**
+   * Event handler for 'touchstart' event
+   *
+   * @param event Touch event
+   */
+  onTouchStart = (event) => {
+    const { clientX, clientY } = event.targetTouches ? event.targetTouches[0] : event;
+    this.touchStart.x = clientX;
+    this.touchStart.y = clientY;
+    this.lastDelta = {
+      x: 0,
+      y: 0
+    };
+    this.emitter.emit("scroll", {
+      deltaX: 0,
+      deltaY: 0,
+      event
+    });
+  };
+  /** Event handler for 'touchmove' event */
+  onTouchMove = (event) => {
+    const { clientX, clientY } = event.targetTouches ? event.targetTouches[0] : event;
+    const deltaX = -(clientX - this.touchStart.x) * this.options.touchMultiplier;
+    const deltaY = -(clientY - this.touchStart.y) * this.options.touchMultiplier;
+    this.touchStart.x = clientX;
+    this.touchStart.y = clientY;
+    this.lastDelta = {
+      x: deltaX,
+      y: deltaY
+    };
+    this.emitter.emit("scroll", {
+      deltaX,
+      deltaY,
+      event
+    });
+  };
+  onTouchEnd = (event) => {
+    this.emitter.emit("scroll", {
+      deltaX: this.lastDelta.x,
+      deltaY: this.lastDelta.y,
+      event
+    });
+  };
+  /** Event handler for 'wheel' event */
+  onWheel = (event) => {
+    let { deltaX, deltaY, deltaMode } = event;
+    const multiplierX = deltaMode === 1 ? LINE_HEIGHT : deltaMode === 2 ? this.window.width : 1;
+    const multiplierY = deltaMode === 1 ? LINE_HEIGHT : deltaMode === 2 ? this.window.height : 1;
+    deltaX *= multiplierX;
+    deltaY *= multiplierY;
+    deltaX *= this.options.wheelMultiplier;
+    deltaY *= this.options.wheelMultiplier;
+    this.emitter.emit("scroll", { deltaX, deltaY, event });
+  };
+  onWindowResize = () => {
+    this.window = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+  };
+};
+var defaultEasing = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
+var Lenis = class {
+  _isScrolling = false;
+  // true when scroll is animating
+  _isStopped = false;
+  // true if user should not be able to scroll - enable/disable programmatically
+  _isLocked = false;
+  // same as isStopped but enabled/disabled when scroll reaches target
+  _preventNextNativeScrollEvent = false;
+  _resetVelocityTimeout = null;
+  __rafID = null;
+  /**
+   * Whether or not the user is touching the screen
+   */
+  isTouching;
+  /**
+   * The time in ms since the lenis instance was created
+   */
+  time = 0;
+  /**
+   * User data that will be forwarded through the scroll event
+   *
+   * @example
+   * lenis.scrollTo(100, {
+   *   userData: {
+   *     foo: 'bar'
+   *   }
+   * })
+   */
+  userData = {};
+  /**
+   * The last velocity of the scroll
+   */
+  lastVelocity = 0;
+  /**
+   * The current velocity of the scroll
+   */
+  velocity = 0;
+  /**
+   * The direction of the scroll
+   */
+  direction = 0;
+  /**
+   * The options passed to the lenis instance
+   */
+  options;
+  /**
+   * The target scroll value
+   */
+  targetScroll;
+  /**
+   * The animated scroll value
+   */
+  animatedScroll;
+  // These are instanciated here as they don't need information from the options
+  animate = new Animate();
+  emitter = new Emitter();
+  // These are instanciated in the constructor as they need information from the options
+  dimensions;
+  // This is not private because it's used in the Snap class
+  virtualScroll;
+  constructor({
+    wrapper = window,
+    content = document.documentElement,
+    eventsTarget = wrapper,
+    smoothWheel = true,
+    syncTouch = false,
+    syncTouchLerp = 0.075,
+    touchInertiaExponent = 1.7,
+    duration: duration2,
+    // in seconds
+    easing,
+    lerp: lerp2 = 0.1,
+    infinite = false,
+    orientation = "vertical",
+    // vertical, horizontal
+    gestureOrientation = "vertical",
+    // vertical, horizontal, both
+    touchMultiplier = 1,
+    wheelMultiplier = 1,
+    autoResize = true,
+    prevent,
+    virtualScroll,
+    overscroll = true,
+    autoRaf = false,
+    anchors = false,
+    autoToggle = false,
+    // https://caniuse.com/?search=transition-behavior
+    allowNestedScroll = false,
+    __experimental__naiveDimensions = false
+  } = {}) {
+    window.lenisVersion = version;
+    if (!wrapper || wrapper === document.documentElement) {
+      wrapper = window;
+    }
+    if (typeof duration2 === "number" && typeof easing !== "function") {
+      easing = defaultEasing;
+    } else if (typeof easing === "function" && typeof duration2 !== "number") {
+      duration2 = 1;
+    }
+    this.options = {
+      wrapper,
+      content,
+      eventsTarget,
+      smoothWheel,
+      syncTouch,
+      syncTouchLerp,
+      touchInertiaExponent,
+      duration: duration2,
+      easing,
+      lerp: lerp2,
+      infinite,
+      gestureOrientation,
+      orientation,
+      touchMultiplier,
+      wheelMultiplier,
+      autoResize,
+      prevent,
+      virtualScroll,
+      overscroll,
+      autoRaf,
+      anchors,
+      autoToggle,
+      allowNestedScroll,
+      __experimental__naiveDimensions
+    };
+    this.dimensions = new Dimensions(wrapper, content, { autoResize });
+    this.updateClassName();
+    this.targetScroll = this.animatedScroll = this.actualScroll;
+    this.options.wrapper.addEventListener("scroll", this.onNativeScroll, false);
+    this.options.wrapper.addEventListener("scrollend", this.onScrollEnd, {
+      capture: true
+    });
+    if (this.options.anchors && this.options.wrapper === window) {
+      this.options.wrapper.addEventListener(
+        "click",
+        this.onClick,
+        false
+      );
+    }
+    this.options.wrapper.addEventListener(
+      "pointerdown",
+      this.onPointerDown,
+      false
+    );
+    this.virtualScroll = new VirtualScroll(eventsTarget, {
+      touchMultiplier,
+      wheelMultiplier
+    });
+    this.virtualScroll.on("scroll", this.onVirtualScroll);
+    if (this.options.autoToggle) {
+      this.rootElement.addEventListener("transitionend", this.onTransitionEnd, {
+        passive: true
+      });
+    }
+    if (this.options.autoRaf) {
+      this.__rafID = requestAnimationFrame(this.raf);
+    }
+  }
+  /**
+   * Destroy the lenis instance, remove all event listeners and clean up the class name
+   */
+  destroy() {
+    this.emitter.destroy();
+    this.options.wrapper.removeEventListener(
+      "scroll",
+      this.onNativeScroll,
+      false
+    );
+    this.options.wrapper.removeEventListener("scrollend", this.onScrollEnd, {
+      capture: true
+    });
+    this.options.wrapper.removeEventListener(
+      "pointerdown",
+      this.onPointerDown,
+      false
+    );
+    if (this.options.anchors && this.options.wrapper === window) {
+      this.options.wrapper.removeEventListener(
+        "click",
+        this.onClick,
+        false
+      );
+    }
+    this.virtualScroll.destroy();
+    this.dimensions.destroy();
+    this.cleanUpClassName();
+    if (this.__rafID) {
+      cancelAnimationFrame(this.__rafID);
+    }
+  }
+  on(event, callback) {
+    return this.emitter.on(event, callback);
+  }
+  off(event, callback) {
+    return this.emitter.off(event, callback);
+  }
+  onScrollEnd = (e) => {
+    if (!(e instanceof CustomEvent)) {
+      if (this.isScrolling === "smooth" || this.isScrolling === false) {
+        e.stopPropagation();
+      }
+    }
+  };
+  dispatchScrollendEvent = () => {
+    this.options.wrapper.dispatchEvent(
+      new CustomEvent("scrollend", {
+        bubbles: this.options.wrapper === window,
+        // cancelable: false,
+        detail: {
+          lenisScrollEnd: true
+        }
+      })
+    );
+  };
+  onTransitionEnd = (event) => {
+    if (event.propertyName.includes("overflow")) {
+      const property = this.isHorizontal ? "overflow-x" : "overflow-y";
+      const overflow = getComputedStyle(this.rootElement)[property];
+      if (["hidden", "clip"].includes(overflow)) {
+        this.internalStop();
+      } else {
+        this.internalStart();
+      }
+    }
+  };
+  setScroll(scroll) {
+    if (this.isHorizontal) {
+      this.options.wrapper.scrollTo({ left: scroll, behavior: "instant" });
+    } else {
+      this.options.wrapper.scrollTo({ top: scroll, behavior: "instant" });
+    }
+  }
+  onClick = (event) => {
+    const path = event.composedPath();
+    const anchor = path.find(
+      (node) => node instanceof HTMLAnchorElement && (node.getAttribute("href")?.startsWith("#") || node.getAttribute("href")?.startsWith("/#") || node.getAttribute("href")?.startsWith("./#"))
+    );
+    if (anchor) {
+      const id = anchor.getAttribute("href");
+      if (id) {
+        const options = typeof this.options.anchors === "object" && this.options.anchors ? this.options.anchors : void 0;
+        let target = `#${id.split("#")[1]}`;
+        if (["#", "/#", "./#", "#top", "/#top", "./#top"].includes(id)) {
+          target = 0;
+        }
+        this.scrollTo(target, options);
+      }
+    }
+  };
+  onPointerDown = (event) => {
+    if (event.button === 1) {
+      this.reset();
+    }
+  };
+  onVirtualScroll = (data) => {
+    if (typeof this.options.virtualScroll === "function" && this.options.virtualScroll(data) === false)
+      return;
+    const { deltaX, deltaY, event } = data;
+    this.emitter.emit("virtual-scroll", { deltaX, deltaY, event });
+    if (event.ctrlKey) return;
+    if (event.lenisStopPropagation) return;
+    const isTouch = event.type.includes("touch");
+    const isWheel = event.type.includes("wheel");
+    this.isTouching = event.type === "touchstart" || event.type === "touchmove";
+    const isClickOrTap = deltaX === 0 && deltaY === 0;
+    const isTapToStop = this.options.syncTouch && isTouch && event.type === "touchstart" && isClickOrTap && !this.isStopped && !this.isLocked;
+    if (isTapToStop) {
+      this.reset();
+      return;
+    }
+    const isUnknownGesture = this.options.gestureOrientation === "vertical" && deltaY === 0 || this.options.gestureOrientation === "horizontal" && deltaX === 0;
+    if (isClickOrTap || isUnknownGesture) {
+      return;
+    }
+    let composedPath = event.composedPath();
+    composedPath = composedPath.slice(0, composedPath.indexOf(this.rootElement));
+    const prevent = this.options.prevent;
+    if (!!composedPath.find(
+      (node) => node instanceof HTMLElement && (typeof prevent === "function" && prevent?.(node) || node.hasAttribute?.("data-lenis-prevent") || isTouch && node.hasAttribute?.("data-lenis-prevent-touch") || isWheel && node.hasAttribute?.("data-lenis-prevent-wheel") || this.options.allowNestedScroll && this.checkNestedScroll(node, { deltaX, deltaY }))
+    ))
+      return;
+    if (this.isStopped || this.isLocked) {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+      return;
+    }
+    const isSmooth = this.options.syncTouch && isTouch || this.options.smoothWheel && isWheel;
+    if (!isSmooth) {
+      this.isScrolling = "native";
+      this.animate.stop();
+      event.lenisStopPropagation = true;
+      return;
+    }
+    let delta = deltaY;
+    if (this.options.gestureOrientation === "both") {
+      delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX;
+    } else if (this.options.gestureOrientation === "horizontal") {
+      delta = deltaX;
+    }
+    if (!this.options.overscroll || this.options.infinite || this.options.wrapper !== window && (this.animatedScroll > 0 && this.animatedScroll < this.limit || this.animatedScroll === 0 && deltaY > 0 || this.animatedScroll === this.limit && deltaY < 0)) {
+      event.lenisStopPropagation = true;
+    }
+    if (event.cancelable) {
+      event.preventDefault();
+    }
+    const isSyncTouch = isTouch && this.options.syncTouch;
+    const isTouchEnd = isTouch && event.type === "touchend";
+    const hasTouchInertia = isTouchEnd;
+    if (hasTouchInertia) {
+      delta = Math.sign(this.velocity) * Math.pow(Math.abs(this.velocity), this.options.touchInertiaExponent);
+    }
+    this.scrollTo(this.targetScroll + delta, {
+      programmatic: false,
+      ...isSyncTouch ? {
+        lerp: hasTouchInertia ? this.options.syncTouchLerp : 1
+        // immediate: !hasTouchInertia,
+      } : {
+        lerp: this.options.lerp,
+        duration: this.options.duration,
+        easing: this.options.easing
+      }
+    });
+  };
+  /**
+   * Force lenis to recalculate the dimensions
+   */
+  resize() {
+    this.dimensions.resize();
+    this.animatedScroll = this.targetScroll = this.actualScroll;
+    this.emit();
+  }
+  emit() {
+    this.emitter.emit("scroll", this);
+  }
+  onNativeScroll = () => {
+    if (this._resetVelocityTimeout !== null) {
+      clearTimeout(this._resetVelocityTimeout);
+      this._resetVelocityTimeout = null;
+    }
+    if (this._preventNextNativeScrollEvent) {
+      this._preventNextNativeScrollEvent = false;
+      return;
+    }
+    if (this.isScrolling === false || this.isScrolling === "native") {
+      const lastScroll = this.animatedScroll;
+      this.animatedScroll = this.targetScroll = this.actualScroll;
+      this.lastVelocity = this.velocity;
+      this.velocity = this.animatedScroll - lastScroll;
+      this.direction = Math.sign(
+        this.animatedScroll - lastScroll
+      );
+      if (!this.isStopped) {
+        this.isScrolling = "native";
+      }
+      this.emit();
+      if (this.velocity !== 0) {
+        this._resetVelocityTimeout = setTimeout(() => {
+          this.lastVelocity = this.velocity;
+          this.velocity = 0;
+          this.isScrolling = false;
+          this.emit();
+        }, 400);
+      }
+    }
+  };
+  reset() {
+    this.isLocked = false;
+    this.isScrolling = false;
+    this.animatedScroll = this.targetScroll = this.actualScroll;
+    this.lastVelocity = this.velocity = 0;
+    this.animate.stop();
+  }
+  /**
+   * Start lenis scroll after it has been stopped
+   */
+  start() {
+    if (!this.isStopped) return;
+    if (this.options.autoToggle) {
+      this.rootElement.style.removeProperty("overflow");
+      return;
+    }
+    this.internalStart();
+  }
+  internalStart() {
+    if (!this.isStopped) return;
+    this.reset();
+    this.isStopped = false;
+    this.emit();
+  }
+  /**
+   * Stop lenis scroll
+   */
+  stop() {
+    if (this.isStopped) return;
+    if (this.options.autoToggle) {
+      this.rootElement.style.setProperty("overflow", "clip");
+      return;
+    }
+    this.internalStop();
+  }
+  internalStop() {
+    if (this.isStopped) return;
+    this.reset();
+    this.isStopped = true;
+    this.emit();
+  }
+  /**
+   * RequestAnimationFrame for lenis
+   *
+   * @param time The time in ms from an external clock like `requestAnimationFrame` or Tempus
+   */
+  raf = (time) => {
+    const deltaTime = time - (this.time || time);
+    this.time = time;
+    this.animate.advance(deltaTime * 1e-3);
+    if (this.options.autoRaf) {
+      this.__rafID = requestAnimationFrame(this.raf);
+    }
+  };
+  /**
+   * Scroll to a target value
+   *
+   * @param target The target value to scroll to
+   * @param options The options for the scroll
+   *
+   * @example
+   * lenis.scrollTo(100, {
+   *   offset: 100,
+   *   duration: 1,
+   *   easing: (t) => 1 - Math.cos((t * Math.PI) / 2),
+   *   lerp: 0.1,
+   *   onStart: () => {
+   *     console.log('onStart')
+   *   },
+   *   onComplete: () => {
+   *     console.log('onComplete')
+   *   },
+   * })
+   */
+  scrollTo(target, {
+    offset = 0,
+    immediate = false,
+    lock = false,
+    duration: duration2 = this.options.duration,
+    easing = this.options.easing,
+    lerp: lerp2 = this.options.lerp,
+    onStart,
+    onComplete,
+    force = false,
+    // scroll even if stopped
+    programmatic = true,
+    // called from outside of the class
+    userData
+  } = {}) {
+    if ((this.isStopped || this.isLocked) && !force) return;
+    if (typeof target === "string" && ["top", "left", "start"].includes(target)) {
+      target = 0;
+    } else if (typeof target === "string" && ["bottom", "right", "end"].includes(target)) {
+      target = this.limit;
+    } else {
+      let node;
+      if (typeof target === "string") {
+        node = document.querySelector(target);
+      } else if (target instanceof HTMLElement && target?.nodeType) {
+        node = target;
+      }
+      if (node) {
+        if (this.options.wrapper !== window) {
+          const wrapperRect = this.rootElement.getBoundingClientRect();
+          offset -= this.isHorizontal ? wrapperRect.left : wrapperRect.top;
+        }
+        const rect = node.getBoundingClientRect();
+        target = (this.isHorizontal ? rect.left : rect.top) + this.animatedScroll;
+      }
+    }
+    if (typeof target !== "number") return;
+    target += offset;
+    target = Math.round(target);
+    if (this.options.infinite) {
+      if (programmatic) {
+        this.targetScroll = this.animatedScroll = this.scroll;
+        const distance = target - this.animatedScroll;
+        if (distance > this.limit / 2) {
+          target = target - this.limit;
+        } else if (distance < -this.limit / 2) {
+          target = target + this.limit;
+        }
+      }
+    } else {
+      target = clamp$1(0, target, this.limit);
+    }
+    if (target === this.targetScroll) {
+      onStart?.(this);
+      onComplete?.(this);
+      return;
+    }
+    this.userData = userData ?? {};
+    if (immediate) {
+      this.animatedScroll = this.targetScroll = target;
+      this.setScroll(this.scroll);
+      this.reset();
+      this.preventNextNativeScrollEvent();
+      this.emit();
+      onComplete?.(this);
+      this.userData = {};
+      requestAnimationFrame(() => {
+        this.dispatchScrollendEvent();
+      });
+      return;
+    }
+    if (!programmatic) {
+      this.targetScroll = target;
+    }
+    if (typeof duration2 === "number" && typeof easing !== "function") {
+      easing = defaultEasing;
+    } else if (typeof easing === "function" && typeof duration2 !== "number") {
+      duration2 = 1;
+    }
+    this.animate.fromTo(this.animatedScroll, target, {
+      duration: duration2,
+      easing,
+      lerp: lerp2,
+      onStart: () => {
+        if (lock) this.isLocked = true;
+        this.isScrolling = "smooth";
+        onStart?.(this);
+      },
+      onUpdate: (value, completed) => {
+        this.isScrolling = "smooth";
+        this.lastVelocity = this.velocity;
+        this.velocity = value - this.animatedScroll;
+        this.direction = Math.sign(this.velocity);
+        this.animatedScroll = value;
+        this.setScroll(this.scroll);
+        if (programmatic) {
+          this.targetScroll = value;
+        }
+        if (!completed) this.emit();
+        if (completed) {
+          this.reset();
+          this.emit();
+          onComplete?.(this);
+          this.userData = {};
+          requestAnimationFrame(() => {
+            this.dispatchScrollendEvent();
+          });
+          this.preventNextNativeScrollEvent();
+        }
+      }
+    });
+  }
+  preventNextNativeScrollEvent() {
+    this._preventNextNativeScrollEvent = true;
+    requestAnimationFrame(() => {
+      this._preventNextNativeScrollEvent = false;
+    });
+  }
+  checkNestedScroll(node, { deltaX, deltaY }) {
+    const time = Date.now();
+    const cache = node._lenis ??= {};
+    let hasOverflowX, hasOverflowY, isScrollableX, isScrollableY, scrollWidth, scrollHeight, clientWidth, clientHeight;
+    const gestureOrientation = this.options.gestureOrientation;
+    if (time - (cache.time ?? 0) > 2e3) {
+      cache.time = Date.now();
+      const computedStyle = window.getComputedStyle(node);
+      cache.computedStyle = computedStyle;
+      const overflowXString = computedStyle.overflowX;
+      const overflowYString = computedStyle.overflowY;
+      hasOverflowX = ["auto", "overlay", "scroll"].includes(overflowXString);
+      hasOverflowY = ["auto", "overlay", "scroll"].includes(overflowYString);
+      cache.hasOverflowX = hasOverflowX;
+      cache.hasOverflowY = hasOverflowY;
+      if (!hasOverflowX && !hasOverflowY) return false;
+      if (gestureOrientation === "vertical" && !hasOverflowY) return false;
+      if (gestureOrientation === "horizontal" && !hasOverflowX) return false;
+      scrollWidth = node.scrollWidth;
+      scrollHeight = node.scrollHeight;
+      clientWidth = node.clientWidth;
+      clientHeight = node.clientHeight;
+      isScrollableX = scrollWidth > clientWidth;
+      isScrollableY = scrollHeight > clientHeight;
+      cache.isScrollableX = isScrollableX;
+      cache.isScrollableY = isScrollableY;
+      cache.scrollWidth = scrollWidth;
+      cache.scrollHeight = scrollHeight;
+      cache.clientWidth = clientWidth;
+      cache.clientHeight = clientHeight;
+    } else {
+      isScrollableX = cache.isScrollableX;
+      isScrollableY = cache.isScrollableY;
+      hasOverflowX = cache.hasOverflowX;
+      hasOverflowY = cache.hasOverflowY;
+      scrollWidth = cache.scrollWidth;
+      scrollHeight = cache.scrollHeight;
+      clientWidth = cache.clientWidth;
+      clientHeight = cache.clientHeight;
+    }
+    if (!hasOverflowX && !hasOverflowY || !isScrollableX && !isScrollableY) {
+      return false;
+    }
+    if (gestureOrientation === "vertical" && (!hasOverflowY || !isScrollableY))
+      return false;
+    if (gestureOrientation === "horizontal" && (!hasOverflowX || !isScrollableX))
+      return false;
+    let orientation;
+    if (gestureOrientation === "horizontal") {
+      orientation = "x";
+    } else if (gestureOrientation === "vertical") {
+      orientation = "y";
+    } else {
+      const isScrollingX = deltaX !== 0;
+      const isScrollingY = deltaY !== 0;
+      if (isScrollingX && hasOverflowX && isScrollableX) {
+        orientation = "x";
+      }
+      if (isScrollingY && hasOverflowY && isScrollableY) {
+        orientation = "y";
+      }
+    }
+    if (!orientation) return false;
+    let scroll, maxScroll, delta, hasOverflow, isScrollable;
+    if (orientation === "x") {
+      scroll = node.scrollLeft;
+      maxScroll = scrollWidth - clientWidth;
+      delta = deltaX;
+      hasOverflow = hasOverflowX;
+      isScrollable = isScrollableX;
+    } else if (orientation === "y") {
+      scroll = node.scrollTop;
+      maxScroll = scrollHeight - clientHeight;
+      delta = deltaY;
+      hasOverflow = hasOverflowY;
+      isScrollable = isScrollableY;
+    } else {
+      return false;
+    }
+    const willScroll = delta > 0 ? scroll < maxScroll : scroll > 0;
+    return willScroll && hasOverflow && isScrollable;
+  }
+  /**
+   * The root element on which lenis is instanced
+   */
+  get rootElement() {
+    return this.options.wrapper === window ? document.documentElement : this.options.wrapper;
+  }
+  /**
+   * The limit which is the maximum scroll value
+   */
+  get limit() {
+    if (this.options.__experimental__naiveDimensions) {
+      if (this.isHorizontal) {
+        return this.rootElement.scrollWidth - this.rootElement.clientWidth;
+      } else {
+        return this.rootElement.scrollHeight - this.rootElement.clientHeight;
+      }
+    } else {
+      return this.dimensions.limit[this.isHorizontal ? "x" : "y"];
+    }
+  }
+  /**
+   * Whether or not the scroll is horizontal
+   */
+  get isHorizontal() {
+    return this.options.orientation === "horizontal";
+  }
+  /**
+   * The actual scroll value
+   */
+  get actualScroll() {
+    const wrapper = this.options.wrapper;
+    return this.isHorizontal ? wrapper.scrollX ?? wrapper.scrollLeft : wrapper.scrollY ?? wrapper.scrollTop;
+  }
+  /**
+   * The current scroll value
+   */
+  get scroll() {
+    return this.options.infinite ? modulo(this.animatedScroll, this.limit) : this.animatedScroll;
+  }
+  /**
+   * The progress of the scroll relative to the limit
+   */
+  get progress() {
+    return this.limit === 0 ? 1 : this.scroll / this.limit;
+  }
+  /**
+   * Current scroll state
+   */
+  get isScrolling() {
+    return this._isScrolling;
+  }
+  set isScrolling(value) {
+    if (this._isScrolling !== value) {
+      this._isScrolling = value;
+      this.updateClassName();
+    }
+  }
+  /**
+   * Check if lenis is stopped
+   */
+  get isStopped() {
+    return this._isStopped;
+  }
+  set isStopped(value) {
+    if (this._isStopped !== value) {
+      this._isStopped = value;
+      this.updateClassName();
+    }
+  }
+  /**
+   * Check if lenis is locked
+   */
+  get isLocked() {
+    return this._isLocked;
+  }
+  set isLocked(value) {
+    if (this._isLocked !== value) {
+      this._isLocked = value;
+      this.updateClassName();
+    }
+  }
+  /**
+   * Check if lenis is smooth scrolling
+   */
+  get isSmooth() {
+    return this.isScrolling === "smooth";
+  }
+  /**
+   * The class name applied to the wrapper element
+   */
+  get className() {
+    let className = "lenis";
+    if (this.options.autoToggle) className += " lenis-autoToggle";
+    if (this.isStopped) className += " lenis-stopped";
+    if (this.isLocked) className += " lenis-locked";
+    if (this.isScrolling) className += " lenis-scrolling";
+    if (this.isScrolling === "smooth") className += " lenis-smooth";
+    return className;
+  }
+  updateClassName() {
+    this.cleanUpClassName();
+    this.rootElement.className = `${this.rootElement.className} ${this.className}`.trim();
+  }
+  cleanUpClassName() {
+    this.rootElement.className = this.rootElement.className.replace(/lenis(-\w+)?/g, "").trim();
+  }
+};
+const lenis = new Lenis();
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+lenis.stop();
+$(document).ready(function() {
+  lenis.start();
+});
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -4196,7 +5268,7 @@ var Observer$1 = /* @__PURE__ */ function() {
   _proto.init = function init4(vars) {
     _coreInitted$3 || _initCore$1(gsap$3) || console.warn("Please gsap.registerPlugin(Observer)");
     ScrollTrigger$1 || _setScrollTrigger();
-    var tolerance = vars.tolerance, dragMinimum = vars.dragMinimum, type = vars.type, target = vars.target, lineHeight = vars.lineHeight, debounce = vars.debounce, preventDefault = vars.preventDefault, onStop = vars.onStop, onStopDelay = vars.onStopDelay, ignore = vars.ignore, wheelSpeed = vars.wheelSpeed, event = vars.event, onDragStart = vars.onDragStart, onDragEnd = vars.onDragEnd, onDrag = vars.onDrag, onPress = vars.onPress, onRelease = vars.onRelease, onRight = vars.onRight, onLeft = vars.onLeft, onUp = vars.onUp, onDown = vars.onDown, onChangeX = vars.onChangeX, onChangeY = vars.onChangeY, onChange = vars.onChange, onToggleX = vars.onToggleX, onToggleY = vars.onToggleY, onHover = vars.onHover, onHoverEnd = vars.onHoverEnd, onMove = vars.onMove, ignoreCheck = vars.ignoreCheck, isNormalizer = vars.isNormalizer, onGestureStart = vars.onGestureStart, onGestureEnd = vars.onGestureEnd, onWheel = vars.onWheel, onEnable = vars.onEnable, onDisable = vars.onDisable, onClick2 = vars.onClick, scrollSpeed = vars.scrollSpeed, capture = vars.capture, allowClicks = vars.allowClicks, lockAxis = vars.lockAxis, onLockAxis = vars.onLockAxis;
+    var tolerance = vars.tolerance, dragMinimum = vars.dragMinimum, type = vars.type, target = vars.target, lineHeight = vars.lineHeight, debounce2 = vars.debounce, preventDefault = vars.preventDefault, onStop = vars.onStop, onStopDelay = vars.onStopDelay, ignore = vars.ignore, wheelSpeed = vars.wheelSpeed, event = vars.event, onDragStart = vars.onDragStart, onDragEnd = vars.onDragEnd, onDrag = vars.onDrag, onPress = vars.onPress, onRelease = vars.onRelease, onRight = vars.onRight, onLeft = vars.onLeft, onUp = vars.onUp, onDown = vars.onDown, onChangeX = vars.onChangeX, onChangeY = vars.onChangeY, onChange = vars.onChange, onToggleX = vars.onToggleX, onToggleY = vars.onToggleY, onHover = vars.onHover, onHoverEnd = vars.onHoverEnd, onMove = vars.onMove, ignoreCheck = vars.ignoreCheck, isNormalizer = vars.isNormalizer, onGestureStart = vars.onGestureStart, onGestureEnd = vars.onGestureEnd, onWheel = vars.onWheel, onEnable = vars.onEnable, onDisable = vars.onDisable, onClick2 = vars.onClick, scrollSpeed = vars.scrollSpeed, capture = vars.capture, allowClicks = vars.allowClicks, lockAxis = vars.lockAxis, onLockAxis = vars.onLockAxis;
     this.target = target = _getTarget(target) || _docEl$1;
     this.vars = vars;
     ignore && (ignore = gsap$3.utils.toArray(ignore));
@@ -4205,7 +5277,7 @@ var Observer$1 = /* @__PURE__ */ function() {
     wheelSpeed = wheelSpeed || 1;
     scrollSpeed = scrollSpeed || 1;
     type = type || "wheel,touch,pointer";
-    debounce = debounce !== false;
+    debounce2 = debounce2 !== false;
     lineHeight || (lineHeight = parseFloat(_win$1.getComputedStyle(_body$1).lineHeight) || 22);
     var id, onStopDelayedCall, dragged, moved, wheeled, locked, axis, self = this, prevDeltaX = 0, prevDeltaY = 0, passive = vars.passive || !preventDefault && vars.passive !== false, scrollFuncX = _getScrollFunc(target, _horizontal), scrollFuncY = _getScrollFunc(target, _vertical), scrollX = scrollFuncX(), scrollY = scrollFuncY(), limitToTouch = ~type.indexOf("touch") && !~type.indexOf("pointer") && _eventTypes[0] === "pointerdown", isViewport = _isViewport$1(target), ownerDoc = target.ownerDocument || _doc$1, deltaX = [0, 0, 0], deltaY = [0, 0, 0], onClickTime = 0, clickCapture = function clickCapture2() {
       return onClickTime = _getTime$1();
@@ -4255,7 +5327,7 @@ var Observer$1 = /* @__PURE__ */ function() {
       deltaY[index] += y;
       self._vx.update(x);
       self._vy.update(y);
-      debounce ? id || (id = requestAnimationFrame(update2)) : update2();
+      debounce2 ? id || (id = requestAnimationFrame(update2)) : update2();
     }, onTouchOrPointerDelta = function onTouchOrPointerDelta2(x, y) {
       if (lockAxis && !axis) {
         self.axis = axis = Math.abs(x) > Math.abs(y) ? "x" : "y";
@@ -4269,7 +5341,7 @@ var Observer$1 = /* @__PURE__ */ function() {
         deltaY[2] += y;
         self._vy.update(y, true);
       }
-      debounce ? id || (id = requestAnimationFrame(update2)) : update2();
+      debounce2 ? id || (id = requestAnimationFrame(update2)) : update2();
     }, _onDrag = function _onDrag2(e) {
       if (_ignoreCheck(e, 1)) {
         return;
@@ -7617,7 +8689,7 @@ const ssrWindow = {
     back() {
     }
   },
-  CustomEvent: function CustomEvent() {
+  CustomEvent: function CustomEvent2() {
     return this;
   },
   addEventListener() {
@@ -7920,7 +8992,9 @@ function elementParents(el, selector3) {
   const parents = [];
   let parent = el.parentElement;
   while (parent) {
-    {
+    if (selector3) {
+      if (parent.matches(selector3)) parents.push(parent);
+    } else {
       parents.push(parent);
     }
     parent = parent.parentElement;
@@ -7931,6 +9005,21 @@ function elementOuterSize(el, size, includeMargins) {
   const window2 = getWindow();
   {
     return el[size === "width" ? "offsetWidth" : "offsetHeight"] + parseFloat(window2.getComputedStyle(el, null).getPropertyValue(size === "width" ? "margin-right" : "margin-top")) + parseFloat(window2.getComputedStyle(el, null).getPropertyValue(size === "width" ? "margin-left" : "margin-bottom"));
+  }
+}
+function makeElementsArray(el) {
+  return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
+}
+function setInnerHTML(el, html) {
+  if (html === void 0) {
+    html = "";
+  }
+  if (typeof trustedTypes !== "undefined") {
+    el.innerHTML = trustedTypes.createPolicy("html", {
+      createHTML: (s) => s
+    }).createHTML(html);
+  } else {
+    el.innerHTML = html;
   }
 }
 let support;
@@ -11645,8 +12734,672 @@ Object.keys(prototypes).forEach((prototypeGroup) => {
   });
 });
 Swiper.use([Resize, Observer]);
+function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
+  if (swiper.params.createElements) {
+    Object.keys(checkProps).forEach((key) => {
+      if (!params[key] && params.auto === true) {
+        let element = elementChildren(swiper.el, `.${checkProps[key]}`)[0];
+        if (!element) {
+          element = createElement("div", checkProps[key]);
+          element.className = checkProps[key];
+          swiper.el.append(element);
+        }
+        params[key] = element;
+        originalParams[key] = element;
+      }
+    });
+  }
+  return params;
+}
+function Navigation(_ref) {
+  let {
+    swiper,
+    extendParams,
+    on,
+    emit
+  } = _ref;
+  extendParams({
+    navigation: {
+      nextEl: null,
+      prevEl: null,
+      hideOnClick: false,
+      disabledClass: "swiper-button-disabled",
+      hiddenClass: "swiper-button-hidden",
+      lockClass: "swiper-button-lock",
+      navigationDisabledClass: "swiper-navigation-disabled"
+    }
+  });
+  swiper.navigation = {
+    nextEl: null,
+    prevEl: null
+  };
+  function getEl(el) {
+    let res;
+    if (el && typeof el === "string" && swiper.isElement) {
+      res = swiper.el.querySelector(el) || swiper.hostEl.querySelector(el);
+      if (res) return res;
+    }
+    if (el) {
+      if (typeof el === "string") res = [...document.querySelectorAll(el)];
+      if (swiper.params.uniqueNavElements && typeof el === "string" && res && res.length > 1 && swiper.el.querySelectorAll(el).length === 1) {
+        res = swiper.el.querySelector(el);
+      } else if (res && res.length === 1) {
+        res = res[0];
+      }
+    }
+    if (el && !res) return el;
+    return res;
+  }
+  function toggleEl(el, disabled) {
+    const params = swiper.params.navigation;
+    el = makeElementsArray(el);
+    el.forEach((subEl) => {
+      if (subEl) {
+        subEl.classList[disabled ? "add" : "remove"](...params.disabledClass.split(" "));
+        if (subEl.tagName === "BUTTON") subEl.disabled = disabled;
+        if (swiper.params.watchOverflow && swiper.enabled) {
+          subEl.classList[swiper.isLocked ? "add" : "remove"](params.lockClass);
+        }
+      }
+    });
+  }
+  function update2() {
+    const {
+      nextEl,
+      prevEl
+    } = swiper.navigation;
+    if (swiper.params.loop) {
+      toggleEl(prevEl, false);
+      toggleEl(nextEl, false);
+      return;
+    }
+    toggleEl(prevEl, swiper.isBeginning && !swiper.params.rewind);
+    toggleEl(nextEl, swiper.isEnd && !swiper.params.rewind);
+  }
+  function onPrevClick(e) {
+    e.preventDefault();
+    if (swiper.isBeginning && !swiper.params.loop && !swiper.params.rewind) return;
+    swiper.slidePrev();
+    emit("navigationPrev");
+  }
+  function onNextClick(e) {
+    e.preventDefault();
+    if (swiper.isEnd && !swiper.params.loop && !swiper.params.rewind) return;
+    swiper.slideNext();
+    emit("navigationNext");
+  }
+  function init4() {
+    const params = swiper.params.navigation;
+    swiper.params.navigation = createElementIfNotDefined(swiper, swiper.originalParams.navigation, swiper.params.navigation, {
+      nextEl: "swiper-button-next",
+      prevEl: "swiper-button-prev"
+    });
+    if (!(params.nextEl || params.prevEl)) return;
+    let nextEl = getEl(params.nextEl);
+    let prevEl = getEl(params.prevEl);
+    Object.assign(swiper.navigation, {
+      nextEl,
+      prevEl
+    });
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
+    const initButton = (el, dir) => {
+      if (el) {
+        el.addEventListener("click", dir === "next" ? onNextClick : onPrevClick);
+      }
+      if (!swiper.enabled && el) {
+        el.classList.add(...params.lockClass.split(" "));
+      }
+    };
+    nextEl.forEach((el) => initButton(el, "next"));
+    prevEl.forEach((el) => initButton(el, "prev"));
+  }
+  function destroy() {
+    let {
+      nextEl,
+      prevEl
+    } = swiper.navigation;
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
+    const destroyButton = (el, dir) => {
+      el.removeEventListener("click", dir === "next" ? onNextClick : onPrevClick);
+      el.classList.remove(...swiper.params.navigation.disabledClass.split(" "));
+    };
+    nextEl.forEach((el) => destroyButton(el, "next"));
+    prevEl.forEach((el) => destroyButton(el, "prev"));
+  }
+  on("init", () => {
+    if (swiper.params.navigation.enabled === false) {
+      disable();
+    } else {
+      init4();
+      update2();
+    }
+  });
+  on("toEdge fromEdge lock unlock", () => {
+    update2();
+  });
+  on("destroy", () => {
+    destroy();
+  });
+  on("enable disable", () => {
+    let {
+      nextEl,
+      prevEl
+    } = swiper.navigation;
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
+    if (swiper.enabled) {
+      update2();
+      return;
+    }
+    [...nextEl, ...prevEl].filter((el) => !!el).forEach((el) => el.classList.add(swiper.params.navigation.lockClass));
+  });
+  on("click", (_s, e) => {
+    let {
+      nextEl,
+      prevEl
+    } = swiper.navigation;
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
+    const targetEl = e.target;
+    let targetIsButton = prevEl.includes(targetEl) || nextEl.includes(targetEl);
+    if (swiper.isElement && !targetIsButton) {
+      const path = e.path || e.composedPath && e.composedPath();
+      if (path) {
+        targetIsButton = path.find((pathEl) => nextEl.includes(pathEl) || prevEl.includes(pathEl));
+      }
+    }
+    if (swiper.params.navigation.hideOnClick && !targetIsButton) {
+      if (swiper.pagination && swiper.params.pagination && swiper.params.pagination.clickable && (swiper.pagination.el === targetEl || swiper.pagination.el.contains(targetEl))) return;
+      let isHidden;
+      if (nextEl.length) {
+        isHidden = nextEl[0].classList.contains(swiper.params.navigation.hiddenClass);
+      } else if (prevEl.length) {
+        isHidden = prevEl[0].classList.contains(swiper.params.navigation.hiddenClass);
+      }
+      if (isHidden === true) {
+        emit("navigationShow");
+      } else {
+        emit("navigationHide");
+      }
+      [...nextEl, ...prevEl].filter((el) => !!el).forEach((el) => el.classList.toggle(swiper.params.navigation.hiddenClass));
+    }
+  });
+  const enable = () => {
+    swiper.el.classList.remove(...swiper.params.navigation.navigationDisabledClass.split(" "));
+    init4();
+    update2();
+  };
+  const disable = () => {
+    swiper.el.classList.add(...swiper.params.navigation.navigationDisabledClass.split(" "));
+    destroy();
+  };
+  Object.assign(swiper.navigation, {
+    enable,
+    disable,
+    update: update2,
+    init: init4,
+    destroy
+  });
+}
+function classesToSelector(classes2) {
+  if (classes2 === void 0) {
+    classes2 = "";
+  }
+  return `.${classes2.trim().replace(/([\.:!+\/()[\]])/g, "\\$1").replace(/ /g, ".")}`;
+}
+function Pagination(_ref) {
+  let {
+    swiper,
+    extendParams,
+    on,
+    emit
+  } = _ref;
+  const pfx = "swiper-pagination";
+  extendParams({
+    pagination: {
+      el: null,
+      bulletElement: "span",
+      clickable: false,
+      hideOnClick: false,
+      renderBullet: null,
+      renderProgressbar: null,
+      renderFraction: null,
+      renderCustom: null,
+      progressbarOpposite: false,
+      type: "bullets",
+      // 'bullets' or 'progressbar' or 'fraction' or 'custom'
+      dynamicBullets: false,
+      dynamicMainBullets: 1,
+      formatFractionCurrent: (number) => number,
+      formatFractionTotal: (number) => number,
+      bulletClass: `${pfx}-bullet`,
+      bulletActiveClass: `${pfx}-bullet-active`,
+      modifierClass: `${pfx}-`,
+      currentClass: `${pfx}-current`,
+      totalClass: `${pfx}-total`,
+      hiddenClass: `${pfx}-hidden`,
+      progressbarFillClass: `${pfx}-progressbar-fill`,
+      progressbarOppositeClass: `${pfx}-progressbar-opposite`,
+      clickableClass: `${pfx}-clickable`,
+      lockClass: `${pfx}-lock`,
+      horizontalClass: `${pfx}-horizontal`,
+      verticalClass: `${pfx}-vertical`,
+      paginationDisabledClass: `${pfx}-disabled`
+    }
+  });
+  swiper.pagination = {
+    el: null,
+    bullets: []
+  };
+  let bulletSize;
+  let dynamicBulletIndex = 0;
+  function isPaginationDisabled() {
+    return !swiper.params.pagination.el || !swiper.pagination.el || Array.isArray(swiper.pagination.el) && swiper.pagination.el.length === 0;
+  }
+  function setSideBullets(bulletEl, position) {
+    const {
+      bulletActiveClass
+    } = swiper.params.pagination;
+    if (!bulletEl) return;
+    bulletEl = bulletEl[`${position === "prev" ? "previous" : "next"}ElementSibling`];
+    if (bulletEl) {
+      bulletEl.classList.add(`${bulletActiveClass}-${position}`);
+      bulletEl = bulletEl[`${position === "prev" ? "previous" : "next"}ElementSibling`];
+      if (bulletEl) {
+        bulletEl.classList.add(`${bulletActiveClass}-${position}-${position}`);
+      }
+    }
+  }
+  function getMoveDirection(prevIndex, nextIndex, length) {
+    prevIndex = prevIndex % length;
+    nextIndex = nextIndex % length;
+    if (nextIndex === prevIndex + 1) {
+      return "next";
+    } else if (nextIndex === prevIndex - 1) {
+      return "previous";
+    }
+    return;
+  }
+  function onBulletClick(e) {
+    const bulletEl = e.target.closest(classesToSelector(swiper.params.pagination.bulletClass));
+    if (!bulletEl) {
+      return;
+    }
+    e.preventDefault();
+    const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
+    if (swiper.params.loop) {
+      if (swiper.realIndex === index) return;
+      const moveDirection = getMoveDirection(swiper.realIndex, index, swiper.slides.length);
+      if (moveDirection === "next") {
+        swiper.slideNext();
+      } else if (moveDirection === "previous") {
+        swiper.slidePrev();
+      } else {
+        swiper.slideToLoop(index);
+      }
+    } else {
+      swiper.slideTo(index);
+    }
+  }
+  function update2() {
+    const rtl = swiper.rtl;
+    const params = swiper.params.pagination;
+    if (isPaginationDisabled()) return;
+    let el = swiper.pagination.el;
+    el = makeElementsArray(el);
+    let current;
+    let previousIndex;
+    const slidesLength = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.slides.length : swiper.slides.length;
+    const total = swiper.params.loop ? Math.ceil(slidesLength / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
+    if (swiper.params.loop) {
+      previousIndex = swiper.previousRealIndex || 0;
+      current = swiper.params.slidesPerGroup > 1 ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup) : swiper.realIndex;
+    } else if (typeof swiper.snapIndex !== "undefined") {
+      current = swiper.snapIndex;
+      previousIndex = swiper.previousSnapIndex;
+    } else {
+      previousIndex = swiper.previousIndex || 0;
+      current = swiper.activeIndex || 0;
+    }
+    if (params.type === "bullets" && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
+      const bullets = swiper.pagination.bullets;
+      let firstIndex;
+      let lastIndex;
+      let midIndex;
+      if (params.dynamicBullets) {
+        bulletSize = elementOuterSize(bullets[0], swiper.isHorizontal() ? "width" : "height");
+        el.forEach((subEl) => {
+          subEl.style[swiper.isHorizontal() ? "width" : "height"] = `${bulletSize * (params.dynamicMainBullets + 4)}px`;
+        });
+        if (params.dynamicMainBullets > 1 && previousIndex !== void 0) {
+          dynamicBulletIndex += current - (previousIndex || 0);
+          if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
+            dynamicBulletIndex = params.dynamicMainBullets - 1;
+          } else if (dynamicBulletIndex < 0) {
+            dynamicBulletIndex = 0;
+          }
+        }
+        firstIndex = Math.max(current - dynamicBulletIndex, 0);
+        lastIndex = firstIndex + (Math.min(bullets.length, params.dynamicMainBullets) - 1);
+        midIndex = (lastIndex + firstIndex) / 2;
+      }
+      bullets.forEach((bulletEl) => {
+        const classesToRemove = [...["", "-next", "-next-next", "-prev", "-prev-prev", "-main"].map((suffix) => `${params.bulletActiveClass}${suffix}`)].map((s) => typeof s === "string" && s.includes(" ") ? s.split(" ") : s).flat();
+        bulletEl.classList.remove(...classesToRemove);
+      });
+      if (el.length > 1) {
+        bullets.forEach((bullet) => {
+          const bulletIndex = elementIndex(bullet);
+          if (bulletIndex === current) {
+            bullet.classList.add(...params.bulletActiveClass.split(" "));
+          } else if (swiper.isElement) {
+            bullet.setAttribute("part", "bullet");
+          }
+          if (params.dynamicBullets) {
+            if (bulletIndex >= firstIndex && bulletIndex <= lastIndex) {
+              bullet.classList.add(...`${params.bulletActiveClass}-main`.split(" "));
+            }
+            if (bulletIndex === firstIndex) {
+              setSideBullets(bullet, "prev");
+            }
+            if (bulletIndex === lastIndex) {
+              setSideBullets(bullet, "next");
+            }
+          }
+        });
+      } else {
+        const bullet = bullets[current];
+        if (bullet) {
+          bullet.classList.add(...params.bulletActiveClass.split(" "));
+        }
+        if (swiper.isElement) {
+          bullets.forEach((bulletEl, bulletIndex) => {
+            bulletEl.setAttribute("part", bulletIndex === current ? "bullet-active" : "bullet");
+          });
+        }
+        if (params.dynamicBullets) {
+          const firstDisplayedBullet = bullets[firstIndex];
+          const lastDisplayedBullet = bullets[lastIndex];
+          for (let i = firstIndex; i <= lastIndex; i += 1) {
+            if (bullets[i]) {
+              bullets[i].classList.add(...`${params.bulletActiveClass}-main`.split(" "));
+            }
+          }
+          setSideBullets(firstDisplayedBullet, "prev");
+          setSideBullets(lastDisplayedBullet, "next");
+        }
+      }
+      if (params.dynamicBullets) {
+        const dynamicBulletsLength = Math.min(bullets.length, params.dynamicMainBullets + 4);
+        const bulletsOffset = (bulletSize * dynamicBulletsLength - bulletSize) / 2 - midIndex * bulletSize;
+        const offsetProp = rtl ? "right" : "left";
+        bullets.forEach((bullet) => {
+          bullet.style[swiper.isHorizontal() ? offsetProp : "top"] = `${bulletsOffset}px`;
+        });
+      }
+    }
+    el.forEach((subEl, subElIndex) => {
+      if (params.type === "fraction") {
+        subEl.querySelectorAll(classesToSelector(params.currentClass)).forEach((fractionEl) => {
+          fractionEl.textContent = params.formatFractionCurrent(current + 1);
+        });
+        subEl.querySelectorAll(classesToSelector(params.totalClass)).forEach((totalEl) => {
+          totalEl.textContent = params.formatFractionTotal(total);
+        });
+      }
+      if (params.type === "progressbar") {
+        let progressbarDirection;
+        if (params.progressbarOpposite) {
+          progressbarDirection = swiper.isHorizontal() ? "vertical" : "horizontal";
+        } else {
+          progressbarDirection = swiper.isHorizontal() ? "horizontal" : "vertical";
+        }
+        const scale = (current + 1) / total;
+        let scaleX = 1;
+        let scaleY = 1;
+        if (progressbarDirection === "horizontal") {
+          scaleX = scale;
+        } else {
+          scaleY = scale;
+        }
+        subEl.querySelectorAll(classesToSelector(params.progressbarFillClass)).forEach((progressEl) => {
+          progressEl.style.transform = `translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`;
+          progressEl.style.transitionDuration = `${swiper.params.speed}ms`;
+        });
+      }
+      if (params.type === "custom" && params.renderCustom) {
+        setInnerHTML(subEl, params.renderCustom(swiper, current + 1, total));
+        if (subElIndex === 0) emit("paginationRender", subEl);
+      } else {
+        if (subElIndex === 0) emit("paginationRender", subEl);
+        emit("paginationUpdate", subEl);
+      }
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        subEl.classList[swiper.isLocked ? "add" : "remove"](params.lockClass);
+      }
+    });
+  }
+  function render3() {
+    const params = swiper.params.pagination;
+    if (isPaginationDisabled()) return;
+    const slidesLength = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.slides.length : swiper.grid && swiper.params.grid.rows > 1 ? swiper.slides.length / Math.ceil(swiper.params.grid.rows) : swiper.slides.length;
+    let el = swiper.pagination.el;
+    el = makeElementsArray(el);
+    let paginationHTML = "";
+    if (params.type === "bullets") {
+      let numberOfBullets = swiper.params.loop ? Math.ceil(slidesLength / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
+      if (swiper.params.freeMode && swiper.params.freeMode.enabled && numberOfBullets > slidesLength) {
+        numberOfBullets = slidesLength;
+      }
+      for (let i = 0; i < numberOfBullets; i += 1) {
+        if (params.renderBullet) {
+          paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
+        } else {
+          paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ""} class="${params.bulletClass}"></${params.bulletElement}>`;
+        }
+      }
+    }
+    if (params.type === "fraction") {
+      if (params.renderFraction) {
+        paginationHTML = params.renderFraction.call(swiper, params.currentClass, params.totalClass);
+      } else {
+        paginationHTML = `<span class="${params.currentClass}"></span> / <span class="${params.totalClass}"></span>`;
+      }
+    }
+    if (params.type === "progressbar") {
+      if (params.renderProgressbar) {
+        paginationHTML = params.renderProgressbar.call(swiper, params.progressbarFillClass);
+      } else {
+        paginationHTML = `<span class="${params.progressbarFillClass}"></span>`;
+      }
+    }
+    swiper.pagination.bullets = [];
+    el.forEach((subEl) => {
+      if (params.type !== "custom") {
+        setInnerHTML(subEl, paginationHTML || "");
+      }
+      if (params.type === "bullets") {
+        swiper.pagination.bullets.push(...subEl.querySelectorAll(classesToSelector(params.bulletClass)));
+      }
+    });
+    if (params.type !== "custom") {
+      emit("paginationRender", el[0]);
+    }
+  }
+  function init4() {
+    swiper.params.pagination = createElementIfNotDefined(swiper, swiper.originalParams.pagination, swiper.params.pagination, {
+      el: "swiper-pagination"
+    });
+    const params = swiper.params.pagination;
+    if (!params.el) return;
+    let el;
+    if (typeof params.el === "string" && swiper.isElement) {
+      el = swiper.el.querySelector(params.el);
+    }
+    if (!el && typeof params.el === "string") {
+      el = [...document.querySelectorAll(params.el)];
+    }
+    if (!el) {
+      el = params.el;
+    }
+    if (!el || el.length === 0) return;
+    if (swiper.params.uniqueNavElements && typeof params.el === "string" && Array.isArray(el) && el.length > 1) {
+      el = [...swiper.el.querySelectorAll(params.el)];
+      if (el.length > 1) {
+        el = el.find((subEl) => {
+          if (elementParents(subEl, ".swiper")[0] !== swiper.el) return false;
+          return true;
+        });
+      }
+    }
+    if (Array.isArray(el) && el.length === 1) el = el[0];
+    Object.assign(swiper.pagination, {
+      el
+    });
+    el = makeElementsArray(el);
+    el.forEach((subEl) => {
+      if (params.type === "bullets" && params.clickable) {
+        subEl.classList.add(...(params.clickableClass || "").split(" "));
+      }
+      subEl.classList.add(params.modifierClass + params.type);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+      if (params.type === "bullets" && params.dynamicBullets) {
+        subEl.classList.add(`${params.modifierClass}${params.type}-dynamic`);
+        dynamicBulletIndex = 0;
+        if (params.dynamicMainBullets < 1) {
+          params.dynamicMainBullets = 1;
+        }
+      }
+      if (params.type === "progressbar" && params.progressbarOpposite) {
+        subEl.classList.add(params.progressbarOppositeClass);
+      }
+      if (params.clickable) {
+        subEl.addEventListener("click", onBulletClick);
+      }
+      if (!swiper.enabled) {
+        subEl.classList.add(params.lockClass);
+      }
+    });
+  }
+  function destroy() {
+    const params = swiper.params.pagination;
+    if (isPaginationDisabled()) return;
+    let el = swiper.pagination.el;
+    if (el) {
+      el = makeElementsArray(el);
+      el.forEach((subEl) => {
+        subEl.classList.remove(params.hiddenClass);
+        subEl.classList.remove(params.modifierClass + params.type);
+        subEl.classList.remove(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+        if (params.clickable) {
+          subEl.classList.remove(...(params.clickableClass || "").split(" "));
+          subEl.removeEventListener("click", onBulletClick);
+        }
+      });
+    }
+    if (swiper.pagination.bullets) swiper.pagination.bullets.forEach((subEl) => subEl.classList.remove(...params.bulletActiveClass.split(" ")));
+  }
+  on("changeDirection", () => {
+    if (!swiper.pagination || !swiper.pagination.el) return;
+    const params = swiper.params.pagination;
+    let {
+      el
+    } = swiper.pagination;
+    el = makeElementsArray(el);
+    el.forEach((subEl) => {
+      subEl.classList.remove(params.horizontalClass, params.verticalClass);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    });
+  });
+  on("init", () => {
+    if (swiper.params.pagination.enabled === false) {
+      disable();
+    } else {
+      init4();
+      render3();
+      update2();
+    }
+  });
+  on("activeIndexChange", () => {
+    if (typeof swiper.snapIndex === "undefined") {
+      update2();
+    }
+  });
+  on("snapIndexChange", () => {
+    update2();
+  });
+  on("snapGridLengthChange", () => {
+    render3();
+    update2();
+  });
+  on("destroy", () => {
+    destroy();
+  });
+  on("enable disable", () => {
+    let {
+      el
+    } = swiper.pagination;
+    if (el) {
+      el = makeElementsArray(el);
+      el.forEach((subEl) => subEl.classList[swiper.enabled ? "remove" : "add"](swiper.params.pagination.lockClass));
+    }
+  });
+  on("lock unlock", () => {
+    update2();
+  });
+  on("click", (_s, e) => {
+    const targetEl = e.target;
+    const el = makeElementsArray(swiper.pagination.el);
+    if (swiper.params.pagination.el && swiper.params.pagination.hideOnClick && el && el.length > 0 && !targetEl.classList.contains(swiper.params.pagination.bulletClass)) {
+      if (swiper.navigation && (swiper.navigation.nextEl && targetEl === swiper.navigation.nextEl || swiper.navigation.prevEl && targetEl === swiper.navigation.prevEl)) return;
+      const isHidden = el[0].classList.contains(swiper.params.pagination.hiddenClass);
+      if (isHidden === true) {
+        emit("paginationShow");
+      } else {
+        emit("paginationHide");
+      }
+      el.forEach((subEl) => subEl.classList.toggle(swiper.params.pagination.hiddenClass));
+    }
+  });
+  const enable = () => {
+    swiper.el.classList.remove(swiper.params.pagination.paginationDisabledClass);
+    let {
+      el
+    } = swiper.pagination;
+    if (el) {
+      el = makeElementsArray(el);
+      el.forEach((subEl) => subEl.classList.remove(swiper.params.pagination.paginationDisabledClass));
+    }
+    init4();
+    render3();
+    update2();
+  };
+  const disable = () => {
+    swiper.el.classList.add(swiper.params.pagination.paginationDisabledClass);
+    let {
+      el
+    } = swiper.pagination;
+    if (el) {
+      el = makeElementsArray(el);
+      el.forEach((subEl) => subEl.classList.add(swiper.params.pagination.paginationDisabledClass));
+    }
+    destroy();
+  };
+  Object.assign(swiper.pagination, {
+    enable,
+    disable,
+    render: render3,
+    update: update2,
+    init: init4,
+    destroy
+  });
+}
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(CustomEase);
+Swiper.use([Navigation]);
+Swiper.use([Pagination]);
 const component$7 = document.querySelector(
   "[data-component='featured-projects']"
 );
@@ -11671,9 +13424,25 @@ if (!!component$7) {
     date.remove();
   });
   const slider = component$7.querySelector(".swiper");
+  const pagination = component$7.querySelector(
+    "[data-slider-controls='pagination']"
+  );
+  const prevEl = component$7.querySelector("[data-slider-controls='prev']");
+  const nextEl = component$7.querySelector("[data-slider-controls='next']");
   new Swiper(slider, {
     slidesPerView: "auto",
     watchSlidesProgress: true,
+    navigation: {
+      prevEl,
+      nextEl
+    },
+    pagination: {
+      el: pagination,
+      type: "custom",
+      renderCustom: function(swiper, current, total) {
+        return current + "/" + total;
+      }
+    },
     on: {
       init: function(e) {
         const allSlides = e.slides;
@@ -11885,6 +13654,7 @@ if (!!component$5) {
     }
   });
 }
+gsapWithCSS.registerPlugin(ScrollTrigger);
 const component$4 = document.querySelector("[data-component='our-values']");
 if (!!component$4) {
   const section = component$4.querySelector("section");
@@ -11897,6 +13667,13 @@ if (!!component$4) {
     textElement = index.firstChild;
     textElement.textContent = `/ ${textElement.textContent.padStart(3, "0")}`;
   });
+  const overlay = component$4.querySelector("[data-our-values='overlay']");
+  const scrollConfig = {
+    trigger: section,
+    start: "bottom bottom",
+    scrub: 0.25
+  };
+  gsapWithCSS.timeline({ scrollTrigger: { ...scrollConfig, markers: true } }).to(section, { yPercent: -25 }, 0).to(overlay, { opacity: 0.7, ease: "power1.in" }, 0);
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(CustomEase);

@@ -3,6 +3,7 @@ const style = document.createElement("style");
 style.textContent = swiperCss;
 document.head.appendChild(style);
 
+import "./components/lenis.js";
 import "./components/navbar.js";
 import "./components/home-hero.js";
 import "./components/expertise.js";

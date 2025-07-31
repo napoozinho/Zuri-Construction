@@ -5,9 +5,5 @@ if (superscriptWrapper.length > 0 && numberOfProjects > 0) {
   superscriptWrapper.forEach((superscript) => {
     const sup = superscript.querySelector("sup");
     sup.textContent = `(${numberOfProjects})`;
-    // const texts = superscript.querySelectorAll("p");
-    // texts.forEach((text) => {
-    //   text.innerHTML += `<sup>(${numberOfProjects})</sup>`;
-    // });
   });
 }
