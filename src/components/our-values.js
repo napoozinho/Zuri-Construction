@@ -19,15 +19,14 @@ if (!!component) {
   });
 
   const overlay = component.querySelector("[data-our-values='overlay']");
-
   const scrollConfig = {
     trigger: section,
-    start: "bottom bottom",
+    start: `bottom+=${stickyOffset} bottom`,
+    end: `bottom+=${stickyOffset} top`,
     scrub: 0.25,
   };
 
-  gsap
-    .timeline({ scrollTrigger: { ...scrollConfig, markers: true } })
-    .to(section, { yPercent: -25 }, 0)
-    .to(overlay, { opacity: 0.7, ease: "power1.in" }, 0);
+  const tl = gsap.timeline({ scrollTrigger: { ...scrollConfig } });
+  tl.to(section, { yPercent: -25 }, 0);
+  tl.to(overlay, { opacity: 0.75, ease: "power1.in" }, 0);
 }

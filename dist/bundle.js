@@ -13670,10 +13670,13 @@ if (!!component$4) {
   const overlay = component$4.querySelector("[data-our-values='overlay']");
   const scrollConfig = {
     trigger: section,
-    start: "bottom bottom",
+    start: `bottom+=${stickyOffset} bottom`,
+    end: `bottom+=${stickyOffset} top`,
     scrub: 0.25
   };
-  gsapWithCSS.timeline({ scrollTrigger: { ...scrollConfig, markers: true } }).to(section, { yPercent: -25 }, 0).to(overlay, { opacity: 0.7, ease: "power1.in" }, 0);
+  const tl = gsapWithCSS.timeline({ scrollTrigger: { ...scrollConfig } });
+  tl.to(section, { yPercent: -25 }, 0);
+  tl.to(overlay, { opacity: 0.75, ease: "power1.in" }, 0);
 }
 gsapWithCSS.registerPlugin(ScrollTrigger);
 gsapWithCSS.registerPlugin(CustomEase);
